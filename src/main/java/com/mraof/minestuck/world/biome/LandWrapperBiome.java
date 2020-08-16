@@ -9,6 +9,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.structure.PillagerOutpostConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
@@ -40,6 +41,7 @@ public class LandWrapperBiome extends LandBiome
 		{
 			addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, createDecoratedFeature(Feature.ORE, new OreFeatureConfig(blocks.getGroundType(), blocks.getBlockState("uranium_ore"), baseUraniumVeinSize), Placement.COUNT_RANGE, new CountRangeConfig(uraniumVeinsPerChunk, uraniumStratumMin, uraniumStratumMin, uraniumStratumMax)));
 		}
+
 		this.surfaceBuilder = new ConfiguredSurfaceBuilder<>(SurfaceBuilder.DEFAULT, blocks.getSurfaceBuilderConfig());
 		this.addSpawn(EntityClassification.CREATURE, new SpawnListEntry(settings.getLandTypes().terrain.getConsortType(), 2, 1, 10));
 		
@@ -58,18 +60,25 @@ public class LandWrapperBiome extends LandBiome
 		addStructure(MSFeatures.LAND_GATE, IFeatureConfig.NO_FEATURE_CONFIG);
 		if(staticBiome == MSBiomes.LAND_NORMAL)
 		{
+			addStructure(MSFeatures.FLOATING_CLOUD, IFeatureConfig.NO_FEATURE_CONFIG);
 			addStructure(MSFeatures.SMALL_RUIN, IFeatureConfig.NO_FEATURE_CONFIG);
 			addStructure(MSFeatures.CONSORT_VILLAGE, IFeatureConfig.NO_FEATURE_CONFIG);
+			//addStructure(MSFeatures.END_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG);
 		}
 		if(staticBiome == MSBiomes.LAND_NORMAL || staticBiome == MSBiomes.LAND_ROUGH)
 		{
 			addStructure(MSFeatures.IMP_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG);
 		}
-		
+
+		addFeature(GenerationStage.Decoration.RAW_GENERATION, createDecoratedFeature(MSFeatures.FLOATING_CLOUD, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.LAND_GATE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.SMALL_RUIN, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.IMP_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.CONSORT_VILLAGE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+
+		//biomeIn.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(Feature.PILLAGER_OUTPOST, new PillagerOutpostConfig(0.004D), Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+		//addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(Feature.END_DUNGEON_TIER_ONE, new EndDungeonTierOneConfig(0.09D), Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+		//addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.END_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 	}
 	
 	@Override

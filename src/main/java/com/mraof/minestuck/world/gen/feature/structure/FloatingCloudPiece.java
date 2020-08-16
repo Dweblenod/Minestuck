@@ -33,8 +33,6 @@ public class FloatingCloudPiece extends ScatteredStructurePiece
 	@Override
 	public boolean addComponentParts(IWorld worldIn, Random randomIn, MutableBoundingBox boundingBoxIn, ChunkPos chunkPosIn)
 	{
-		if(!isInsideBounds(worldIn, boundingBoxIn, 0))
-			return false;
 		
 		StructureBlockRegistry blocks = StructureBlockRegistry.getOrDefault(worldIn.getChunkProvider().getChunkGenerator().getSettings());
 		BlockState structureBlock = blocks.getBlockState("cloud");

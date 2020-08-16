@@ -1,9 +1,17 @@
 package com.mraof.minestuck.world.gen;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+
+import javax.annotation.Nullable;
 
 public class ProspitChunkGenerator extends NoiseChunkGenerator<ProspitGenSettings>
 {
@@ -19,9 +27,9 @@ public class ProspitChunkGenerator extends NoiseChunkGenerator<ProspitGenSetting
 	@Override
 	protected double[] getBiomeNoiseColumn(int columnX, int columnZ)
 	{
-		double depth = this.depthNoise.getValue(columnX * 200, 10.0D, columnZ * 200, 1.0D, 0.0D, true) / 12000.0D + 1.0D;
+		double depth = this.depthNoise.getValue(columnX * 200, 10.0D, columnZ * 200, 1.0D, 1.0D, true) / 12000.0D + 1.0D;
 		
-		return new double[]{depth, 0.1};
+		return new double[]{depth, 0.3};
 	}
 	
 	/**
@@ -31,7 +39,7 @@ public class ProspitChunkGenerator extends NoiseChunkGenerator<ProspitGenSetting
 	@Override
 	protected double func_222545_a(double depth, double scale, int height)
 	{
-		double modifier = ((double)height - (0D + depth * 1D / 1D * 1D)) * 1D * 1D / 1.0D / scale;
+		double modifier = ((double)height - (0.1D + depth * 1.5D / 1.1D * 1.1D)) * 1.1D * 1.1D / 1.1D / scale;
 		if (modifier < 0.0D)
 			modifier *= 1.1D;
 		
@@ -48,11 +56,11 @@ public class ProspitChunkGenerator extends NoiseChunkGenerator<ProspitGenSetting
 	@Override
 	protected void fillNoiseColumn(double[] noiseColumn, int columnX, int columnZ)
 	{
-		double horizontal = 0D;
-		double vertical = 0D;
-		double horizontal2 = 0D;
-		double vertical2 = 0D;
-		int lerpModifier = 0;
+		double horizontal = 10D;
+		double vertical = 2D;
+		double horizontal2 = 1.1D;
+		double vertical2 = 1.1D;
+		int lerpModifier = 1;
 		int skyValueTarget = -10;
 		this.func_222546_a(noiseColumn, columnX, columnZ, horizontal, vertical, horizontal2, vertical2, lerpModifier, skyValueTarget);
 	}
@@ -66,6 +74,26 @@ public class ProspitChunkGenerator extends NoiseChunkGenerator<ProspitGenSetting
 	@Override
 	public int getSeaLevel()
 	{
-		return 0;
+		return 8;
+	}
+
+	@Override
+	public void generateSurface(IChunk chunkIn)
+	{
+		SharedSeedRandom sharedRandom = new SharedSeedRandom();
+		sharedRandom.setBaseChunkSeed(chunkIn.getPos().x, chunkIn.getPos().z);
+
+		int xOffset = chunkIn.getPos().getXStart(), zOffset = chunkIn.getPos().getZStart();
+
+		int x = chunkIn.getPos().getXStart();
+		int z = chunkIn.getPos().getZStart();
+
+		if(x == 0 && z == 0)
+		{
+			//chunkIn.getStructureStarts(Feature );
+
+		}
+
+		//this.makeBedrock(chunkIn, sharedRandom); //remove this for a smooth floor
 	}
 }

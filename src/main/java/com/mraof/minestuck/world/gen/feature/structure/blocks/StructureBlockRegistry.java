@@ -107,6 +107,8 @@ public final class StructureBlockRegistry
 		registerBlock("stained_glass_1", Blocks.GRAY_STAINED_GLASS.getDefaultState());
 		registerBlock("stained_glass_2", Blocks.LIGHT_GRAY_STAINED_GLASS.getDefaultState());
 		registerBlock("slime", Blocks.SLIME_BLOCK.getDefaultState());
+
+		registerBlock("cloud", MSBlocks.DENSE_CLOUD.getDefaultState());
 		
 		defaultRegistry.setBlockState("surface", Blocks.GRASS_BLOCK.getDefaultState());
 		defaultRegistry.setBlockState("upper", Blocks.DIRT.getDefaultState());

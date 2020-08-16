@@ -9,4 +9,10 @@ public class ProspitGenSettings extends GenerationSettings
 	{
 		return 0;
 	}
+
+	@Override
+	public int getBedrockRoofHeight()
+	{
+		return 1;
+	}
 }

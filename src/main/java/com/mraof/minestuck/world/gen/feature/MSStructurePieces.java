@@ -11,6 +11,8 @@ public final class MSStructurePieces
 	public static IStructurePieceType GATE_PILLAR;
 	public static IStructurePieceType GATE_MUSHROOM;
 	public static IStructurePieceType SMALL_RUIN;
+
+	public static IStructurePieceType FLOATING_CLOUD;
 	
 	public static IStructurePieceType IMP_ENTRY, IMP_ENTRY_CORRIDOR;
 	public static IStructurePieceType IMP_STRAIGHT_CORRIDOR, IMP_CROSS_CORRIDOR, IMP_TURN_CORRIDOR;
@@ -38,6 +40,8 @@ public final class MSStructurePieces
 		GATE_PILLAR = register(GatePillarPiece::new, Minestuck.MOD_ID+":gate_pillar");
 		GATE_MUSHROOM = register(GateMushroomPiece::new, Minestuck.MOD_ID+":gate_mushroom");
 		SMALL_RUIN = register(SmallRuinPiece::new, Minestuck.MOD_ID+":small_ruin");
+
+		FLOATING_CLOUD = register(FloatingCloudPiece::new, Minestuck.MOD_ID+":floating_cloud");
 		
 		IMP_ENTRY = register(ImpDungeonStart.EntryPiece::new, Minestuck.MOD_ID+":imp_entry");
 		IMP_ENTRY_CORRIDOR = register(ImpDungeonPieces.EntryCorridor::new, Minestuck.MOD_ID+":imp_entry_corridor");

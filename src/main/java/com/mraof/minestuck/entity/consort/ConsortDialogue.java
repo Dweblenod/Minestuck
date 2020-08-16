@@ -99,7 +99,10 @@ public class ConsortDialogue
 		addMessage("gear_technology").landTitle(CLOCKWORK).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA);
 		addMessage("evil_gears").landTitle(CLOCKWORK).consort(EnumConsort.NAKAGATOR, EnumConsort.IGUANA);
 		addMessage("ticking").landTitle(CLOCKWORK).consort(EnumConsort.TURTLE, EnumConsort.SALAMANDER);
-		
+		addMessage(new ChainMessage(new SingleMessage("time_aspect.1"), new SingleMessage("time_aspect.2"))).landTitle(CLOCKWORK).consort(EnumConsort.SALAMANDER, EnumConsort.IGUANA, EnumConsort.NAKAGATOR, EnumConsort.TURTLE);
+
+
+
 		//Frogs
 		addMessage("frog_creation").landTitle(FROGS);
 		addMessage("frog_imitation").landTitle(FROGS);

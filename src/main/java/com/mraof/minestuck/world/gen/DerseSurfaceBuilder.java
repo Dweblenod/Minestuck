@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 public class DerseSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 {
-	public final SurfaceBuilderConfig DERSE_CONFIG = new SurfaceBuilderConfig(MSBlocks.GOLD_TILE_LIGHT.getDefaultState(), MSBlocks.GOLD_TILE_LIGHT.getDefaultState(), MSBlocks.GOLD_TILE_LIGHT.getDefaultState());
+	public final SurfaceBuilderConfig DERSE_CONFIG = new SurfaceBuilderConfig(MSBlocks.PURPLE_BRICKS.getDefaultState(), MSBlocks.PURPLE_BRICKS.getDefaultState(), MSBlocks.PURPLE_BRICKS.getDefaultState());
 
 	public DerseSurfaceBuilder(Function<Dynamic<?>, ? extends SurfaceBuilderConfig> deserializer)
 	{

@@ -2,6 +2,7 @@ package com.mraof.minestuck.world.gen.feature;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.block.MSBlocks;
+import com.mraof.minestuck.world.gen.feature.structure.FloatingCloudStructure;
 import com.mraof.minestuck.world.gen.feature.structure.GateStructure;
 import com.mraof.minestuck.world.gen.feature.structure.ImpDungeonStructure;
 import com.mraof.minestuck.world.gen.feature.structure.SmallRuinStructure;
@@ -27,7 +28,10 @@ public final class MSFeatures
 	public static final Structure<NoFeatureConfig> SMALL_RUIN = getNull();
 	public static final Structure<NoFeatureConfig> IMP_DUNGEON = getNull();
 	public static final Structure<NoFeatureConfig> CONSORT_VILLAGE = getNull();
-	
+
+	public static final Structure<NoFeatureConfig> FLOATING_CLOUD = getNull();
+	//public static final Structure<NoFeatureConfig> END_DUNGEON = getNull();
+
 	public static final Feature<NoFeatureConfig> RAINBOW_TREE = getNull();
 	public static final Feature<NoFeatureConfig> END_TREE =	 getNull();
 	public static final Feature<BushConfig> LEAFLESS_TREE = getNull();
@@ -51,7 +55,9 @@ public final class MSFeatures
 	public static final Feature<NoFeatureConfig> BUCKET = getNull();
 	public static final Feature<NoFeatureConfig> BROKEN_SWORD = getNull();
 	public static final Feature<NoFeatureConfig> TOWER = getNull();
-	
+
+	public static final Feature<NoFeatureConfig> END_DUNGEON = getNull();
+
 	@Nonnull
 	@SuppressWarnings("ConstantConditions")
 	private static <T> T getNull()
@@ -68,6 +74,9 @@ public final class MSFeatures
 		registry.register(new SmallRuinStructure(NoFeatureConfig::deserialize).setRegistryName("small_ruin"));
 		registry.register(new ImpDungeonStructure(NoFeatureConfig::deserialize).setRegistryName("imp_dungeon"));
 		registry.register(new ConsortVillageStructure(NoFeatureConfig::deserialize).setRegistryName("consort_village"));
+
+		registry.register(new FloatingCloudStructure(NoFeatureConfig::deserialize).setRegistryName("floating_cloud"));
+		//registry.register(new EndDungeonStructure(NoFeatureConfig::deserialize).setRegistryName("end_dungeon"));
 		
 		registry.register(new RainbowTreeFeature(NoFeatureConfig::deserialize, false).setRegistryName("rainbow_tree"));
 		registry.register(new EndTreeFeature(NoFeatureConfig::deserialize, false).setRegistryName("end_tree"));
@@ -92,6 +101,8 @@ public final class MSFeatures
 		registry.register(new BucketFeature(NoFeatureConfig::deserialize).setRegistryName("bucket"));
 		registry.register(new BrokenSwordFeature(NoFeatureConfig::deserialize).setRegistryName("broken_sword"));
 		registry.register(new TowerFeature(NoFeatureConfig::deserialize).setRegistryName("tower"));
+
+		registry.register(new TestDungeonFeature(NoFeatureConfig::deserialize).setRegistryName("prospit_dream_tower_floor1_sw"));
 		
 		MSStructurePieces.init();
 		MSStructureProcessorTypes.init();
