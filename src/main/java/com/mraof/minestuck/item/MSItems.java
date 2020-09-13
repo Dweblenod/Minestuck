@@ -109,6 +109,15 @@ public class MSItems
 	//Dice
 	public static final Item DICE = getNull();
 	public static final Item FLUORITE_OCTET = getNull();
+	public static final Item FLUORITE_WEASEL = getNull();
+	public static final Item FLUORITE_MUSCLEBEAST = getNull();
+	public static final Item FLUORITE_GARROTE = getNull();
+	public static final Item FLUORITE_KNUCKLES = getNull();
+	public static final Item FLUORITE_KNIFE = getNull();
+	public static final Item FLUORITE_MACE = getNull();
+	public static final Item FLUORITE_GUILLOTINE = getNull();
+	public static final Item FLUORITE_SWORD = getNull();
+
 	//misc weapons
 	public static final Item CAT_CLAWS_DRAWN = getNull();
 	public static final Item CAT_CLAWS_SHEATHED = getNull();
@@ -693,7 +702,16 @@ public class MSItems
 
 		//Dice
 		registry.register(new WeaponItem(ItemTier.STONE, 5, -3.0F, 1.0F, MSItemTypes.NONE, new Item.Properties().defaultMaxDamage(51).group(MSItemGroup.WEAPONS)).setRegistryName("dice"));
-		registry.register(new WeaponItem(ItemTier.DIAMOND, 12, -3.0F, 1.0F, MSItemTypes.NONE, new Item.Properties().defaultMaxDamage(67).group(MSItemGroup.WEAPONS)).setRegistryName("fluorite_octet"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 1, -1.0F, 0.2F, MSItemTypes.NONE, new Item.Properties().defaultMaxDamage(600).group(MSItemGroup.WEAPONS)).setRegistryName("fluorite_octet"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, -3, -3.555F, 0.3F, MSItemTypes.MISC_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_weasel"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, -1, -2.92F, 0.4F, MSItemTypes.MISC_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_musclebeast"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 1, -2.43F, 0.5F, MSItemTypes.MISC_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_garrote"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 3, -2.03F, 0.6F, MSItemTypes.GAUNTLET_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_knuckles"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 5, -1.69F, 0.7F, MSItemTypes.MISC_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_knife"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 7, -1.41F, 0.8F, MSItemTypes.MISC_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_mace"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 9, -1.18F, 0.9F, MSItemTypes.AXE_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_guillotine"));
+		registry.register(new FluoriteWeaponItem(ItemTier.DIAMOND, 11, -0.98F, 1.0F, MSItemTypes.SWORD_TOOL, new Item.Properties().defaultMaxDamage(600)).setRegistryName("fluorite_sword"));
+
 		//misc weapons
 		registry.register(new DualWeaponItem(ItemTier.IRON, 2, -1.5F, 10.0F, () -> MSItems.CAT_CLAWS_SHEATHED, MSItemTypes.CLAWS_TOOL, new Item.Properties().defaultMaxDamage(500).group(MSItemGroup.WEAPONS)).setRegistryName("cat_claws_drawn"));
 		registry.register(new DualWeaponItem(ItemTier.IRON, -1, -1.0F, 10.0F, () -> MSItems.CAT_CLAWS_DRAWN, MSItemTypes.NONE, new Item.Properties().defaultMaxDamage(500)).setRegistryName("cat_claws_sheathed"));
