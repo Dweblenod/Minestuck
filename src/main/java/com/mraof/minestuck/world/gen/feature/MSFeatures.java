@@ -33,6 +33,7 @@ public final class MSFeatures
 	public static final Feature<NoFeatureConfig> RAINBOW_TREE = getNull();
 	public static final Feature<NoFeatureConfig> END_TREE =	 getNull();
 	public static final Feature<BushConfig> LEAFLESS_TREE = getNull();
+	public static final Feature<NoFeatureConfig> MASSIVE_MUSHROOM =	 getNull();
 	
 	public static final Feature<NoFeatureConfig> RETURN_NODE = getNull();
 	public static final Feature<NoFeatureConfig> FIRE_FIELD = getNull();
@@ -51,6 +52,7 @@ public final class MSFeatures
 	public static final Feature<NoFeatureConfig> OASIS = getNull();
 	public static final Feature<NoFeatureConfig> MESA = getNull();
 	public static final Feature<NoFeatureConfig> ROCK_SPIKE = getNull();
+	public static final Feature<NoFeatureConfig> ICE_SPIKE = getNull();
 	public static final Feature<NoFeatureConfig> BUCKET = getNull();
 	public static final Feature<NoFeatureConfig> BROKEN_SWORD = getNull();
 	public static final Feature<NoFeatureConfig> TOWER = getNull();
@@ -76,7 +78,8 @@ public final class MSFeatures
 		registry.register(new RainbowTreeFeature(NoFeatureConfig::deserialize, false).setRegistryName("rainbow_tree"));
 		registry.register(new EndTreeFeature(NoFeatureConfig::deserialize, false).setRegistryName("end_tree"));
 		registry.register(new LeaflessTreeFeature(BushConfig::deserialize).setRegistryName("leafless_tree"));
-		
+		registry.register(new MassiveMushroomFeature(BigMushroomFeatureConfig::deserialize).setRegistryName("massive_mushroom"));
+
 		registry.register(new ReturnNodeFeature(NoFeatureConfig::deserialize).setRegistryName("return_node"));
 		registry.register(new FireFieldFeature(NoFeatureConfig::deserialize).setRegistryName("fire_field"));
 		registry.register(new CakeFeature(ProbabilityConfig::deserialize).setRegistryName("cake"));
@@ -94,6 +97,7 @@ public final class MSFeatures
 		registry.register(new OasisFeature(NoFeatureConfig::deserialize).setRegistryName("oasis"));
 		registry.register(new MesaFeature(NoFeatureConfig::deserialize).setRegistryName("mesa"));
 		registry.register(new RockSpikeFeature(NoFeatureConfig::deserialize).setRegistryName("rock_spike"));
+		registry.register(new IceSpikeFeature(NoFeatureConfig::deserialize).setRegistryName("ice_spike"));
 		registry.register(new BucketFeature(NoFeatureConfig::deserialize).setRegistryName("bucket"));
 		registry.register(new BrokenSwordFeature(NoFeatureConfig::deserialize).setRegistryName("broken_sword"));
 		registry.register(new TowerFeature(NoFeatureConfig::deserialize).setRegistryName("tower"));
