@@ -24,27 +24,25 @@ public class IceSpikeFeature extends Feature<NoFeatureConfig>
 	}
 	
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config)
-	{
+	public boolean place(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
 		int height = rand.nextInt(7) + 15;
-		
+
 		//if(worldIn.getBlockState(pos.up(height*2/3)).getMaterial().isLiquid())	//At least 1/3rd of the height should be above the liquid surface
-			//return false;
-		float plateauSize = 0.1F + rand.nextFloat()*(height/25F);
-		BlockState ice = generator.getSettings().setDefaultBlock(Blocks.ICE);getBlockState("structure_primary")
-		
-		BlockPos nodePos = generateIce(pos.up(height), height, plateauSize, worldIn, rand, ice);
-		
-		float iceRarity = plateauSize + height/15F + rand.nextFloat()*0.5F - 0.5F;
-		
-		if(iceRarity > 1F)
-		{
-			generateSubIce(pos, height, plateauSize, worldIn, rand, ice);
+		//return false;
+		float plateauSize = 0.1F + rand.nextFloat() * (height / 25F);
+		//BlockState ice = generator.getSettings().setDefaultBlock(Blocks.ICE);//getBlockState("structure_primary")
+
+		//	BlockPos nodePos = generateIce(pos.up(height), height, plateauSize, worldIn, rand, ice);
+
+		float iceRarity = plateauSize + height / 15F + rand.nextFloat() * 0.5F - 0.5F;
+
+		if (iceRarity > 1F) {
+			//	generateSubIce(pos, height, plateauSize, worldIn, rand, ice);
 			iceRarity -= 1F;
 		}
-		if(rand.nextFloat() < iceRarity)
-			generateSubIce(pos, height, plateauSize, worldIn, rand, ice);
-		
+		if (rand.nextFloat() < iceRarity){
+		//	generateSubIce(pos, height, plateauSize, worldIn, rand, ice);
+		}
 		return true;
 	}
 	

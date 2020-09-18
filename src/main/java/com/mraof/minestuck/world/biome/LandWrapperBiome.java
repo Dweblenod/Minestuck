@@ -6,6 +6,7 @@ import com.mraof.minestuck.world.gen.feature.structure.blocks.StructureBlockRegi
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
@@ -44,6 +45,7 @@ public class LandWrapperBiome extends LandBiome
 		this.addSpawn(EntityClassification.CREATURE, new SpawnListEntry(consortType, 2, 1, 3));
 		
 		if(staticBiome != MSBiomes.LAND_OCEAN)
+			DefaultBiomeFeatures.addCarvers(this);
 			addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, createDecoratedFeature(MSFeatures.RETURN_NODE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.CHANCE_HEIGHTMAP, new ChanceConfig(128)));
 		addDefaultStructures(blocks);
 	}
@@ -70,8 +72,9 @@ public class LandWrapperBiome extends LandBiome
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.SMALL_RUIN, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.IMP_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.CONSORT_VILLAGE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+		//addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.NEW_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 	}
-	
+
 	@Override
 	public void addSpawn(EntityClassification classification, SpawnListEntry entry)
 	{

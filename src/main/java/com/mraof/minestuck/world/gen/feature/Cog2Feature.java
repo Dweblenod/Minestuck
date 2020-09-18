@@ -21,13 +21,15 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Random;
 import java.util.function.Function;
 
-public class CogFeature extends Feature<NoFeatureConfig>
+public class Cog2Feature extends Feature<NoFeatureConfig>
 {
 	private static final ResourceLocation STRUCTURE_SMALL_COG = new ResourceLocation(Minestuck.MOD_ID, "small_cog");
 	private static final ResourceLocation STRUCTURE_LARGE_COG_1 = new ResourceLocation(Minestuck.MOD_ID, "large_cog_1");
 	private static final ResourceLocation STRUCTURE_LARGE_COG_2 = new ResourceLocation(Minestuck.MOD_ID, "large_cog_2");
-	
-	public CogFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
+	private static final ResourceLocation STRUCTURE_MASSIVE_COG_1 = new ResourceLocation(Minestuck.MOD_ID, "massive_cog_1");
+	private static final ResourceLocation STRUCTURE_MASSIVE_COG_2 = new ResourceLocation(Minestuck.MOD_ID, "massive_cog_1");
+
+	public Cog2Feature(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
 	{
 		super(configFactoryIn);
 	}
@@ -39,10 +41,21 @@ public class CogFeature extends Feature<NoFeatureConfig>
 		TemplateManager templates = ((ServerWorld) worldIn.getWorld()).getSaveHandler().getStructureTemplateManager();
 		Template template;
 		boolean big = rand.nextInt(10) == 0;
-		if(big)
-			template = templates.getTemplateDefaulted(rand.nextBoolean() ? STRUCTURE_LARGE_COG_1 : STRUCTURE_LARGE_COG_2);
+		boolean massive = rand.nextInt(30) == 1;
+		int floorDistance;
+		if(massive) {
+			template = templates.getTemplateDefaulted(rand.nextBoolean() ? STRUCTURE_MASSIVE_COG_1 : STRUCTURE_MASSIVE_COG_2);
+			floorDistance = 8;
+		}
 		else
-			template = templates.getTemplateDefaulted(STRUCTURE_SMALL_COG);
+			if(big) {
+				template = templates.getTemplateDefaulted(rand.nextBoolean() ? STRUCTURE_LARGE_COG_1 : STRUCTURE_LARGE_COG_2);
+				floorDistance = 4;
+			}
+			else {
+				template = templates.getTemplateDefaulted(STRUCTURE_SMALL_COG);
+				floorDistance = 1;
+			}
 		
 		PlacementSettings settings = new PlacementSettings().setRotation(rotation).setChunk(new ChunkPos(pos)).setRandom(rand).addProcessor(StructureBlockRegistryProcessor.INSTANCE);
 		
@@ -56,7 +69,7 @@ public class CogFeature extends Feature<NoFeatureConfig>
 			yMin = Math.min(yMin, y);
 		}
 
-		int y = Math.max(0, yMin - rand.nextInt(big ? 4 : 3));
+		int y = floorDistance + rand.nextInt(4);
 		
 		BlockPos structurePos = template.getZeroPositionWithTransform(new BlockPos(pos.getX() + xOffset, y, pos.getZ() + zOffset), Mirror.NONE, rotation);
 		template.addBlocksToWorld(worldIn, structurePos, settings);

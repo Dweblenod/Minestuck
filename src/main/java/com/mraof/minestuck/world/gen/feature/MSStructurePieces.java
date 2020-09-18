@@ -55,6 +55,8 @@ public final class MSStructurePieces
 		IMP_LARGE_SPAWNER_CORRIDOR = register(ImpDungeonPieces.LargeSpawnerCorridor::new, Minestuck.MOD_ID+":imp_large_spawner_corridor");
 		IMP_BOOKCASE_ROOM = register(ImpDungeonPieces.BookcaseRoom::new, Minestuck.MOD_ID+":imp_bookcase_room");
 		IMP_OGRE_CORRIDOR = register(ImpDungeonPieces.OgreCorridor::new, Minestuck.MOD_ID+":imp_ogre_corridor");
+
+		//NEW_ENTRY = register(NewDungeonStart.EntryPiece::new, Minestuck.MOD_ID+":new_entry");
 		
 		VILLAGE_PATH = register(ConsortVillagePieces.VillagePath::new, Minestuck.MOD_ID+":village_path");
 		MARKET_CENTER = register(ConsortVillageCenter.VillageMarketCenter::new, Minestuck.MOD_ID+":market_center");

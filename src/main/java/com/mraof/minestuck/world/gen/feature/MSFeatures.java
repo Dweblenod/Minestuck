@@ -29,6 +29,8 @@ public final class MSFeatures
 	public static final Structure<NoFeatureConfig> IMP_DUNGEON = getNull();
 	public static final Structure<NoFeatureConfig> CONSORT_VILLAGE = getNull();
 	public static final Structure<NoFeatureConfig> SKAIA_CASTLE = getNull();
+
+	public static final Feature<NoFeatureConfig> NEW_DUNGEON = getNull();
 	
 	public static final Feature<NoFeatureConfig> RAINBOW_TREE = getNull();
 	public static final Feature<NoFeatureConfig> END_TREE =	 getNull();
@@ -49,6 +51,7 @@ public final class MSFeatures
 	public static final Feature<NoFeatureConfig> CAKE_PEDESTAL = getNull();
 	public static final Feature<NoFeatureConfig> COG = getNull();
 	public static final Feature<NoFeatureConfig> FLOOR_COG = getNull();
+	public static final Feature<NoFeatureConfig> MASSIVE_COG = getNull();
 	public static final Feature<NoFeatureConfig> OASIS = getNull();
 	public static final Feature<NoFeatureConfig> MESA = getNull();
 	public static final Feature<NoFeatureConfig> ROCK_SPIKE = getNull();
@@ -74,6 +77,8 @@ public final class MSFeatures
 		registry.register(new ImpDungeonStructure(NoFeatureConfig::deserialize).setRegistryName("imp_dungeon"));
 		registry.register(new ConsortVillageStructure(NoFeatureConfig::deserialize).setRegistryName("consort_village"));
 		registry.register(new CastleStructure(NoFeatureConfig::deserialize).setRegistryName("skaia_castle"));
+
+		registry.register(new NewDungeonStructure(NoFeatureConfig::deserialize).setRegistryName("new_dungeon"));
 		
 		registry.register(new RainbowTreeFeature(NoFeatureConfig::deserialize, false).setRegistryName("rainbow_tree"));
 		registry.register(new EndTreeFeature(NoFeatureConfig::deserialize, false).setRegistryName("end_tree"));
@@ -94,6 +99,7 @@ public final class MSFeatures
 		registry.register(new CakePedestalFeature(NoFeatureConfig::deserialize).setRegistryName("cake_pedestal"));
 		registry.register(new CogFeature(NoFeatureConfig::deserialize).setRegistryName("cog"));
 		registry.register(new FloorCogFeature(NoFeatureConfig::deserialize).setRegistryName("floor_cog"));
+		registry.register(new MassiveCogFeature(NoFeatureConfig::deserialize).setRegistryName("massive_cog"));
 		registry.register(new OasisFeature(NoFeatureConfig::deserialize).setRegistryName("oasis"));
 		registry.register(new MesaFeature(NoFeatureConfig::deserialize).setRegistryName("mesa"));
 		registry.register(new RockSpikeFeature(NoFeatureConfig::deserialize).setRegistryName("rock_spike"));
