@@ -646,7 +646,7 @@ public class MSItems
 		registry.register(new WeaponItem(MSItemTypes.RUBY_TIER, 7, -2.8F, 4.0F,  MSItemTypes.HAMMER_TOOL, new Item.Properties()).setRegistryName("mwrthwl"));
 		
 		//blades
-		registry.register(new SordItem(MSItemTypes.SBAHJ_TIER, 3, -2.4F, 1.0F,  MSItemTypes.SWORD_TOOL, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("sord"));
+		registry.register(new SordItem(MSItemTypes.SBAHJ_TIER, 30, -2.4F, 1.0F,  MSItemTypes.SWORD_TOOL, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("sord"));
 		registry.register(new WeaponItem(MSItemTypes.PAPER_TIER, 2, -2.4F, 3.0F, MSItemTypes.SWORD_TOOL, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("paper_sword"));
 		registry.register(new WeaponItem(MSItemTypes.CACTUS_TIER, 3, -2.4F, 15.0F, MSItemTypes.SWORD_TOOL, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("cactaceae_cutlass"));	//The sword harvestTool is only used against webs, hence the high efficiency.
 		registry.register(new ConsumableWeaponItem(MSItemTypes.MEAT_TIER, 4, -2.4F, 5.0F, 8, 1F, MSItemTypes.SWORD_TOOL, new Item.Properties().defaultMaxDamage(250).group(MSItemGroup.WEAPONS)).setRegistryName("steak_sword"));
