@@ -32,5 +32,6 @@ public class SkaiaBiome extends AbstractBiome
 		
 		addStructure(MSFeatures.SKAIA_CASTLE, IFeatureConfig.NO_FEATURE_CONFIG);
 		addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.SKAIA_CASTLE, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+		//addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, createDecoratedFeature(MSFeatures.NEW_DUNGEON, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
 	}
 }
