@@ -190,6 +190,7 @@ public class MSBlocks
 	public static final Block REVERSE_CAKE = getNull();
 	public static final Block FUCHSIA_CAKE = getNull();
 	public static final Block NEGATIVE_CAKE = getNull();
+	public static final Block CUBE_CAKE = getNull();
 	
 	//Explosion and Redstone
 	public static final Block PRIMED_TNT = getNull();
@@ -470,6 +471,8 @@ public class MSBlocks
 		registry.register(new SimpleCakeBlock(Block.Properties.create(Material.CAKE).hardnessAndResistance(0.5F).sound(SoundType.CLOTH), 2, 0.1F, null).setRegistryName("reverse_cake"));
 		registry.register(new SimpleCakeBlock(Block.Properties.create(Material.CAKE).hardnessAndResistance(0.5F).sound(SoundType.CLOTH), 3, 0.5F, player -> {player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 350, 1));player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, 0));}).setRegistryName("fuchsia_cake"));
 		registry.register(new SimpleCakeBlock(Block.Properties.create(Material.CAKE).hardnessAndResistance(0.5F).sound(SoundType.CLOTH), 2, 0.3F, player -> {player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 300, 0));player.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 250, 0));}).setRegistryName("negative_cake"));
+		
+		registry.register(new CubeCakeBlock(Block.Properties.create(Material.CAKE, MaterialColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.CLOTH)).setRegistryName("cube_cake"));
 		
 		registry.register(new SpecialTNTBlock(Block.Properties.create(Material.TNT).hardnessAndResistance(0.0F).sound(SoundType.PLANT), true, false, false).setRegistryName("primed_tnt"));
 		registry.register(new SpecialTNTBlock(Block.Properties.create(Material.TNT).hardnessAndResistance(0.0F).sound(SoundType.PLANT).tickRandomly(), false, true, false).setRegistryName("unstable_tnt"));

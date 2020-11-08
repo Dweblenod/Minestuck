@@ -614,6 +614,7 @@ public class MSItems
 		registerItemBlock(registry, new BlockItem(REVERSE_CAKE, new Item.Properties().group(MSItemGroup.MAIN).maxStackSize(1)));
 		registerItemBlock(registry, new BlockItem(FUCHSIA_CAKE, new Item.Properties().group(MSItemGroup.MAIN).maxStackSize(1)));
 		registerItemBlock(registry, new BlockItem(NEGATIVE_CAKE, new Item.Properties().group(MSItemGroup.MAIN).maxStackSize(1)));
+		registerItemBlock(registry, new BlockItem(CUBE_CAKE, new Item.Properties().group(MSItemGroup.MAIN).maxStackSize(64)));
 		
 		registerItemBlock(registry, PRIMED_TNT, MSItemGroup.MAIN);
 		registerItemBlock(registry, UNSTABLE_TNT, MSItemGroup.MAIN);
