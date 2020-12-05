@@ -43,6 +43,8 @@ public class MSItemTypes
 	public static final IArmorMaterial PROSPIT_PAJAMAS = new ModArmorMaterial("minestuck:prospit_pajamas", 10, new int[]{1, 2, 3, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.EMPTY);
 	public static final IArmorMaterial DERSE_PAJAMAS = new ModArmorMaterial("minestuck:derse_pajamas", 10, new int[]{1, 2, 3, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.EMPTY);
 	
+	public static final IArmorMaterial GOD_TIER_PAJAMAS = new ModArmorMaterial("minestuck:god_tier_pajamas", 10, new int[]{1, 2, 3, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.EMPTY);
+	
 	//Base Tools
 	public static final MSToolType SICKLE_TOOL = new MSToolType(ToolType.get("sickle"), Material.WEB, Material.LEAVES, Material.PLANTS, Material.TALL_PLANTS).addEnchantments(EnchantmentType.WEAPON);
 	public static final MSToolType CLAWS_TOOL = new MSToolType(ToolType.get("claw"), Material.TALL_PLANTS, Material.PLANTS, Material.WEB).addEnchantments(EnchantmentType.WEAPON);
