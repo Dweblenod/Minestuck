@@ -204,12 +204,11 @@ public class MSItems
 	public static final Item DERSE_PANTS = getNull();
 	public static final Item DERSE_SHOES = getNull();
 	
-	public static final Item ARMOR_KIT = getNull();
+	public static final Item GOD_TIER_ARMOR_KIT = getNull();
 	public static final Item GOD_TIER_HOOD = getNull();
 	public static final Item GOD_TIER_SHIRT = getNull();
 	public static final Item GOD_TIER_PANTS = getNull();
 	public static final Item GOD_TIER_SHOES = getNull();
-	public static final Item DERSE_SHOES = getNull();
 	
 	//Core Items
 	public static final Item BOONDOLLARS = getNull();
@@ -758,11 +757,16 @@ public class MSItems
 		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("derse_pants"));
 		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("derse_shoes"));
 		
-		registry.register(new GodTierArmorKitItem(MSItemTypes.GOD_TIER_ARMOR_KIT, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("god_tier_armor_kit"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.HEAD, new Item.Properties()).setRegistryName("god_tier_hood"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties()).setRegistryName("god_tier_shirt"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("god_tier_pants"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("god_tier_shoes"));
+		registry.register(new GodTierArmorKitItem(new Item.Properties().group(MSItemGroup.MAIN)).setRegistryName("god_tier_armor_kit"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.HEAD).setRegistryName("god_tier_hood"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.CHEST).setRegistryName("god_tier_shirt"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.LEGS).setRegistryName("god_tier_pants"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.FEET).setRegistryName("god_tier_shoes"));
+		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.HEAD, new Item.Properties()).setRegistryName("god_tier_hood"));
+		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties()).setRegistryName("god_tier_shirt"));
+		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("god_tier_pants"));
+		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("god_tier_shoes"));
+		
 		////original code
 		//registry.register(armorKit.setRegistryName("armor_kit"));
 		//registry.register(gtHood.setRegistryName("hood"));
