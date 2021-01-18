@@ -1,6 +1,7 @@
 package com.mraof.minestuck.entity.underling;
 
 import com.mraof.minestuck.entity.ai.CustomMeleeAttackGoal;
+import com.mraof.minestuck.entity.ai.GroundSlamGoal;
 import com.mraof.minestuck.item.crafting.alchemy.GristHelper;
 import com.mraof.minestuck.item.crafting.alchemy.GristSet;
 import com.mraof.minestuck.item.crafting.alchemy.GristType;
@@ -40,6 +41,7 @@ public class OgreEntity extends UnderlingEntity
 	{
 		super.registerGoals();
 		this.goalSelector.addGoal(3, new CustomMeleeAttackGoal(this, 1.0F, false, 40, 1.2F));
+		this.goalSelector.addGoal(3, new GroundSlamGoal(this, 0.5F, false, 20, 10F));
 	}
 	
 	protected SoundEvent getAmbientSound()
@@ -50,7 +52,7 @@ public class OgreEntity extends UnderlingEntity
 	protected SoundEvent getDeathSound()
 	{
 		return MSSoundEvents.ENTITY_OGRE_DEATH;
-	}	
+	}
 	
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
 	{
@@ -85,7 +87,7 @@ public class OgreEntity extends UnderlingEntity
 		Entity entity = cause.getTrueSource();
 		if(this.dead && !this.world.isRemote)
 		{
-			computePlayerProgress((int) (40* getGristType().getPower() + 50));
+			computePlayerProgress((int) (40 * getGristType().getPower() + 50));
 			if(entity instanceof ServerPlayerEntity)
 			{
 				Echeladder ladder = PlayerSavedData.getData((ServerPlayerEntity) entity).getEcheladder();
