@@ -1,5 +1,7 @@
 package com.mraof.minestuck.util;
 
+import com.mraof.minestuck.models.armor.GTAbstractModel;
+import com.mraof.minestuck.models.armor.GTKnightModel;
 import com.mraof.minestuck.models.armor.GodTierAbstractModel;
 import com.mraof.minestuck.models.armor.ModelGTBard;
 import com.mraof.minestuck.models.armor.ModelGTHeir;
@@ -10,9 +12,9 @@ import java.util.HashMap;
 @Side(Side.CLIENT)
 public class GodTierArmorModels
 {
-	public static final HashMap<EnumClass, GodTierArmorModels> models = new HashMap<EnumClass, GodTierAbstractModel>()
+	public static final HashMap<EnumClass, GodTierArmorModels> models = new HashMap<EnumClass, GTAbstractModel>()
 	{{
-		put(EnumClass.KNIGHT, new ModelGTKnight());
+		put(EnumClass.KNIGHT, new GTKnightModel());
 		put(EnumClass.HEIR, new ModelGTHeir());
 		put(EnumClass.WITCH, new ModelGTWitch());
 		put(EnumClass.SEER, new ModelGTSeer());
