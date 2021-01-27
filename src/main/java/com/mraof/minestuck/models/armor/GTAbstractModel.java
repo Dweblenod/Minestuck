@@ -1,42 +1,23 @@
 package com.mraof.minestuck.models.armor;
 
-import com.cibernet.minestuckgodtier.MinestuckGodTier;
-import com.cibernet.minestuckgodtier.util.AspectColorHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.player.EnumAspect;
 import com.mraof.minestuck.player.EnumClass;
 import com.mraof.minestuck.util.AspectColorHandler;
-import com.mraof.minestuck.util.EnumAspect;
-import com.mraof.minestuck.util.EnumClass;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelBox;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 
@@ -159,10 +140,10 @@ public abstract class GTAbstractModel extends BipedModel<LivingEntity>
 				continue;
 			
 			AspectColorHandler.AspectColor color = colorSet[i];
-			ResourceLocation loc = new ResourceLocation(Minestuck.MODID, "textures/models/armor/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
+			ResourceLocation loc = new ResourceLocation(Minestuck.MOD_ID, "textures/models/armor/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
 			Minecraft.getInstance().getTextureManager().bindTexture(loc);
 			
-			matrixStack.color(color.r, color.g, color.b);
+			buffer.color(color.r, color.g, color.b, 1);
 			
 			this.torso.render(matrixStack, buffer, packedLight, packedOverlay);
 			this.neck.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -182,9 +163,9 @@ public abstract class GTAbstractModel extends BipedModel<LivingEntity>
 			renderExtras(matrixStack, buffer, packedLight, packedOverlay);
 		}
 		
-		GlStateManager.color(1,1,1);
+		buffer.color(1,1,1, 1);
 		String aspectName = heroAspect == null ? "default" : heroAspect.toString();
-		Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation(Minestuck.MODID, "textures/models/armor/symbol/"+aspectName+".png"));
+		Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation(Minestuck.MOD_ID, "textures/models/armor/symbol/"+aspectName+".png"));
 		this.symbol.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 	
@@ -203,8 +184,8 @@ public abstract class GTAbstractModel extends BipedModel<LivingEntity>
 			
 			AspectColorHandler.AspectColor color = colorSet[i];
 			ResourceLocation loc = new ResourceLocation(Minestuck.MOD_ID, "textures/models/armor/gt_"+heroClass.toString()+"_layer_"+(i+1)+".png");
-			Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
-			matrixStack.color(color.r, color.g, color.b);
+			Minecraft.getInstance().getTextureManager().bindTexture(loc);
+			buffer.color(color.r, color.g, color.b, 1);
 			
 			this.head.render(matrixStack, buffer, packedLight, packedOverlay);
 			renderHeadExtras(matrixStack, buffer, packedLight, packedOverlay);
@@ -307,7 +288,7 @@ public abstract class GTAbstractModel extends BipedModel<LivingEntity>
 				
 			}
 			
-			cape.rotateAngleX += ((float) Math.sqrt(Math.pow((entityIn.posX - entityIn.prevPosX), 2) + Math.pow(Math.max(0, entityIn.posY - entityIn.prevPosY), 2) + Math.pow((entityIn.posZ - entityIn.prevPosZ), 2)) * limbSwingAmount);
+			cape.rotateAngleX += ((float) Math.sqrt(Math.pow((entityIn.getPosX() - entityIn.prevPosX), 2) + Math.pow(Math.max(0, entityIn.getPosY() - entityIn.prevPosY), 2) + Math.pow((entityIn.getPosZ() - entityIn.prevPosZ), 2)) * limbSwingAmount);
 			if (this.isSneak)
 			{
 				this.skirtFront.rotationPointZ += 4;
@@ -346,5 +327,15 @@ public abstract class GTAbstractModel extends BipedModel<LivingEntity>
 	public void addExtraInfo(LivingEntity entityLiving, ItemStack stack, EquipmentSlotType armorSlot)
 	{
 	
+	}
+	
+	public static void copyModelAngles(ModelRenderer source, ModelRenderer dest)
+	{
+		dest.rotateAngleX = source.rotateAngleX;
+		dest.rotateAngleY = source.rotateAngleY;
+		dest.rotateAngleZ = source.rotateAngleZ;
+		dest.rotationPointX = source.rotationPointX;
+		dest.rotationPointY = source.rotationPointY;
+		dest.rotationPointZ = source.rotationPointZ;
 	}
 }

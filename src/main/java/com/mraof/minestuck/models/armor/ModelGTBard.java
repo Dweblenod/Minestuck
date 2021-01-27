@@ -1,6 +1,6 @@
 package com.mraof.minestuck.models.armor;
 
-import com.mraof.minestuck.models.armor.GodTierAbstractModel;
+//import com.mraof.minestuck.models.armor.GodTierAbstractModel;
 import com.mraof.minestuck.player.EnumAspect;
 import com.mraof.minestuck.player.EnumClass;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 //import net.minecraft.client.model.ModelBox;
 //import net.minecraft.client.model.ModelRenderer;
 
-public class ModelGTBard extends GodTierAbstractModel
+/*public class ModelGTBard extends GTAbstractModel
 {
 	private final ModelRenderer hood;
 	private final ModelRenderer cape1;
@@ -146,3 +146,4 @@ public class ModelGTBard extends GodTierAbstractModel
 		modelRenderer.rotateAngleZ = z;
 	}
 }
+*/

@@ -2,20 +2,19 @@ package com.mraof.minestuck.util;
 
 import com.mraof.minestuck.models.armor.GTAbstractModel;
 import com.mraof.minestuck.models.armor.GTKnightModel;
-import com.mraof.minestuck.models.armor.GodTierAbstractModel;
-import com.mraof.minestuck.models.armor.ModelGTBard;
-import com.mraof.minestuck.models.armor.ModelGTHeir;
 import com.mraof.minestuck.player.EnumClass;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.HashMap;
 
-@Side(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GodTierArmorModels
 {
-	public static final HashMap<EnumClass, GodTierArmorModels> models = new HashMap<EnumClass, GTAbstractModel>()
+	public static final HashMap<EnumClass, GTAbstractModel> models = new HashMap<EnumClass, GTAbstractModel>()
 	{{
-		put(EnumClass.KNIGHT, new GTKnightModel());
-		put(EnumClass.HEIR, new ModelGTHeir());
+		put(EnumClass.KNIGHT, new GTKnightModel(1));
+		/*put(EnumClass.HEIR, new ModelGTHeir());
 		put(EnumClass.WITCH, new ModelGTWitch());
 		put(EnumClass.SEER, new ModelGTSeer());
 		put(EnumClass.PAGE, new ModelGTPage());
@@ -28,6 +27,6 @@ public class GodTierArmorModels
 		put(EnumClass.SYLPH, new ModelGTSylph());
 		
 		put(EnumClass.LORD, new ModelGTLord());
-		put(EnumClass.MUSE, new ModelGTMuse());
+		put(EnumClass.MUSE, new ModelGTMuse());*/
 	}};
 }

@@ -3,7 +3,7 @@ package com.mraof.minestuck.models.armor;
 import com.mraof.minestuck.player.EnumClass;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
-public class ModelGTHeir extends GodTierAbstractModel
+/*public class ModelGTHeir extends GodTierAbstractModel
 {
 	private final ModelRenderer hood;
 	private final ModelRenderer bone;
@@ -75,3 +75,4 @@ public class ModelGTHeir extends GodTierAbstractModel
 		modelRenderer.rotateAngleZ = z;
 	}
 }
+*/

@@ -2,7 +2,6 @@ package com.mraof.minestuck.models.armor;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.mraof.minestuck.models.armor.GTAbstractModel;
 import com.mraof.minestuck.player.EnumClass;
 import net.minecraft.client.renderer.model.ModelRenderer;
 
