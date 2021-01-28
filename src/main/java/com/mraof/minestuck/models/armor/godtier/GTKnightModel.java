@@ -1,4 +1,4 @@
-package com.mraof.minestuck.models.armor;
+package com.mraof.minestuck.models.armor.godtier;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -11,6 +11,8 @@ public class GTKnightModel extends GTAbstractModel
 	public GTKnightModel(float size)
 	{
 		super(size, 128, 128, EnumClass.KNIGHT);
+		
+		addColorIgnores(6, 7, 8);
 		
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.setTextureOffset(34, 34).addBox(4.0F, -9.0F, -4.0F, 1.0F, 8.0F, 8.0F, 0.0F, false);

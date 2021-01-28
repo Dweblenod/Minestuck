@@ -1,7 +1,7 @@
 package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
-import com.mraof.minestuck.models.armor.GTAbstractModel;
+import com.mraof.minestuck.models.armor.godtier.GTAbstractModel;
 import com.mraof.minestuck.player.EnumAspect;
 import com.mraof.minestuck.player.EnumClass;
 import com.mraof.minestuck.util.GodTierArmorModels;
