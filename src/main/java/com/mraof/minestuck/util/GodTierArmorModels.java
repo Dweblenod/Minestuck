@@ -1,9 +1,6 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.models.armor.godtier.GTAbstractModel;
-import com.mraof.minestuck.models.armor.godtier.GTBardModel;
-import com.mraof.minestuck.models.armor.godtier.GTKnightModel;
-import com.mraof.minestuck.models.armor.godtier.GTSeerModel;
+import com.mraof.minestuck.models.armor.godtier.*;
 import com.mraof.minestuck.player.EnumClass;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,7 +13,7 @@ public class GodTierArmorModels
 	public static final HashMap<EnumClass, GTAbstractModel> models = new HashMap<EnumClass, GTAbstractModel>()
 	{{
 		put(EnumClass.KNIGHT, new GTKnightModel(1));
-		//put(EnumClass.HEIR, new ModelGTHeir());
+		put(EnumClass.HEIR, new GTHeirModel(1));
 		//put(EnumClass.WITCH, new ModelGTWitch());
 		put(EnumClass.SEER, new GTSeerModel(1));
 		//put(EnumClass.PAGE, new ModelGTPage());

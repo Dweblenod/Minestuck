@@ -19,7 +19,7 @@ public class GTSeerModel extends GTAbstractModel
 		skirtBack.setTextureOffset(59, 115).addBox(-4.0F, 0.0F, 0.1F, 8, 12, 0, 0.0F, false);
 		
 		skirtFront.setRotationPoint(0.0F, 10.0F, -2.252F);
-		skirtFront.setTextureOffset(75, 115).addBox(-4.0F, 0.0F, -0F, 8, 12, 0, 0.0F, false);
+		skirtFront.setTextureOffset(77, 115).addBox(-4.0F, 0.0F, -0F, 8, 12, 0, 0.0F, false);
 		
 		rightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
 		rightArm.setTextureOffset(16, 56).addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, false);
