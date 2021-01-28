@@ -42,8 +42,8 @@ public class AspectColorHandler
 	
 	public static int getAspectColor(int aspectId, EnumColor color)
 	{
-		if(aspectId >= 0 && aspectId < values().length)
-			return getAspectColor(values()[aspectId], color);
+		if(aspectId >= 0 && aspectId < EnumColor.values().length)
+			return getAspectColor(EnumAspect.values()[aspectId], color);
 		return defaultSet[color.ordinal()].hex;
 	}
 	
@@ -56,8 +56,8 @@ public class AspectColorHandler
 	
 	public static AspectColor[] getAspectColorSet(int aspectId)
 	{
-		if(aspectId >= 0 && aspectId < values().length)
-			return getAspectColorSet(values()[aspectId]);
+		if(aspectId >= 0 && aspectId < EnumColor.values().length)
+			return getAspectColorSet(EnumAspect.values()[aspectId]);
 		return defaultSet;
 	}
 	
@@ -69,8 +69,8 @@ public class AspectColorHandler
 	}
 	public static float[] getAspectColorRBG(int aspectId, EnumColor color)
 	{
-		if(aspectId >= 0 && aspectId < values().length)
-			return getAspectColorRGB(values()[aspectId], color);
+		if(aspectId >= 0 && aspectId < EnumColor.values().length)
+			return getAspectColorRGB(EnumAspect.values()[aspectId], color);
 		AspectColor aspectColor = defaultSet[color.ordinal()];
 		return new float[] {aspectColor.r, aspectColor.g, aspectColor.b};
 	}

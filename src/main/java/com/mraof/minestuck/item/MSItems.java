@@ -741,38 +741,27 @@ public class MSItems
 		registry.register(new HoeItem(MSItemTypes.EMERALD_TIER, 0.0F, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("emerald_hoe"));
 		
 		//armor
-		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.HEAD, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("prismarine_helmet"));
-		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("prismarine_chestplate"));
-		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("prismarine_leggings"));
-		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("prismarine_boots"));
-		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.HEAD, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("iron_lass_glasses"));
-		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("iron_lass_chestplate"));
-		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("iron_lass_skirt"));
-		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("iron_lass_shoes"));
+		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.HEAD, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prismarine_helmet"));
+		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prismarine_chestplate"));
+		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prismarine_leggings"));
+		registry.register(new ArmorItem(MSItemTypes.PRISMARINE_ARMOR, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prismarine_boots"));
+		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.HEAD, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("iron_lass_glasses"));
+		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("iron_lass_chestplate"));
+		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("iron_lass_skirt"));
+		registry.register(new ArmorItem(MSItemTypes.IRON_LASS_ARMOR, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("iron_lass_shoes"));
 		
-		registry.register(new ArmorItem(MSItemTypes.PROSPIT_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties()).setRegistryName("prospit_shirt"));
-		registry.register(new ArmorItem(MSItemTypes.PROSPIT_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("prospit_pants"));
-		registry.register(new ArmorItem(MSItemTypes.PROSPIT_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("prospit_shoes"));
-		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties()).setRegistryName("derse_shirt"));
-		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("derse_pants"));
-		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("derse_shoes"));
+		registry.register(new ArmorItem(MSItemTypes.PROSPIT_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prospit_shirt"));
+		registry.register(new ArmorItem(MSItemTypes.PROSPIT_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prospit_pants"));
+		registry.register(new ArmorItem(MSItemTypes.PROSPIT_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("prospit_shoes"));
+		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("derse_shirt"));
+		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("derse_pants"));
+		registry.register(new ArmorItem(MSItemTypes.DERSE_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("derse_shoes"));
 		
-		registry.register(new GodTierArmorKitItem(new Item.Properties().group(MSItemGroup.MAIN)).setRegistryName("god_tier_armor_kit"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.HEAD).setRegistryName("god_tier_hood"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.CHEST).setRegistryName("god_tier_shirt"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.LEGS).setRegistryName("god_tier_pants"));
-		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, 0, EquipmentSlotType.FEET).setRegistryName("god_tier_shoes"));
-		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.HEAD, new Item.Properties()).setRegistryName("god_tier_hood"));
-		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties()).setRegistryName("god_tier_shirt"));
-		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("god_tier_pants"));
-		//registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("god_tier_shoes"));
-		
-		////original code
-		//registry.register(armorKit.setRegistryName("armor_kit"));
-		//registry.register(gtHood.setRegistryName("hood"));
-		//registry.register(gtShirt.setRegistryName("shirt"));
-		//registry.register(gtPants.setRegistryName("pants"));
-		//registry.register(gtShoes.setRegistryName("shoes"));
+		registry.register(new GodTierArmorKitItem(new Item.Properties().group(MSItemGroup.FASHION)).setRegistryName("god_tier_armor_kit"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.HEAD, new Item.Properties()).setRegistryName("god_tier_hood"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.CHEST, new Item.Properties()).setRegistryName("god_tier_shirt"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.LEGS, new Item.Properties()).setRegistryName("god_tier_pants"));
+		registry.register(new GodTierArmorItem(MSItemTypes.GOD_TIER_PAJAMAS, EquipmentSlotType.FEET, new Item.Properties()).setRegistryName("god_tier_shoes"));
 		
 		//core items
 		registry.register(new BoondollarsItem(new Item.Properties().maxStackSize(1).group(MSItemGroup.MAIN)).setRegistryName("boondollars"));

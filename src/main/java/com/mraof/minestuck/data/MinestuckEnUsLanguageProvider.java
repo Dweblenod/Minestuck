@@ -544,6 +544,11 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		add(MSItems.DERSE_SHIRT, "Derse Shirt");
 		add(MSItems.DERSE_PANTS, "Derse Pants");
 		add(MSItems.DERSE_SHOES, "Derse Shoes");
+		add(MSItems.GOD_TIER_ARMOR_KIT, "God Tier Armor Kit");
+		add(MSItems.GOD_TIER_HOOD, "God Tier Hood");
+		add(MSItems.GOD_TIER_SHIRT, "God Tier Shirt");
+		add(MSItems.GOD_TIER_PANTS, "God Tier Pants");
+		add(MSItems.GOD_TIER_SHOES, "God Tier Shoes");
 		add(MSItems.BOONDOLLARS, "Boondollars");
 		addExtra(MSItems.BOONDOLLARS, "amount", "Amount: %s");
 		add(MSItems.RAW_CRUXITE, "Raw Cruxite");
@@ -815,6 +820,7 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		add(MSItemGroup.MAIN, "Minestuck Main");
 		add(MSItemGroup.LANDS, "Minestuck Lands");
 		add(MSItemGroup.WEAPONS, "Minestuck Weapons");
+		add(MSItemGroup.FASHION, "Minestuck Fashion");
 		
 		addBiome(MSBiomes.SKAIA, "Skaia");
 		defaultLandBiomes(MSBiomes.DEFAULT_LAND);

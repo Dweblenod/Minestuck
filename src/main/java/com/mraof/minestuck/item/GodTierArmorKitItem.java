@@ -1,33 +1,46 @@
 package com.mraof.minestuck.item;
 
-import com.mraof.minestuck.player.EnumAspect;
-import com.mraof.minestuck.player.EnumClass;
-import com.mraof.minestuck.player.Title;
+
+import com.mraof.minestuck.player.*;
 import com.mraof.minestuck.skaianet.SburbConnection;
+import com.mraof.minestuck.skaianet.SkaianetHandler;
 import com.mraof.minestuck.util.AspectColorHandler;
+import com.mraof.minestuck.world.storage.ClientPlayerData;
+import com.mraof.minestuck.world.storage.PlayerSavedData;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
 
 public class GodTierArmorKitItem extends Item
 {
 	
-	public ItemKit()
+	public GodTierArmorKitItem(Properties properties)
 	{
-		setUnlocalizedName("gtArmorKit");
-		//setMaxStackSize(1);
-		//setCreativeTab(GTAItems.tab);
+		super(properties);
 	}
 	
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
 	{
-		if(isInCreativeTab(tab))
+		if(this.isInGroup(group))
 		{
 			for(EnumAspect aspect : EnumAspect.values())
 				for(EnumClass heroClass : EnumClass.values())
@@ -38,88 +51,89 @@ public class GodTierArmorKitItem extends Item
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
 	{
 		super.addInformation(stack, worldIn, tooltip, flagIn);
+		
 		
 		String heroClass = TextFormatting.OBFUSCATED + "Class" + TextFormatting.RESET;
 		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
 		
-		if(stack.hasTagCompound())
+		CompoundNBT nbt = stack.getOrCreateTag();
+		
+		if(nbt.contains("class"))
 		{
-			NBTTagCompound nbt = stack.getTagCompound();
-			
-			if(nbt.hasKey("class"))
-			{
-				int c = nbt.getInteger("class");
-				if(c >= 0 && c < EnumClass.values().length)
-					heroClass = EnumClass.getClassFromInt(c).getDisplayName();
-			}
-			if(nbt.hasKey("aspect"))
-			{
-				int a = nbt.getInteger("aspect");
-				if(a >= 0 && a < EnumAspect.values().length)
-					heroAspect = EnumAspect.getAspectFromInt(a).getDisplayName();
-			}
-			
+			int c = nbt.getInt("class");
+			if(c >= 0 && c < EnumClass.values().length)
+				heroClass = EnumClass.getClassFromInt(c).getTranslationKey();
+		}
+		if(nbt.contains("aspect"))
+		{
+			int a = nbt.getInt("aspect");
+			if(a >= 0 && a < EnumAspect.values().length)
+				heroAspect = EnumAspect.getAspectFromInt(a).getTranslationKey();
 		}
 		
-		tooltip.add(I18n.format("title.format", heroClass, heroAspect));
+		tooltip.add(new TranslationTextComponent("title.format", new TranslationTextComponent("title.format", heroClass, heroAspect)));
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, EnumHand handIn)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
 	{
-		IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(playerIn);
-		SburbConnection c = SkaianetHandler.getMainConnection(id, true);
+		PlayerIdentifier id = IdentifierHandler.encode(playerIn);
+		if(playerIn.getServer() != null){
+			SburbConnection c = SkaianetHandler.get(worldIn).getPrimaryConnection(id, true).get();
+		}
 		ItemStack stack = playerIn.getHeldItem(handIn);
-		NBTTagCompound nbt = stack.getTagCompound();
-		if(/*c == null || !c.enteredGame() || */ nbt == null) return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+		CompoundNBT nbt = stack.getOrCreateTag();
+		if(/*c == null || !c.enteredGame() || */ nbt == null) return new ActionResult<ItemStack>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
 		
 		
-		NBTTagCompound armorNbt = new NBTTagCompound();
-		armorNbt.setInteger("class", nbt.getInteger("class"));
-		armorNbt.setInteger("aspect", nbt.getInteger("aspect"));
-		Item[] armor = new Item[] {GTAItems.gtHood, GTAItems.gtShirt, GTAItems.gtPants, GTAItems.gtShoes};
+		CompoundNBT armorNbt = new CompoundNBT();
+		armorNbt.putInt("class", nbt.getInt("class"));
+		armorNbt.putInt("aspect", nbt.getInt("aspect"));
+		Item[] armor = new Item[] {MSItems.GOD_TIER_HOOD, MSItems.GOD_TIER_SHIRT, MSItems.GOD_TIER_PANTS, MSItems.GOD_TIER_SHOES};
 		for(Item i : armor)
 		{
 			ItemStack armorStack = new ItemStack(i);
-			armorStack.setTagCompound(armorNbt);
+			armorStack.setTag(armorNbt);
 			giveStackToPlayer(armorStack, playerIn, worldIn);
 		}
 		stack.shrink(1);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
+		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, stack);
 	}
 	
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+		super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 		
 		if(entityIn instanceof PlayerEntity)
 		{
-			NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
+			CompoundNBT nbt = stack.getOrCreateTag();
 			
 			PlayerEntity player = (PlayerEntity) entityIn;
-			IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(player);
-			SburbConnection c = SkaianetHandler.getMainConnection(id, true);
-			if(c == null || !c.enteredGame()) return;
+			PlayerIdentifier id = IdentifierHandler.encode(player);
+			if(player.getServer() != null){
+				Optional<SburbConnection> c = SkaianetHandler.get(worldIn).getPrimaryConnection(id, true);
+				if(!c.isPresent() || !c.get().hasEntered()) return;
+			}
 			
-			if(!stack.getTagCompound().hasKey("aspect"))
-				nbt.setInteger("aspect", MinestuckPlayerData.getTitle(id).getHeroAspect().ordinal());
-			if(!stack.getTagCompound().hasKey("class"))
-				nbt.setInteger("class", MinestuckPlayerData.getTitle(id).getHeroClass().ordinal());
+			if(!stack.getOrCreateTag().contains("aspect"))
+				nbt.putInt("aspect", PlayerSavedData.get(worldIn).getData(id).getTitle().getHeroAspect().ordinal());
+			if(!stack.getOrCreateTag().contains("class"))
+				nbt.putInt("class", PlayerSavedData.get(worldIn).getData(id).getTitle().getHeroClass().ordinal());
 			
-			stack.setTagCompound(nbt);
+			stack.setTag(nbt);
 		}
 	}
 	
-	public static int getColor(ItemStack stack, EnumColor color)
+	public static int getColor(ItemStack stack, AspectColorHandler.EnumColor color)
 	{
-		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt == null) return color == EnumColor.SYMBOL ? 8355711 : 0;
+		CompoundNBT nbt = stack.getOrCreateTag();
+		if(nbt == null) return color == AspectColorHandler.EnumColor.SYMBOL ? 8355711 : 0;
 		
-		return AspectColorHandler.getAspectColor(nbt.getInteger("aspect"), color);
+		return AspectColorHandler.getAspectColor(nbt.getInt("aspect"), color);
 	}
 	
 	public void giveStackToPlayer(ItemStack stack, PlayerEntity player, World worldIn)
@@ -128,9 +142,9 @@ public class GodTierArmorKitItem extends Item
 		{
 			BlockPos pos = player.getPosition();
 			BlockPos dropPos;
-			if(!worldIn.getBlockState(pos).isBlockNormalCube())
+			if(!worldIn.getBlockState(pos).isNormalCube(worldIn, pos))
 				dropPos = pos;
-			else if(!worldIn.getBlockState(pos.up()).isBlockNormalCube())
+			else if(!worldIn.getBlockState(pos.up()).isNormalCube(worldIn, pos))
 				dropPos = pos.up();
 			else dropPos = pos;
 			InventoryHelper.spawnItemStack(worldIn, dropPos.getX(), dropPos.getY(), dropPos.getZ(), stack);
@@ -141,201 +155,26 @@ public class GodTierArmorKitItem extends Item
 	{
 		ItemStack stack = new ItemStack(MSItems.GOD_TIER_ARMOR_KIT);
 		
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setInteger("aspect", aspect == null ? 12 : aspect.ordinal());
-		nbt.setInteger("class", heroClass.ordinal());
-		stack.setTagCompound(nbt);
+		CompoundNBT nbt = new CompoundNBT();
+		nbt.putInt("aspect", aspect == null ? 12 : aspect.ordinal());
+		nbt.putInt("class", heroClass.ordinal());
+		stack.setTag(nbt);
 		
 		return stack;
 	}
 	
+	/*
 	public static boolean isAvailable(SburbConnection sburbConnection)
 	{
 		return MinestuckPlayerData.getTitle(sburbConnection.getClientIdentifier()) != null &&
-				sburbConnection.hasEntered() && MinestuckPlayerData.getData(sburbConnection.getClientIdentifier()).echeladder.getRung() >= 49;
+				sburbConnection.hasEntered() && PlayerSavedData.get(sburbConnection.).getData(sburbConnection.getClientIdentifier()).echeladder.getRung() >= 49;
 	}
+	*/
 	
-	public static ItemStack generateKit(SburbConnection sburbConnection)
+	public static ItemStack generateKit()
 	{
-		Title clientTitle = MinestuckPlayerData.getTitle(sburbConnection.getClientIdentifier());
+		Title clientTitle = ClientPlayerData.getTitle();
 		return generateKit(clientTitle == null ? EnumClass.KNIGHT : clientTitle.getHeroClass(), clientTitle == null ? null : clientTitle.getHeroAspect());
 	}
 	
 }
-
-//package com.cibernet.minestuckgodtier.items;
-//
-//import com.cibernet.minestuckgodtier.util.AspectColorHandler;
-//import com.cibernet.minestuckgodtier.util.AspectColorHandler.EnumColor;
-//import com.mraof.minestuck.network.skaianet.SburbConnection;
-//import com.mraof.minestuck.network.skaianet.SkaianetHandler;
-//import com.mraof.minestuck.util.*;
-//
-//import net.minecraft.client.resources.I18n;
-//import net.minecraft.client.util.ITooltipFlag;
-//import net.minecraft.creativetab.CreativeTabs;
-//import net.minecraft.entity.Entity;
-//import net.minecraft.entity.player.EntityPlayer;
-//import net.minecraft.inventory.InventoryHelper;
-//import net.minecraft.item.Item;
-//import net.minecraft.item.ItemStack;
-//import net.minecraft.nbt.NBTTagCompound;
-//import net.minecraft.util.ActionResult;
-//import net.minecraft.util.EnumActionResult;
-//import net.minecraft.util.EnumHand;
-//import net.minecraft.util.NonNullList;
-//import net.minecraft.util.math.BlockPos;
-//import net.minecraft.util.text.TextFormatting;
-//import net.minecraft.world.World;
-//
-//import javax.annotation.Nullable;
-//import java.util.List;
-//
-//public class ItemKit extends Item
-//{
-//
-//	public ItemKit()
-//	{
-//		setUnlocalizedName("gtArmorKit");
-//		setMaxStackSize(1);
-//		setCreativeTab(GTAItems.tab);
-//	}
-//
-//	@Override
-//	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
-//	{
-//		if(isInCreativeTab(tab))
-//		{
-//			for(EnumAspect aspect : EnumAspect.values())
-//				for(EnumClass heroClass : EnumClass.values())
-//				{
-//					items.add(generateKit(heroClass, aspect));
-//				}
-//		}
-//	}
-//
-//	@Override
-//	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-//	{
-//		super.addInformation(stack, worldIn, tooltip, flagIn);
-//
-//		String heroClass = TextFormatting.OBFUSCATED + "Class" + TextFormatting.RESET;
-//		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
-//
-//		if(stack.hasTagCompound())
-//		{
-//			NBTTagCompound nbt = stack.getTagCompound();
-//
-//			if(nbt.hasKey("class"))
-//			{
-//				int c = nbt.getInteger("class");
-//				if(c >= 0 && c < EnumClass.values().length)
-//					heroClass = EnumClass.getClassFromInt(c).getDisplayName();
-//			}
-//			if(nbt.hasKey("aspect"))
-//			{
-//				int a = nbt.getInteger("aspect");
-//				if(a >= 0 && a < EnumAspect.values().length)
-//					heroAspect = EnumAspect.getAspectFromInt(a).getDisplayName();
-//			}
-//
-//		}
-//
-//		tooltip.add(I18n.format("title.format", heroClass, heroAspect));
-//	}
-//
-//	@Override
-//	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-//	{
-//		IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(playerIn);
-//		SburbConnection c = SkaianetHandler.getMainConnection(id, true);
-//		ItemStack stack = playerIn.getHeldItem(handIn);
-//		NBTTagCompound nbt = stack.getTagCompound();
-//		if(/*c == null || !c.enteredGame() || */ nbt == null) return new ActionResult<ItemStack>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
-//
-//
-//		NBTTagCompound armorNbt = new NBTTagCompound();
-//		armorNbt.setInteger("class", nbt.getInteger("class"));
-//		armorNbt.setInteger("aspect", nbt.getInteger("aspect"));
-//		Item[] armor = new Item[] {GTAItems.gtHood, GTAItems.gtShirt, GTAItems.gtPants, GTAItems.gtShoes};
-//		for(Item i : armor)
-//		{
-//			ItemStack armorStack = new ItemStack(i);
-//			armorStack.setTagCompound(armorNbt);
-//			giveStackToPlayer(armorStack, playerIn, worldIn);
-//		}
-//		stack.shrink(1);
-//		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
-//	}
-//
-//	@Override
-//	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-//	{
-//		super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-//
-//		if(entityIn instanceof EntityPlayer)
-//		{
-//			NBTTagCompound nbt = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-//
-//			EntityPlayer player = (EntityPlayer) entityIn;
-//			IdentifierHandler.PlayerIdentifier id = IdentifierHandler.encode(player);
-//			SburbConnection c = SkaianetHandler.getMainConnection(id, true);
-//			if(c == null || !c.enteredGame()) return;
-//
-//			if(!stack.getTagCompound().hasKey("aspect"))
-//				nbt.setInteger("aspect", MinestuckPlayerData.getTitle(id).getHeroAspect().ordinal());
-//			if(!stack.getTagCompound().hasKey("class"))
-//				nbt.setInteger("class", MinestuckPlayerData.getTitle(id).getHeroClass().ordinal());
-//
-//			stack.setTagCompound(nbt);
-//		}
-//	}
-//
-//	public static int getColor(ItemStack stack, EnumColor color)
-//	{
-//		NBTTagCompound nbt = stack.getTagCompound();
-//		if(nbt == null) return color == EnumColor.SYMBOL ? 8355711 : 0;
-//
-//		return AspectColorHandler.getAspectColor(nbt.getInteger("aspect"), color);
-//	}
-//
-//	public void giveStackToPlayer(ItemStack stack, EntityPlayer player, World worldIn)
-//	{
-//		if(!player.inventory.addItemStackToInventory(stack))
-//		{
-//			BlockPos pos = player.getPosition();
-//			BlockPos dropPos;
-//			if(!worldIn.getBlockState(pos).isBlockNormalCube())
-//				dropPos = pos;
-//			else if(!worldIn.getBlockState(pos.up()).isBlockNormalCube())
-//				dropPos = pos.up();
-//			else dropPos = pos;
-//			InventoryHelper.spawnItemStack(worldIn, dropPos.getX(), dropPos.getY(), dropPos.getZ(), stack);
-//		}
-//	}
-//
-//	public static ItemStack generateKit(EnumClass heroClass, EnumAspect aspect)
-//	{
-//		ItemStack stack = new ItemStack(GTAItems.armorKit);
-//
-//		NBTTagCompound nbt = new NBTTagCompound();
-//		nbt.setInteger("aspect", aspect == null ? 12 : aspect.ordinal());
-//		nbt.setInteger("class", heroClass.ordinal());
-//		stack.setTagCompound(nbt);
-//
-//		return stack;
-//	}
-//
-//	public static boolean isAvailable(SburbConnection sburbConnection)
-//	{
-//		return MinestuckPlayerData.getTitle(sburbConnection.getClientIdentifier()) != null &&
-//				sburbConnection.enteredGame() && MinestuckPlayerData.getData(sburbConnection.getClientIdentifier()).echeladder.getRung() >= 49;
-//	}
-//
-//	public static ItemStack generateKit(SburbConnection sburbConnection)
-//	{
-//		Title clientTitle = MinestuckPlayerData.getTitle(sburbConnection.getClientIdentifier());
-//		return generateKit(clientTitle == null ? EnumClass.KNIGHT : clientTitle.getHeroClass(), clientTitle == null ? null : clientTitle.getHeroAspect());
-//	}
-//
-//}

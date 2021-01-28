@@ -2,71 +2,78 @@ package com.mraof.minestuck.item;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.models.armor.GTAbstractModel;
-import com.mraof.minestuck.models.armor.GodTierAbstractModel;
 import com.mraof.minestuck.player.EnumAspect;
 import com.mraof.minestuck.player.EnumClass;
 import com.mraof.minestuck.util.GodTierArmorModels;
-import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class GodTierArmorItem extends ArmorItem
 {
-	public GodTierArmorItem(IArmorMaterial materialIn, int renderIndexIn, EquipmentSlotType equipmentSlotIn)
+	public GodTierArmorItem(IArmorMaterial materialIn, EquipmentSlotType equipmentSlotIn, Properties properties)
 	{
-		super(materialIn, renderIndexIn, equipmentSlotIn);
+		super(materialIn, equipmentSlotIn, properties);
 	}
 	
 	@Override
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items)
 	{
 	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
+	public ITextComponent getDisplayName(ItemStack stack)
 	{
 		String heroClass = TextFormatting.OBFUSCATED + "Class" + TextFormatting.RESET;
 		String heroAspect = TextFormatting.OBFUSCATED + "Thing" + TextFormatting.RESET;
 		
-		if(stack.hasTagCompound())
+		CompoundNBT nbt = stack.getOrCreateTag();
+		
+		if(nbt.contains("class"))
 		{
-			NBTTagCompound nbt = stack.getTagCompound();
-			
-			if(nbt.hasKey("class"))
-			{
-				int c = nbt.getInteger("class");
-				if(c >= 0 && c < EnumClass.values().length)
-					heroClass = EnumClass.getClassFromInt(c).getDisplayName();
-			}
-			if(nbt.hasKey("aspect"))
-			{
-				int a = nbt.getInteger("aspect");
-				if(a >= 0 && a < EnumAspect.values().length)
-					heroAspect = EnumAspect.getAspectFromInt(a).getDisplayName();
-			}
+			int c = nbt.getInt("class");
+			if(c >= 0 && c < EnumClass.values().length)
+				heroClass = EnumClass.getClassFromInt(c).getTranslationKey();
 		}
-		return I18n.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", I18n.translateToLocalFormatted("title.format", heroClass, heroAspect)).trim();
+		if(nbt.contains("aspect"))
+		{
+			int a = nbt.getInt("aspect");
+			if(a >= 0 && a < EnumAspect.values().length)
+				heroAspect = EnumAspect.getAspectFromInt(a).getTranslationKey();
+		}
+		
+		return new TranslationTextComponent(this.getTranslationKey(stack), new TranslationTextComponent("title.format", heroClass), new TranslationTextComponent("title.format", heroAspect));
 	}
 	
+	
+	
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn)
 	{
 		if(getHideExtras(stack))
 		{
 			if((getHeroClass(stack) == (EnumClass.ROGUE) && getType().equals("hood")))
-				tooltip.add(I18n.translateToLocal("item.gtHood.hiddenExtras.rogue"));
+				tooltip.add(new TranslationTextComponent("item.gtHood.hiddenExtras.rogue"));
 			if((getHeroClass(stack) == (EnumClass.LORD) && getType().equals("shirt")))
-				tooltip.add(I18n.translateToLocal("item.gtShirt.hiddenExtras.lord"));
+				tooltip.add(new TranslationTextComponent("item.gtHood.hiddenExtras.rogue"));
 		}
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
@@ -85,7 +92,7 @@ public class GodTierArmorItem extends ArmorItem
 	@Nullable
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public BipedModel getArmorModel(EntityLivingBase entityLiving, ItemStack stack, EquipmentSlotType armorSlot, BipedModel _default)
+	public BipedModel getArmorModel(LivingEntity entityLiving, ItemStack stack, EquipmentSlotType armorSlot, BipedModel _default)
 	{
 		EnumClass heroClass = getHeroClass(stack);
 		EnumAspect heroAspect = getHeroAspect(stack);
@@ -146,16 +153,16 @@ public class GodTierArmorItem extends ArmorItem
 	
 	public String getType()
 	{
-		return this.equals(gtHood) ? "hood" : this.equals(gtShirt) ? "shirt" : this.equals(gtPants) ? "pants" : "shoes";
+		return this.equals(MSItems.GOD_TIER_HOOD) ? "hood" : this.equals(MSItems.GOD_TIER_SHIRT) ? "shirt" : this.equals(MSItems.GOD_TIER_PANTS) ? "pants" : "shoes";
 	}
 	
 	public static EnumClass getHeroClass(ItemStack stack)
 	{
-		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt == null || !nbt.hasKey("class"))
+		CompoundNBT nbt = stack.getOrCreateTag();
+		if(!nbt.contains("class"))
 			return null;
 		
-		int c = nbt.getInteger("class");
+		int c = nbt.getInt("class");
 		if(c >= 0 && c < EnumClass.values().length)
 			return EnumClass.getClassFromInt(c);
 		return null;
@@ -163,28 +170,26 @@ public class GodTierArmorItem extends ArmorItem
 	
 	public static boolean getHideExtras(ItemStack stack)
 	{
-		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt == null || !nbt.hasKey("hideExtras"))
+		CompoundNBT nbt = stack.getOrCreateTag();
+		if(nbt == null || !nbt.contains("hideExtras"))
 			return false;
 		
 		return nbt.getBoolean("hideExtras");
 	}
 	public static void setHideExtras(ItemStack stack, boolean v)
 	{
-		if(!stack.hasTagCompound())
-			stack.setTagCompound(new NBTTagCompound());
-		NBTTagCompound nbt = stack.getTagCompound();
+		CompoundNBT nbt = stack.getOrCreateTag();
 		
-		nbt.setBoolean("hideExtras", v);
+		nbt.putBoolean("hideExtras", v);
 	}
 	
 	public static EnumAspect getHeroAspect(ItemStack stack)
 	{
-		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt == null || !nbt.hasKey("aspect"))
+		CompoundNBT nbt = stack.getOrCreateTag();
+		if(nbt == null || !nbt.contains("aspect"))
 			return null;
 		
-		int a = nbt.getInteger("aspect");
+		int a = nbt.getInt("aspect");
 		if(a >= 0 && a < EnumAspect.values().length)
 			return EnumAspect.getAspectFromInt(a);
 		return null;
