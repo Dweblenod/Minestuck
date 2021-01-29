@@ -14,18 +14,18 @@ public class GodTierArmorModels
 	{{
 		put(EnumClass.KNIGHT, new GTKnightModel(1));
 		put(EnumClass.HEIR, new GTHeirModel(1));
-		//put(EnumClass.WITCH, new ModelGTWitch());
+		put(EnumClass.WITCH, new GTWitchModel(1));
 		put(EnumClass.SEER, new GTSeerModel(1));
-		//put(EnumClass.PAGE, new ModelGTPage());
-		//put(EnumClass.MAGE, new ModelGTMage());
+		put(EnumClass.PAGE, new GTPageModel(1));
+		put(EnumClass.MAGE, new GTMageModel(1));
 		put(EnumClass.BARD, new GTBardModel(1));
-		//put(EnumClass.THIEF, new ModelGTThief());
-		//put(EnumClass.PRINCE, new ModelGTPrince());
-		//put(EnumClass.MAID, new ModelGTMaid());
-		//put(EnumClass.ROGUE, new ModelGTRogue());
-		//put(EnumClass.SYLPH, new ModelGTSylph());
+		put(EnumClass.THIEF, new GTBardModel(1));
+		put(EnumClass.PRINCE, new GTBardModel(1));
+		put(EnumClass.MAID, new GTMaidModel(1));
+		put(EnumClass.ROGUE, new GTRogueModel(1));
+		put(EnumClass.SYLPH, new GTSylphModel(1));
 		
-		//put(EnumClass.LORD, new ModelGTLord());
-		//put(EnumClass.MUSE, new ModelGTMuse());
+		put(EnumClass.LORD, new GTLordModel(1));
+		put(EnumClass.MUSE, new GTMuseModel(1));
 	}};
 }

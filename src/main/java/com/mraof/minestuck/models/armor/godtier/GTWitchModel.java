@@ -6,7 +6,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 
 public class GTWitchModel extends GTAbstractModel
 {
-	
+	/*
 	private final ModelRenderer hood;
 	private final ModelRenderer skirtFrontCenter;
 	private final ModelRenderer skirtFrontLeft;
@@ -21,11 +21,13 @@ public class GTWitchModel extends GTAbstractModel
 	private final ModelRenderer skirtMiddleLeftSide;
 	private final ModelRenderer skirtMiddleRightSide;
 	
+	
+	 */
 	public GTWitchModel(float size)
 	{
 		super(size,128, 128, EnumClass.MAID);
 		addColorIgnores(4, 8);
-		
+		/*
 		neck.setRotationPoint(0.0F, 0.0F, 0.0F);
 		neck.cubeList.add(new ModelBox(neck, 84, 0, -5.0F, 0.0F, -3.0F, 10, 1, 1, 0.0F, false));
 		neck.cubeList.add(new ModelBox(neck, 106, 0, -5.0F, 0.0F, 2.0F, 10, 1, 1, 0.0F, false));
@@ -158,6 +160,8 @@ public class GTWitchModel extends GTAbstractModel
 		
 		rightFoot.setRotationPoint(2.0F, 12.0F, 0.0F);
 		rightFoot.cubeList.add(new ModelBox(rightFoot, 0, 96, -2.0F, -0.0F, -2.0F, 4, 12, 4, 0.2505F, false));
+		
+		 */
 	}
 	
 	

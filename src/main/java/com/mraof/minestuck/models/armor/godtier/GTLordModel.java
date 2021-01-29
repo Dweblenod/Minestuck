@@ -1,8 +1,9 @@
 package com.mraof.minestuck.models.armor.godtier;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mraof.minestuck.player.EnumClass;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -104,20 +105,20 @@ public class GTLordModel extends GTAbstractModel
 	}
 	
 	@Override
-	protected void renderExtras(float scale)
+	protected void renderExtras(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay)
 	{
-		coatRight.render(scale);
-		coatLeft.render(scale);
-		coat.render(scale);
-		leftSleeve.render(scale);
-		rightSleeve.render(scale);
-		suspenders.render(scale);
+		coatRight.render(matrixStack, buffer, packedLight, packedOverlay);
+		coatLeft.render(matrixStack, buffer, packedLight, packedOverlay);
+		coat.render(matrixStack, buffer, packedLight, packedOverlay);
+		leftSleeve.render(matrixStack, buffer, packedLight, packedOverlay);
+		rightSleeve.render(matrixStack, buffer, packedLight, packedOverlay);
+		suspenders.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 	
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
+	public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+		super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 		
 		copyModelAngles(torso, suspenders);
 		copyModelAngles(torso, coat);

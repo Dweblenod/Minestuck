@@ -1,5 +1,7 @@
 package com.mraof.minestuck.models.armor.godtier;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mraof.minestuck.player.EnumClass;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -21,66 +23,68 @@ public class GTMuseModel extends GTAbstractModel
 		textureHeight = 128;
 		
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F, -5.0F, 10, 8, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 20, 4.0F, -9.0F, -4.0F, 1, 8, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 40, 0, -5.0F, -10.0F, -4.0F, 10, 1, 8, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 0, 36, -5.0F, -10.0F, 4.0F, 10, 1, 1, 0.0F, false));
-		head.cubeList.add(new ModelBox(head, 18, 36, -4.0F, -10.0F, -5.0F, 8, 1, 1, 0.0F, false));
+		head.setTextureOffset(0, 0).addBox(-5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false);
+		head.setTextureOffset(22, 11).addBox(-5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false);
+		head.setTextureOffset(0, 20).addBox(-5.0F, -9.0F, -4.0F, 1, 8, 8, 0.0F, false);
+		head.setTextureOffset(0, 11).addBox(-5.0F, -9.0F, -5.0F, 10, 8, 1, 0.0F, false);
+		head.setTextureOffset(18, 20).addBox(4.0F, -9.0F, -4.0F, 1, 8, 8, 0.0F, false);
+		head.setTextureOffset(40, 0).addBox(-5.0F, -10.0F, -4.0F, 10, 1, 8, 0.0F, false);
+		head.setTextureOffset(0, 36).addBox(-5.0F, -10.0F, 4.0F, 10, 1, 1, 0.0F, false);
+		head.setTextureOffset(18, 36).addBox(-4.0F, -10.0F, -5.0F, 8, 1, 1, 0.0F, false);
 		
 		hood = new ModelRenderer(this);
 		hood.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.addChild(hood);
-		hood.cubeList.add(new ModelBox(hood, 110, 10, -4.0F, -9.5F, 5.0F, 8, 8, 1, 0.5F, false));
-		hood.cubeList.add(new ModelBox(hood, 108, 19, -4.0F, -10.0F, 5.0F, 8, 8, 3, 0.0F, false));
-		hood.cubeList.add(new ModelBox(hood, 114, 30, -3.0F, -9.5F, 7.5F, 6, 7, 1, 0.5F, false));
-		hood.cubeList.add(new ModelBox(hood, 112, 38, -3.0F, -9.0F, 8.5F, 6, 7, 2, 0.0F, false));
-		hood.cubeList.add(new ModelBox(hood, 118, 47, -2.0F, -8.0F, 10.0F, 4, 5, 1, 0.5F, false));
-		hood.cubeList.add(new ModelBox(hood, 116, 53, -2.0F, -7.5F, 10.5F, 4, 5, 2, 0.0F, false));
-		hood.cubeList.add(new ModelBox(hood, 122, 60, -1.0F, -6.0F, 12.0F, 2, 2, 1, 0.5F, false));
-		hood.cubeList.add(new ModelBox(hood, 120, 63, -1.0F, -5.5F, 12.5F, 2, 2, 2, 0.0F, false));
+		hood.setTextureOffset(110, 10).addBox(-4.0F, -9.5F, 5.0F, 8, 8, 1, 0.5F, false);
+		hood.setTextureOffset(108, 19).addBox(-4.0F, -10.0F, 5.0F, 8, 8, 3, 0.0F, false);
+		hood.setTextureOffset(114, 30).addBox(-3.0F, -9.5F, 7.5F, 6, 7, 1, 0.5F, false);
+		hood.setTextureOffset(112, 38).addBox(-3.0F, -9.0F, 8.5F, 6, 7, 2, 0.0F, false);
+		hood.setTextureOffset(118, 47).addBox(-2.0F, -8.0F, 10.0F, 4, 5, 1, 0.5F, false);
+		hood.setTextureOffset(116, 53).addBox(-2.0F, -7.5F, 10.5F, 4, 5, 2, 0.0F, false);
+		hood.setTextureOffset(122, 60).addBox(-1.0F, -6.0F, 12.0F, 2, 2, 1, 0.5F, false);
+		hood.setTextureOffset(120, 63).addBox(-1.0F, -5.5F, 12.5F, 2, 2, 2, 0.0F, false);
 		
 		neck.setRotationPoint(0.0F, 0.0F, 0.0F);
-		neck.cubeList.add(new ModelBox(neck, 102, 0, -5.0F, 0.0F, 0.0F, 10, 4, 3, 0.0F, false));
-		neck.cubeList.add(new ModelBox(neck, 104, 96, -4.0F, 0.25F, -2.5F, 8, 12, 4, 0.251F, false));
-		neck.cubeList.add(new ModelBox(torso, 104, 80, -4.0F, -0.1F, -2.0F, 8, 12, 4, 0.2515F, false));
+		neck.setTextureOffset(102, 0).addBox(-5.0F, 0.0F, 0.0F, 10, 4, 3, 0.0F, false);
+		neck.setTextureOffset(104, 96).addBox(-4.0F, 0.25F, -2.5F, 8, 12, 4, 0.251F, false);
+		neck.setTextureOffset(104, 80).addBox(-4.0F, -0.1F, -2.0F, 8, 12, 4, 0.2515F, false);
 		
 		torso.setRotationPoint(0.0F, 0.0F, 0.0F);
-		torso.cubeList.add(new ModelBox(torso, 104, 112, -4.0F, 0.0F, -2.0F, 8, 12, 4, 0.251F, false));
+		torso.setTextureOffset(104, 112).addBox(-4.0F, 0.0F, -2.0F, 8, 12, 4, 0.251F, false);
 		
 		leftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-		leftArm.cubeList.add(new ModelBox(leftArm, 0, 56, -1.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, true));
+		leftArm.setTextureOffset(0, 56).addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, true);
 		
 		rightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-		rightArm.cubeList.add(new ModelBox(rightArm, 0, 56, -3.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, false));
+		rightArm.setTextureOffset(0, 56).addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, 0.251F, false);
 		
 		leftLeg.setRotationPoint(2.0F, 12.0F, 0.0F);
-		leftLeg.cubeList.add(new ModelBox(leftLeg, 0, 80, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, true));
+		leftLeg.setTextureOffset(0, 80).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, true);
 		
 		rightLeg.setRotationPoint(-2.0F, 12.0F, 0.0F);
-		rightLeg.cubeList.add(new ModelBox(rightLeg, 0, 80, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false));
+		rightLeg.setTextureOffset(0, 80).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false);
 		
 		leftFoot.setRotationPoint(2.0F, 12.0F, 0.0F);
-		leftFoot.cubeList.add(new ModelBox(leftFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, true));
+		leftFoot.setTextureOffset(0, 112).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, true);
 		
 		rightFoot.setRotationPoint(-2.0F, 12.0F, 0.0F);
-		rightFoot.cubeList.add(new ModelBox(rightFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false));
+		rightFoot.setTextureOffset(0, 112).addBox(-2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, false);
 		
 		neckLeft = new ModelRenderer(this);
 		neckLeft.setRotationPoint(5.0F, 2.0F, 0.0F);
-		neckLeft.cubeList.add(new ModelBox(neckLeft, 82, 0, -1.0F, -2.0F, -2.0F, 4, 3, 4, 0.75F, true));
+		neckLeft.setTextureOffset(82, 0).addBox(-1.0F, -2.0F, -2.0F, 4, 3, 4, 0.75F, true);
 		
 		neckRight = new ModelRenderer(this);
 		neckRight.setRotationPoint(-5.0F, 2.0F, 0.0F);
-		neckRight.cubeList.add(new ModelBox(neckRight, 82, 0, -3.0F, -2.0F, -2.0F, 4, 3, 4, 0.75F, false));
+		neckRight.setTextureOffset(82, 0).addBox(-3.0F, -2.0F, -2.0F, 4, 3, 4, 0.75F, false);
 		
 		skirtBack.setRotationPoint(0.0F, 10.0F, 2.252F);
-		skirtBack.cubeList.add(new ModelBox(skirtBack, 59, 115, -4.0F, 0.0F, 0.1F, 8, 12, 0, 0.0F, false));
+		skirtBack.setTextureOffset(59, 115).addBox(-4.0F, 0.0F, 0.1F, 8, 12, 0, 0.0F, false);
 		
 		skirtFront.setRotationPoint(0.0F, 10.0F, -2.252F);
-		skirtFront.cubeList.add(new ModelBox(skirtFront, 77, 115, -4.0F, 0.0F, -0F, 8, 12, 0, 0.0F, false));
+		skirtFront.setTextureOffset(77, 115).addBox(-4.0F, 0.0F, -0F, 8, 12, 0, 0.0F, false);
+		
+		
 	}
 	
 	@Override
@@ -96,16 +100,16 @@ public class GTMuseModel extends GTAbstractModel
 	}
 	
 	@Override
-	protected void renderExtras(float scale)
+	protected void renderExtras(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay)
 	{
-		neckRight.render(scale);
-		neckLeft.render(scale);
+		neckRight.render(matrixStack, buffer, packedLight, packedOverlay);
+		neckLeft.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 	
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
+	public void setRotationAngles(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
 	{
-		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+		super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 		copyModelAngles(leftArm, neckLeft);
 		copyModelAngles(rightArm, neckRight);
 	}

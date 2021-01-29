@@ -15,7 +15,7 @@ public class GTPrinceModel extends GTAbstractModel
 		addColorIgnores(6, 7, 8);
 		
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
-		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false));
+		head.setTextureOffset(0, 0).addBox(-5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 0, 20, -5.0F, -9.0F, -4.0F, 1, 8, 8, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 0, 11, -5.0F, -9.0F, -5.0F, 10, 8, 1, 0.0F, false));
@@ -71,6 +71,7 @@ public class GTPrinceModel extends GTAbstractModel
 		
 		leftFoot.setRotationPoint(2.0F, 12.0F, 0.0F);
 		leftFoot.cubeList.add(new ModelBox(leftFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.251F, true));
+		
 	}
 	
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

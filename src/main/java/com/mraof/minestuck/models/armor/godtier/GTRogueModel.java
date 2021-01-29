@@ -6,13 +6,13 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 public class GTRogueModel extends GTAbstractModel
 {
 	
-	private final ModelRenderer mask;
+	//private final ModelRenderer mask;
 	
 	public GTRogueModel(float size)
 	{
 		super(size,128, 128, EnumClass.ROGUE);
 		addColorIgnores(6, 7, 8);
-		
+		/*
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false));
@@ -62,8 +62,10 @@ public class GTRogueModel extends GTAbstractModel
 		
 		leftFoot.setRotationPoint(2.0F, 12.0F, 0.0F);
 		leftFoot.cubeList.add(new ModelBox(leftFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.2515F, true));
+		
+		 */
 	}
-	
+	/*
 	@Override
 	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
@@ -82,4 +84,6 @@ public class GTRogueModel extends GTAbstractModel
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
+	
+	 */
 }

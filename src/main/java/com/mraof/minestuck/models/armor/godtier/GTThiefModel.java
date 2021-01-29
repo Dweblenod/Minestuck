@@ -7,13 +7,13 @@ import net.minecraft.inventory.EquipmentSlotType;
 public class GTThiefModel extends GTAbstractModel
 {
 	
-	private final ModelRenderer hood;
+	//private final ModelRenderer hood;
 	
 	public GTThiefModel(float size)
 	{
 		super(size,128, 128, EnumClass.THIEF);
 		addColorIgnores(6, 7, 8);
-		
+		/*
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false));
@@ -81,6 +81,8 @@ public class GTThiefModel extends GTAbstractModel
 		leftFoot.setRotationPoint(2.0F, 12.0F, 0.0F);
 		leftFoot.cubeList.add(new ModelBox(leftFoot, 0, 112, -2.0F, 0.0F, -2.0F, 4, 12, 4, 0.255F, false));
 		leftFoot.cubeList.add(new ModelBox(leftFoot, 16, 123, -2.0F, 6.0F, -2.0F, 4, 1, 4, 0.5F, true));
+		
+		 */
 	}
 	
 	@Override

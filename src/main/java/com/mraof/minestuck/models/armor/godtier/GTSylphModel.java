@@ -6,27 +6,15 @@ import net.minecraft.inventory.EquipmentSlotType;
 
 public class GTSylphModel extends GTAbstractModel
 {
-	
-	//private final ModelRenderer head;
+	/*
 	private final ModelRenderer hood;
-	//private final ModelRenderer neck;
-	//private final ModelRenderer torso;
-	//private final ModelRenderer rightArm;
-	//private final ModelRenderer leftArm;
-	//private final ModelRenderer rightLeg;
-	//private final ModelRenderer leftLeg;
-	//private final ModelRenderer rightFoot;
-	//private final ModelRenderer leftFoot;
-	//private final ModelRenderer skirtFront;
 	private final ModelRenderer skirtFrontCenter;
 	private final ModelRenderer hoodThingsParent;
 	private final ModelRenderer hoodThings;
 	private final ModelRenderer skirtFrontRight;
 	private final ModelRenderer skirtFrontLeft;
-	//private final ModelRenderer skirtMiddle;
 	private final ModelRenderer skirtMiddleRight;
 	private final ModelRenderer skirtMiddleLeft;
-	//private final ModelRenderer skirtBack;
 	private final ModelRenderer skirtBackCenter;
 	private final ModelRenderer skirtBackRight;
 	private final ModelRenderer skirtBackLeft;
@@ -44,11 +32,13 @@ public class GTSylphModel extends GTAbstractModel
 	private final ModelRenderer hoodSkirtlessLeft;
 	private final ModelRenderer hoodSkirtlessRight;
 	
+	 */
+	
 	public GTSylphModel(float size)
 	{
 		super(size,128, 128, EnumClass.SYLPH);
 		addColorIgnores(6, 7, 8);
-		
+		/*
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.cubeList.add(new ModelBox(head, 0, 0, -5.0F, -1.0F, -5.0F, 10, 1, 10, 0.0F, false));
 		head.cubeList.add(new ModelBox(head, 22, 11, -5.0F, -9.0F, 4.0F, 10, 8, 1, 0.0F, false));
@@ -119,8 +109,8 @@ public class GTSylphModel extends GTAbstractModel
 		hoodThings.setRotationPoint(0.0F, 0.2342F, -1.892F);
 		setRotationAngle(hoodThings, -0.1745F, 0.0F, 0.0F);
 		hoodThingsParent.addChild(hoodThings);
-		hoodThings.cubeList.add(new ModelBox(hoodThings, 126, 15, 5.5F, 0/*0.6527F*/, -0.5304F, 1, 10, 0, 0.25F, false));
-		hoodThings.cubeList.add(new ModelBox(hoodThings, 126, 15, -2.5F, 0/*0.6527F*/, -0.5304F, 1, 10, 0, 0.25F, false));
+		hoodThings.cubeList.add(new ModelBox(hoodThings, 126, 15, 5.5F, 0, -0.5304F, 1, 10, 0, 0.25F, false));
+		hoodThings.cubeList.add(new ModelBox(hoodThings, 126, 15, -2.5F, 0, -0.5304F, 1, 10, 0, 0.25F, false));
 		
 		skirtFrontRight = new ModelRenderer(this);
 		skirtFrontRight.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -238,8 +228,10 @@ public class GTSylphModel extends GTAbstractModel
 		hoodSkirtlessRight = new ModelRenderer(this);
 		hoodSkirtlessRight.setRotationPoint(-2.0F, 12.2342F, -1.892F);
 		hoodSkirtlessRight.cubeList.add(new ModelBox(hoodSkirtlessRight, 126, 16, -2.5F, 0.2658F, -0.608F, 1, 10, 0, 0.25F, false));
+		
+		 */
 	}
-	
+	/*
 	@Override
 	public void addExtraInfo(EntityLivingBase entityLiving, ItemStack stack, EntityEquipmentSlot armorSlot)
 	{
@@ -292,4 +284,6 @@ public class GTSylphModel extends GTAbstractModel
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
+	
+	 */
 }
