@@ -31,6 +31,22 @@ public class MSBlocks
 	//Skaia
 	public static final Block BLACK_CHESS_DIRT = getNull(), WHITE_CHESS_DIRT = getNull(), DARK_GRAY_CHESS_DIRT = getNull(), LIGHT_GRAY_CHESS_DIRT = getNull();
 	public static final Block SKAIA_PORTAL = getNull();
+	public static final Block BLACK_CASTLE_BRICKS = getNull();
+	public static final Block DARK_GRAY_CASTLE_BRICKS = getNull();
+	public static final Block LIGHT_GRAY_CASTLE_BRICKS = getNull();
+	public static final Block WHITE_CASTLE_BRICKS = getNull();
+	public static final Block BLACK_CASTLE_BRICK_SMOOTH = getNull();
+	public static final Block DARK_GRAY_CASTLE_BRICK_SMOOTH = getNull();
+	public static final Block LIGHT_GRAY_CASTLE_BRICK_SMOOTH = getNull();
+	public static final Block WHITE_CASTLE_BRICK_SMOOTH = getNull();
+	public static final Block BLACK_CASTLE_BRICK_TRIM = getNull();
+	public static final Block DARK_GRAY_CASTLE_BRICK_TRIM = getNull();
+	public static final Block LIGHT_GRAY_CASTLE_BRICK_TRIM = getNull();
+	public static final Block WHITE_CASTLE_BRICK_TRIM = getNull();
+	public static final Block BLACK_CROWN_STAINED_GLASS = getNull();
+	public static final Block BLACK_PAWN_STAINED_GLASS = getNull();
+	public static final Block WHITE_CROWN_STAINED_GLASS = getNull();
+	public static final Block WHITE_PAWN_STAINED_GLASS = getNull();
 	
 	//Ores
 	public static final Block STONE_CRUXITE_ORE = getNull(), NETHERRACK_CRUXITE_ORE = getNull(), COBBLESTONE_CRUXITE_ORE = getNull(), SANDSTONE_CRUXITE_ORE = getNull();
@@ -136,7 +152,10 @@ public class MSBlocks
 	public static final Block CROCKERTOP = getNull();
 	public static final Block HUBTOP = getNull();
 	public static final Block LUNCHTOP = getNull();
+	public static final Block OLD_COMPUTER = getNull();
 	public static final Block TRANSPORTALIZER = getNull();
+	public static final Block TRANS_PORTALIZER = getNull();
+	public static final Block SENDIFICATOR = getNull();
 	public static final Block GRIST_WIDGET = getNull();
 	public static final Block URANIUM_COOKER = getNull();
 	
@@ -191,6 +210,22 @@ public class MSBlocks
 		registry.register(new Block(Block.Properties.create(Material.EARTH, MaterialColor.GRAY).hardnessAndResistance(0.5F).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND)).setRegistryName("dark_gray_chess_dirt"));
 		registry.register(new Block(Block.Properties.create(Material.EARTH, MaterialColor.LIGHT_GRAY).hardnessAndResistance(0.5F).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND)).setRegistryName("light_gray_chess_dirt"));
 		registry.register(new SkaiaPortalBlock(Block.Properties.create(Material.PORTAL, MaterialColor.CYAN).doesNotBlockMovement().lightValue(11).hardnessAndResistance(-1.0F, 3600000.0F).noDrops()).setRegistryName("skaia_portal"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.BLACK_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("black_castle_bricks"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("dark_gray_castle_bricks"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("light_gray_castle_bricks"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("white_castle_bricks"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.BLACK_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("black_castle_brick_smooth"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("dark_gray_castle_brick_smooth"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("light_gray_castle_brick_smooth"));
+		registry.register(new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("white_castle_brick_smooth"));
+		registry.register(new MSDirectionalBlock(Block.Properties.create(Material.ROCK, MaterialColor.BLACK_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("black_castle_brick_trim"));
+		registry.register(new MSDirectionalBlock(Block.Properties.create(Material.ROCK, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("dark_gray_castle_brick_trim"));
+		registry.register(new MSDirectionalBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("light_gray_castle_brick_trim"));
+		registry.register(new MSDirectionalBlock(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).hardnessAndResistance(1.5F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("white_castle_brick_trim"));
+		registry.register(new StainedGlassBlock(DyeColor.BLUE, Block.Properties.create(Material.GLASS, DyeColor.BLUE).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()).setRegistryName("black_crown_stained_glass"));
+		registry.register(new StainedGlassBlock(DyeColor.BLUE, Block.Properties.create(Material.GLASS, DyeColor.BLUE).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()).setRegistryName("black_pawn_stained_glass"));
+		registry.register(new StainedGlassBlock(DyeColor.BLUE, Block.Properties.create(Material.GLASS, DyeColor.BLUE).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()).setRegistryName("white_crown_stained_glass"));
+		registry.register(new StainedGlassBlock(DyeColor.BLUE, Block.Properties.create(Material.GLASS, DyeColor.BLUE).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()).setRegistryName("white_pawn_stained_glass"));
 		
 		registry.register(new CustomOreBlock(2, 5, Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("stone_cruxite_ore"));
 		registry.register(new CustomOreBlock(2, 5, Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)).setRegistryName("netherrack_cruxite_ore"));
@@ -385,7 +420,10 @@ public class MSBlocks
 		registry.register(new ComputerBlock(ComputerBlock.LAPTOP_OPEN_SHAPE, ComputerBlock.LAPTOP_CLOSED_SHAPE, Block.Properties.create(Material.IRON, MaterialColor.RED).hardnessAndResistance(4.0F)).setRegistryName("crockertop"));
 		registry.register(new ComputerBlock(ComputerBlock.LAPTOP_OPEN_SHAPE, ComputerBlock.LAPTOP_CLOSED_SHAPE, Block.Properties.create(Material.IRON, MaterialColor.GREEN).hardnessAndResistance(4.0F)).setRegistryName("hubtop"));
 		registry.register(new ComputerBlock(ComputerBlock.LUNCHTOP_SHAPE, ComputerBlock.LUNCHTOP_SHAPE, Block.Properties.create(Material.IRON, MaterialColor.RED).hardnessAndResistance(4.0F)).setRegistryName("lunchtop"));
+		registry.register(new ComputerBlock(ComputerBlock.OLD_COMPUTER_SHAPE, ComputerBlock.OLD_COMPUTER_SHAPE, Block.Properties.create(Material.IRON).hardnessAndResistance(4.0F)).setRegistryName("old_computer"));
 		registry.register(new TransportalizerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3.0F)).setRegistryName("transportalizer"));
+		registry.register(new TransportalizerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3.0F)).setRegistryName("trans_portalizer"));
+		registry.register(new SendificatorBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3.0F), MSBlockShapes.SENDIFICATOR).setRegistryName("sendificator"));
 		registry.register(new GristWidgetBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3.0F)).setRegistryName("grist_widget"));
 		registry.register(new SmallMachineBlock<>(new CustomVoxelShape(new double[]{4, 0, 4, 12, 6, 12}).createRotatedShapes(), MSTileEntityTypes.URANIUM_COOKER, Block.Properties.create(Material.IRON).hardnessAndResistance(3.0F)).setRegistryName("uranium_cooker"));
 		
