@@ -20,7 +20,7 @@ public class GodTierArmorModels
 		put(EnumClass.MAGE, new GTMageModel(1));
 		put(EnumClass.BARD, new GTBardModel(1));
 		put(EnumClass.THIEF, new GTBardModel(1));
-		put(EnumClass.PRINCE, new GTBardModel(1));
+		put(EnumClass.PRINCE, new GTPrinceModel(1));
 		put(EnumClass.MAID, new GTMaidModel(1));
 		put(EnumClass.ROGUE, new GTRogueModel(1));
 		put(EnumClass.SYLPH, new GTSylphModel(1));
