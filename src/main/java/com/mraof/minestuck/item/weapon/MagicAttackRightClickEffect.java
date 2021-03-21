@@ -1,7 +1,6 @@
 package com.mraof.minestuck.item.weapon;
 
 import com.mraof.minestuck.entity.underling.UnderlingEntity;
-import com.mraof.minestuck.item.MSItems;
 import com.mraof.minestuck.util.MSSoundEvents;
 import com.mraof.minestuck.world.storage.PlayerSavedData;
 import net.minecraft.entity.EntityPredicate;
@@ -36,15 +35,15 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 	
 	EntityPredicate visiblePredicate = (new EntityPredicate()).setLineOfSiteRequired();
 	
-	public static final MagicAttackRightClickEffect SBAHJ_AIMBOT_MAGIC = new MagicAttackRightClickEffect(10, 1, null, null, 1.0F, () -> new RedstoneParticleData(0F, 1F, 0F, 2F), false);
-	public static final MagicAttackRightClickEffect AIMBOT_MAGIC = new MagicAttackRightClickEffect(15, 2, null, null, 1.0F, () -> ParticleTypes.ENCHANTED_HIT, false);
+	public static final MagicAttackRightClickEffect SBAHJ_AIMBOT_MAGIC = new SbahjMagicEffect(10, 1, null, null, 1.0F, () -> new RedstoneParticleData(0F, 1F, 0F, 2F), false);
+	public static final MagicAttackRightClickEffect AIMBOT_MAGIC = new AimbotMagicEffect(15, 2, null, null, 1.0F, () -> ParticleTypes.ENCHANTED_HIT, false);
 	public static final MagicAttackRightClickEffect STANDARD_MAGIC = new MagicAttackRightClickEffect(15, 3, null, null, 1.0F, () -> ParticleTypes.ENCHANT, false);
 	public static final MagicAttackRightClickEffect POOL_CUE_MAGIC = new MagicAttackRightClickEffect(18, 4, null, null, 1.0F, () -> new RedstoneParticleData(20F, 0F, 0F, 2F), false);
 	public static final MagicAttackRightClickEffect HORRORTERROR_MAGIC = new MagicAttackRightClickEffect(20, 5, () -> new EffectInstance(Effects.WITHER, 100, 2), () -> MSSoundEvents.ITEM_GRIMOIRE_USE, 1.2F, () -> ParticleTypes.SQUID_INK, true);
 	public static final MagicAttackRightClickEffect ZILLY_MAGIC = new MagicAttackRightClickEffect(30, 8, null, null, 1.0F, () -> new RedstoneParticleData(20F, 20F, 20F, 2F), true);
 	public static final MagicAttackRightClickEffect ECHIDNA_MAGIC = new MagicAttackRightClickEffect(50, 8, null, null, 1.0F, () -> ParticleTypes.END_ROD, true);
 	
-	public MagicAttackRightClickEffect(int distance, int damage, Supplier<EffectInstance> effect, Supplier<SoundEvent> sound, float pitch, Supplier<IParticleData> particle, boolean explosiveFinish)
+	protected MagicAttackRightClickEffect(int distance, int damage, Supplier<EffectInstance> effect, Supplier<SoundEvent> sound, float pitch, Supplier<IParticleData> particle, boolean explosiveFinish)
 	{
 		this.distance = distance;
 		this.damage = damage;
@@ -60,7 +59,7 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 	{
 		ItemStack itemStackIn = player.getHeldItem(hand);
 		
-		magicAttack(world, player, itemStackIn);
+		magicAttack(world, player);
 		
 		if(player.isCreative())
 			player.getCooldownTracker().setCooldown(itemStackIn.getItem(), 10);
@@ -73,32 +72,19 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 		return ActionResult.resultPass(itemStackIn);
 	}
 	
-	void magicAttack(World world, PlayerEntity player, ItemStack itemStack)
+	private void magicAttack(World world, PlayerEntity player)
 	{
 		if(sound != null && player.getRNG().nextFloat() <= .1F) //optional sound effect adding
 			world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), sound.get(), SoundCategory.PLAYERS, 0.7F, pitch);
 		world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_EVOKER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, 1.6F);
-		Vec3d vec3dPath;
-		Vec3d vecPos;
-		BlockPos blockPos;
 		
-		if(itemStack.getItem() == MSItems.ARTIFUCKER)
-		{
-			Vec3d randomFacingVecPos = new Vec3d(player.getPosX() + player.getRNG().nextInt(10) - 5, player.getPosY() + player.getRNG().nextInt(10) - 5, player.getPosZ() + player.getRNG().nextInt(10) - 5);
-			player.lookAt(player.getCommandSource().getEntityAnchorType(), randomFacingVecPos);
-		}
-		if(itemStack.getItem() == MSItems.POINTER_WAND)
-		{
-			LivingEntity closestVisibleTarget = player.world.getClosestEntityWithinAABB(LivingEntity.class, visiblePredicate, player, player.getPosX(), player.getPosY(), player.getPosZ(), player.getBoundingBox().grow(14.5D, 14, 14.5D));
-			if(closestVisibleTarget != null)
-				player.lookAt(player.getCommandSource().getEntityAnchorType(), closestVisibleTarget.getPositionVec());
-		}
+		targetEffect(player);
 		
 		for(float i = 0; i < distance * 2; i++) //uses the float i value to increase the distance away from where the player is looking and creating a sort of raytrace
 		{
-			vec3dPath = player.getLookVec().scale(i / 2D);
-			vecPos = new Vec3d(player.getPosX() + vec3dPath.x, player.getPosYEye() + vec3dPath.y, player.getPosZ() + vec3dPath.z);
-			blockPos = new BlockPos(vecPos.x, vecPos.y, vecPos.z);
+			Vec3d vec3dPath = player.getLookVec().scale(i / 2D);
+			Vec3d vecPos = new Vec3d(player.getPosX() + vec3dPath.x, player.getPosYEye() + vec3dPath.y, player.getPosZ() + vec3dPath.z);
+			BlockPos blockPos = new BlockPos(vecPos.x, vecPos.y, vecPos.z);
 			float randomParticleOffsetX = (player.getRNG().nextFloat() - .5F) / 4;
 			float randomParticleOffsetY = (player.getRNG().nextFloat() - .5F) / 4;
 			float randomParticleOffsetZ = (player.getRNG().nextFloat() - .5F) / 4;
@@ -106,7 +92,7 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 			vecPathParticles(world, player, vecPos, i, randomParticleOffsetX, randomParticleOffsetY, randomParticleOffsetZ);
 			
 			boolean hitObstacle = vecPathHit(world, player, vecPos, blockPos);
-			if(hitObstacle == true)
+			if(hitObstacle)
 			{
 				i = distance * 2; //prevents ray from travelling farther
 				vecPathFinish(world, player, vecPos, blockPos, randomParticleOffsetX, randomParticleOffsetY, randomParticleOffsetZ);
@@ -115,7 +101,10 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 		}
 	}
 	
-	void vecPathParticles(World world, PlayerEntity player, Vec3d vecPos, float i, float randomParticleOffsetX, float randomParticleOffsetY, float randomParticleOffsetZ)
+	protected void targetEffect(PlayerEntity player)
+	{}
+	
+	private void vecPathParticles(World world, PlayerEntity player, Vec3d vecPos, float i, float randomParticleOffsetX, float randomParticleOffsetY, float randomParticleOffsetZ)
 	{
 		if(i >= 5) //starts creating particle trail along vector path after a few runs, its away from the players vision so they do not obscure everything
 		{
@@ -155,14 +144,10 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 				closestTarget.addPotionEffect(effect.get());
 			
 			return true;
-		} else if(closestTarget != null)
-		{
-			return true;
-		}
-		return false;
+		} else return closestTarget != null;
 	}
 	
-	void vecPathFinish(World world, PlayerEntity player, Vec3d vecPos, BlockPos blockPos, float randomParticleOffsetX, float randomParticleOffsetY, float randomParticleOffsetZ)
+	private void vecPathFinish(World world, PlayerEntity player, Vec3d vecPos, BlockPos blockPos, float randomParticleOffsetX, float randomParticleOffsetY, float randomParticleOffsetZ)
 	{
 		Vec3d particleVecMod = player.getLookVec().inverse().scale(0.5D); //returns the vector to a prior position before it was inside a block/entity so that the flash particle is not obscured and particles can fly out
 		Vec3d particleVecPos = new Vec3d(vecPos.x + particleVecMod.x, vecPos.y + particleVecMod.y, vecPos.z + particleVecMod.z);
@@ -181,6 +166,37 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 			{
 				world.addParticle(ParticleTypes.CRIT, true, particleVecPos.x + randomParticleOffsetX, particleVecPos.y + randomParticleOffsetY, particleVecPos.z + randomParticleOffsetZ, player.getRNG().nextGaussian(), player.getRNG().nextGaussian(), player.getRNG().nextGaussian());
 			}
+		}
+	}
+	
+	private static class SbahjMagicEffect extends MagicAttackRightClickEffect
+	{
+		SbahjMagicEffect(int distance, int damage, Supplier<EffectInstance> effect, Supplier<SoundEvent> sound, float pitch, Supplier<IParticleData> particle, boolean explosiveFinish)
+		{
+			super(distance, damage, effect, sound, pitch, particle, explosiveFinish);
+		}
+		
+		@Override
+		protected void targetEffect(PlayerEntity player)
+		{
+			Vec3d randomFacingVecPos = new Vec3d(player.getPosX() + player.getRNG().nextInt(10) - 5, player.getPosY() + player.getRNG().nextInt(10) - 5, player.getPosZ() + player.getRNG().nextInt(10) - 5);
+			player.lookAt(player.getCommandSource().getEntityAnchorType(), randomFacingVecPos);
+		}
+	}
+	
+	private static class AimbotMagicEffect extends MagicAttackRightClickEffect
+	{
+		AimbotMagicEffect(int distance, int damage, Supplier<EffectInstance> effect, Supplier<SoundEvent> sound, float pitch, Supplier<IParticleData> particle, boolean explosiveFinish)
+		{
+			super(distance, damage, effect, sound, pitch, particle, explosiveFinish);
+		}
+		
+		@Override
+		protected void targetEffect(PlayerEntity player)
+		{
+			LivingEntity closestVisibleTarget = player.world.getClosestEntityWithinAABB(LivingEntity.class, visiblePredicate, player, player.getPosX(), player.getPosY(), player.getPosZ(), player.getBoundingBox().grow(14.5D, 14, 14.5D));
+			if(closestVisibleTarget != null)
+				player.lookAt(player.getCommandSource().getEntityAnchorType(), closestVisibleTarget.getPositionVec());
 		}
 	}
 }
