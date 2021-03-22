@@ -7,7 +7,6 @@ import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 import java.util.function.Supplier;
 
@@ -66,7 +65,7 @@ public class MagicEffect
 		}
 	}
 	
-	private static void pathParticles(IParticleData particle, boolean extraParticles, World world, Vec3d vecPos, int i)
+	private static void pathParticles(IParticleData particle, boolean extraParticles, ClientWorld world, Vec3d vecPos, int i)
 	{
 		// starts creating particle trail along vector path after a few runs, its away from the players vision so they do not obscure everything
 		if(i >= 5)
@@ -89,14 +88,14 @@ public class MagicEffect
 		}
 	}
 	
-	private static void collisionEffect(IParticleData particle, boolean explosiveFinish, World world, Vec3d vecPos)
+	private static void collisionEffect(IParticleData particle, boolean explosiveFinish, ClientWorld world, Vec3d vecPos)
 	{
 		int particles = 25 + world.rand.nextInt(10);
 		
 		//if a block or entity has been hit and the wand is true for explosiveFinish boolean, adds a sound and flash
 		if(explosiveFinish)
 		{
-			world.playSound(null, vecPos.x, vecPos.y, vecPos.z, SoundEvents.ENTITY_SHULKER_BULLET_HIT, SoundCategory.BLOCKS, 1.2F, 0.6F);
+			world.playSound(vecPos.x, vecPos.y, vecPos.z, SoundEvents.ENTITY_SHULKER_BULLET_HIT, SoundCategory.BLOCKS, 1.2F, 0.6F, false);
 			
 			world.addParticle(ParticleTypes.FLASH, vecPos.x, vecPos.y, vecPos.z, 0.0D, 0.0D, 0.0D);
 			for(int a = 0; a < particles; a++)
