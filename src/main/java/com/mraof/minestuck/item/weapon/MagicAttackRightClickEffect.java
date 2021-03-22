@@ -6,6 +6,7 @@ import com.mraof.minestuck.network.MSPacketHandler;
 import com.mraof.minestuck.network.MagicEffectPacket;
 import com.mraof.minestuck.util.MSSoundEvents;
 import com.mraof.minestuck.world.storage.PlayerSavedData;
+import net.minecraft.command.arguments.EntityAnchorArgument;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -165,7 +166,7 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 		{
 			LivingEntity closestVisibleTarget = player.world.getClosestEntityWithinAABB(LivingEntity.class, visiblePredicate, player, player.getPosX(), player.getPosY(), player.getPosZ(), player.getBoundingBox().grow(14.5D, 14, 14.5D));
 			if(closestVisibleTarget != null)
-				player.lookAt(player.getCommandSource().getEntityAnchorType(), closestVisibleTarget.getPositionVec());
+				player.lookAt(EntityAnchorArgument.Type.EYES, closestVisibleTarget, EntityAnchorArgument.Type.EYES);
 		}
 	}
 }
