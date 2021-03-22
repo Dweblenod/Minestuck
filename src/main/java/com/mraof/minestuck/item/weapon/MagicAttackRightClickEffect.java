@@ -61,21 +61,19 @@ public class MagicAttackRightClickEffect implements ItemRightClickEffect
 	{
 		ItemStack itemStackIn = player.getHeldItem(hand);
 		
-		if(hand == Hand.MAIN_HAND){
-			itemStackIn = player.getHeldItem(Hand.MAIN_HAND);
-			if(player instanceof ServerPlayerEntity)
-				magicAttack(world, (ServerPlayerEntity) player);
-			
-			if(player.isCreative())
-				player.getCooldownTracker().setCooldown(itemStackIn.getItem(), 10);
-			else
-				player.getCooldownTracker().setCooldown(itemStackIn.getItem(), 50);
-			
-			player.swing(Hand.MAIN_HAND, true);
-			itemStackIn.damageItem(6, player, playerEntity -> playerEntity.sendBreakAnimation(Hand.MAIN_HAND));
-			player.addStat(Stats.ITEM_USED.get(itemStackIn.getItem()));
-		}
-		return ActionResult.resultPass(itemStackIn);
+		if(player instanceof ServerPlayerEntity)
+			magicAttack(world, (ServerPlayerEntity) player);
+		
+		if(player.isCreative())
+			player.getCooldownTracker().setCooldown(itemStackIn.getItem(), 10);
+		else
+			player.getCooldownTracker().setCooldown(itemStackIn.getItem(), 50);
+		
+		player.swing(hand, true);
+		itemStackIn.damageItem(6, player, playerEntity -> playerEntity.sendBreakAnimation(Hand.MAIN_HAND));
+		player.addStat(Stats.ITEM_USED.get(itemStackIn.getItem()));
+		
+		return ActionResult.resultSuccess(itemStackIn);
 	}
 	
 	private void magicAttack(World world, ServerPlayerEntity player)
