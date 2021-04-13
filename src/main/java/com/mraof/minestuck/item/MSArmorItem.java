@@ -17,12 +17,19 @@ public class MSArmorItem extends ArmorItem
 {
     @OnlyIn(Dist.CLIENT)
     private BipedModel model;
+    private final String texture;
     
     public MSArmorItem(IArmorMaterial material, EquipmentSlotType slot, Properties properties) 
     {
-        super(material, slot, properties);
+        this("", material, slot, properties);
     }
-    
+
+    public MSArmorItem(String texture, IArmorMaterial material, EquipmentSlotType slot, Properties properties)
+    {
+        super(material, slot, properties);
+        this.texture = texture;
+    }
+
     @OnlyIn(Dist.CLIENT)
     public void setArmorModel(BipedModel model)
     {
@@ -31,8 +38,9 @@ public class MSArmorItem extends ArmorItem
 
     @Nullable
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-        return getRegistryName().getNamespace() + ":textures/models/armor/" + getRegistryName().getPath() + ".png";
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlotType slot, String type)
+    {
+        return getRegistryName().getNamespace() + ":textures/models/armor/" + (texture.isEmpty() ? getRegistryName().getPath() : texture) + ".png";
     }
 
     @Nullable

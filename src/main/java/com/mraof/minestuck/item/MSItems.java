@@ -712,7 +712,7 @@ public class MSItems
 		registerItemBlock(registry, CASSETTE_PLAYER, MSItemGroup.MAIN);
 		
 		registerItemBlock(registry, GLOWYSTONE_DUST, MSItemGroup.MAIN);
-		
+
 		//hammers
 		registry.register(new WeaponItem(new WeaponItem.Builder(ItemTier.IRON, 2, -2.8F).efficiency(1.0F).set(MSItemTypes.HAMMER_TOOL), new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("claw_hammer"));
 		registry.register(new WeaponItem(new WeaponItem.Builder(ItemTier.IRON, 4, -3.2F).efficiency(4.0F).set(MSItemTypes.HAMMER_TOOL), new Item.Properties().group(MSItemGroup.WEAPONS)).setRegistryName("sledge_hammer"));
@@ -1093,7 +1093,6 @@ public class MSItems
 		registry.register(new CassetteItem(1, () -> MSSoundEvents.MUSIC_DISC_EMISSARY_OF_DANCE, EnumCassetteType.EMISSARY_OF_DANCE, new Item.Properties().rarity(Rarity.RARE).maxStackSize(1).group(MSItemGroup.MAIN)).setRegistryName("cassette_emissary"));
 		registry.register(new CassetteItem(2, () -> MSSoundEvents.MUSIC_DISC_DANCE_STAB_DANCE, EnumCassetteType.DANCE_STAB_DANCE, new Item.Properties().rarity(Rarity.RARE).maxStackSize(1).group(MSItemGroup.MAIN)).setRegistryName("cassette_dance_stab"));
 		registry.register(new CassetteItem(3, () -> MSSoundEvents.MUSIC_DISC_RETRO_BATTLE_THEME, EnumCassetteType.RETRO_BATTLE_THEME, new Item.Properties().rarity(Rarity.RARE).maxStackSize(1).group(MSItemGroup.MAIN)).setRegistryName("cassette_retro_battle"));
-		
 	}
 
 	@OnlyIn(Dist.CLIENT)
