@@ -698,6 +698,9 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		add(MSItems.RED_CLOCKWORK_SUIT_JACKET, "Red Clockwork Suit Jacket");
 		add(MSItems.RED_CLOCKWORK_SUIT_PANTS, "Red Clockwork Suit Pants");
 		add(MSItems.RED_CLOCKWORK_SUIT_SHOES, "Red Clockwork Suit Shoes");
+		add(MSItems.BELLY_DANCER_CHEST, "Belly Dancer Chest");
+		add(MSItems.BELLY_DANCER_PANTS, "Belly Dancer Pants");
+		add(MSItems.BELLY_DANCER_SHOES, "Belly Dancer Shoes");
 		add(MSItems.CRUMPLY_HAT, "Crumply Hat");
 		add(MSItems.LAUREL_WREATH, "Laurel Wreath");
 		add(MSItems.GRAY_CAT_MASK, "Gray Cat Mask");
