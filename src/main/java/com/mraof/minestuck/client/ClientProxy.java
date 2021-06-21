@@ -151,11 +151,15 @@ public class ClientProxy
 		MSItems.RED_CLOCKWORK_SUIT_JACKET.setArmorModel(new RedClockworkSuitModel());
 		MSItems.RED_CLOCKWORK_SUIT_PANTS.setArmorModel(new RedClockworkSuitModel());
 		MSItems.RED_CLOCKWORK_SUIT_SHOES.setArmorModel(new RedClockworkSuitModel());
+		MSItems.BELLY_DANCER_CHEST.setArmorModel(new BellyDancerGarbsModel());
+		MSItems.BELLY_DANCER_PANTS.setArmorModel(new BellyDancerGarbsModel());
+		MSItems.BELLY_DANCER_SHOES.setArmorModel(new BellyDancerGarbsModel());
 		MSItems.CRUMPLY_HAT.setArmorModel(new CrumplyHatModel());
 		MSItems.LAUREL_WREATH.setArmorModel(new LaurelWreathModel());
 		MSItems.GRAY_CAT_MASK.setArmorModel(new GrayCatMaskModel());
 		MSItems.FUNNY_CAT_MASK.setArmorModel(new FunnyCatMaskModel());
 		MSItems.FLAME_DECAL_GAS_MASK.setArmorModel(new FlameDecalGasMaskModel());
 		MSItems.GREEN_SKULL_GAS_MASK.setArmorModel(new GreenSkullGasMaskModel());
+
 	}
 }

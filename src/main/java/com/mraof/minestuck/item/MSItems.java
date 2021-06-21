@@ -297,6 +297,9 @@ public class MSItems
 	public static final MSArmorItem RED_CLOCKWORK_SUIT_JACKET = getNull();
 	public static final MSArmorItem RED_CLOCKWORK_SUIT_PANTS = getNull();
 	public static final MSArmorItem RED_CLOCKWORK_SUIT_SHOES = getNull();
+	public static final MSArmorItem BELLY_DANCER_CHEST = getNull();
+	public static final MSArmorItem BELLY_DANCER_PANTS = getNull();
+	public static final MSArmorItem BELLY_DANCER_SHOES = getNull();
 	
 	public static final MSArmorItem CRUMPLY_HAT = getNull();
 	public static final MSArmorItem LAUREL_WREATH = getNull();
@@ -990,6 +993,9 @@ public class MSItems
 		registry.register(new MSArmorItem("red_clockwork_suit", MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.LANDS)).setRegistryName("red_clockwork_suit_jacket"));
 		registry.register(new MSArmorItem("red_clockwork_suit", MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.LANDS)).setRegistryName("red_clockwork_suit_pants"));
 		registry.register(new MSArmorItem("red_clockwork_suit", MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.LANDS)).setRegistryName("red_clockwork_suit_shoes"));
+		registry.register(new MSArmorItem("belly_dancer_outfit", MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.CHEST, new Item.Properties().group(MSItemGroup.LANDS)).setRegistryName("belly_dancer_jacket"));
+		registry.register(new MSArmorItem("belly_dancer_outfit", MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.LEGS, new Item.Properties().group(MSItemGroup.LANDS)).setRegistryName("belly_dancer_pants"));
+		registry.register(new MSArmorItem("belly_dancer_outfit", MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.FEET, new Item.Properties().group(MSItemGroup.LANDS)).setRegistryName("belly_dancer_shoes"));
 		
 		registry.register(new MSArmorItem(MSItemTypes.CLOTH_ARMOR, EquipmentSlotType.HEAD, new Item.Properties().maxStackSize(1).group(MSItemGroup.LANDS)).setRegistryName("crumply_hat"));
 		registry.register(new MSArmorItem(MSItemTypes.GENERIC_ARMOR, EquipmentSlotType.HEAD, new Item.Properties().maxStackSize(1).group(MSItemGroup.MAIN)).setRegistryName("laurel_wreath"));
