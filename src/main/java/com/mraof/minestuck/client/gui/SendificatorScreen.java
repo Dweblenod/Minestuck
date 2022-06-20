@@ -62,14 +62,17 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		updateButton = addButton(new ExtendedButton((width - imageWidth) / 2 + 105, yOffset + 40, 50, 12, new StringTextComponent("Update"), button -> updateDestinationPos()));
 		
 		this.destinationTextFieldX = new TextFieldWidget(this.font, this.width / 2 - 10, yOffset + 10, 35, 15, new StringTextComponent("X value of destination block pos")); //TODO make these translatable
+		destinationTextFieldX.setMaxLength(10);
 		addButton(destinationTextFieldX);
 		destinationTextFieldX.setResponder(s -> onTextFieldChange());
 		
 		this.destinationTextFieldY = new TextFieldWidget(this.font, this.width / 2 + 25, yOffset + 10, 20, 15, new StringTextComponent("Y value of destination block pos"));
+		destinationTextFieldY.setMaxLength(3);
 		addButton(destinationTextFieldY);
 		destinationTextFieldY.setResponder(s -> onTextFieldChange());
 		
 		this.destinationTextFieldZ = new TextFieldWidget(this.font, this.width / 2 + 45, yOffset + 10, 35, 15, new StringTextComponent("Z value of destination block pos"));
+		destinationTextFieldZ.setMaxLength(10);
 		addButton(destinationTextFieldZ);
 		destinationTextFieldZ.setResponder(s -> onTextFieldChange());
 		
