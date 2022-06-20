@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -216,13 +218,18 @@ public class SendificatorTileEntity extends MachineProcessTileEntity implements 
 		return super.getCapability(cap, side);
 	}
 	
+	public void openMenu(ServerPlayerEntity player)
+	{
+		NetworkHooks.openGui(player, this, SendificatorContainer.makeExtraDataWriter(this.worldPosition, this.destBlockPos));
+	}
+	
 	@Nullable
 	@Override
 	public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player)
 	{
 		return new SendificatorContainer(windowId, playerInventory, itemHandler,
 				parameters, fuelHolder, hasDestHolder,
-				IWorldPosCallable.create(level, worldPosition), worldPosition);
+				IWorldPosCallable.create(level, worldPosition), worldPosition, destBlockPos);
 	}
 	
 	public short getFuel()

@@ -10,12 +10,10 @@ import com.mraof.minestuck.tileentity.machine.SendificatorTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 
 import javax.annotation.Nullable;
@@ -55,16 +53,7 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		goX = 115;
 		goY = 60;
 		
-		//TODO find out if there is a more elegant method of getting the te
-		SendificatorTileEntity te = null;
-		World world = inv.player.level;
-		if(world != null && screenContainer.machinePos != null)
-		{
-			TileEntity tileEntity = world.getBlockEntity(screenContainer.machinePos);
-			if(tileEntity instanceof SendificatorTileEntity)
-				te = ((SendificatorTileEntity) tileEntity); //will cause crashes if a check for a null te is not done
-		}
-		startingDestPos = te != null ? te.getDestinationBlockPos() : null;
+		startingDestPos = screenContainer.getStartingDestination();
 	}
 	
 	@Override

@@ -20,6 +20,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class SendificatorContainer extends MachineContainer
 {
@@ -30,31 +32,52 @@ public class SendificatorContainer extends MachineContainer
 	
 	private final IntReferenceHolder fuelHolder;
 	private final IntReferenceHolder hasDestHolder;
+	@Nullable
+	private final BlockPos startingDestination;
 	
-	public SendificatorContainer(int windowId, PlayerInventory playerInventory, PacketBuffer buffer)
+	public static Consumer<PacketBuffer> makeExtraDataWriter(BlockPos position, @Nullable BlockPos destination)
 	{
-		this(MSContainerTypes.SENDIFICATOR, windowId, playerInventory, new ItemStackHandler(2),
+		return buffer -> {
+			buffer.writeBlockPos(position);
+			if(destination == null)
+			{
+				buffer.writeBoolean(false);
+			} else
+			{
+				buffer.writeBoolean(true);
+				buffer.writeBlockPos(destination);
+			}
+		};
+	}
+	
+	public static SendificatorContainer newFromPacket(int windowId, PlayerInventory playerInventory, PacketBuffer buffer)
+	{
+		BlockPos pos = buffer.readBlockPos();
+		BlockPos dest = buffer.readBoolean() ? buffer.readBlockPos() : null;
+		
+		return new SendificatorContainer(MSContainerTypes.SENDIFICATOR, windowId, playerInventory, new ItemStackHandler(2),
 				new IntArray(3), IntReferenceHolder.standalone(), IntReferenceHolder.standalone(),
-				IWorldPosCallable.NULL, buffer.readBlockPos());
+				IWorldPosCallable.NULL, pos, dest);
 	}
 	
 	public SendificatorContainer(int windowId, PlayerInventory playerInventory, IItemHandler inventory,
 								 IIntArray parameters, IntReferenceHolder fuelHolder, IntReferenceHolder hasDestHolder,
-								 IWorldPosCallable position, BlockPos machinePos)
+								 IWorldPosCallable position, BlockPos machinePos, BlockPos startingDestination)
 	{
 		this(MSContainerTypes.SENDIFICATOR, windowId, playerInventory, inventory,
-				parameters, fuelHolder, hasDestHolder, position, machinePos);
+				parameters, fuelHolder, hasDestHolder, position, machinePos, startingDestination);
 	}
 	
 	public SendificatorContainer(ContainerType<? extends SendificatorContainer> type, int windowId, PlayerInventory playerInventory, IItemHandler inventory,
 								 IIntArray parameters, IntReferenceHolder fuelHolder, IntReferenceHolder hasDestHolder,
-								 IWorldPosCallable position, BlockPos machinePos)
+								 IWorldPosCallable position, BlockPos machinePos, BlockPos startingDestination)
 	{
 		super(type, windowId, parameters, position, machinePos);
 		
 		assertItemHandlerSize(inventory, 2);
 		this.fuelHolder = fuelHolder;
 		this.hasDestHolder = hasDestHolder;
+		this.startingDestination = startingDestination;
 		
 		addSlot(new SlotItemHandler(inventory, 0, itemInputX, itemInputY));
 		addSlot(new InputSlot(inventory, 1, uraniumInputX, uraniumInputY, MSItems.RAW_URANIUM));
@@ -131,5 +154,11 @@ public class SendificatorContainer extends MachineContainer
 	public boolean hasDestination()
 	{
 		return hasDestHolder.get() != 0;
+	}
+	
+	@Nullable
+	public BlockPos getStartingDestination()
+	{
+		return startingDestination;
 	}
 }
