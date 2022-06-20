@@ -36,8 +36,6 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	private ExtendedButton updateButton;
 	private ExtendedButton goButton;
 	@Nullable
-	private BlockPos startingDestPos;
-	@Nullable
 	private BlockPos parsedPos;
 	
 	
@@ -52,8 +50,6 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		progressHeight = 39;
 		goX = 115;
 		goY = 60;
-		
-		startingDestPos = screenContainer.getDestination();
 	}
 	
 	@Override
@@ -81,11 +77,12 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		goButton = new GoButton((width - imageWidth) / 2 + goX, yOffset + goY, 30, 12, new StringTextComponent(menu.overrideStop() ? "STOP" : "GO"));
 		addButton(goButton);
 		
-		if(startingDestPos != null)
+		BlockPos destination = this.menu.getDestination();
+		if(destination != null)
 		{
-			this.destinationTextFieldX.setValue(String.valueOf(startingDestPos.getX()));
-			this.destinationTextFieldY.setValue(String.valueOf(startingDestPos.getY()));
-			this.destinationTextFieldZ.setValue(String.valueOf(startingDestPos.getZ()));
+			this.destinationTextFieldX.setValue(String.valueOf(destination.getX()));
+			this.destinationTextFieldY.setValue(String.valueOf(destination.getY()));
+			this.destinationTextFieldZ.setValue(String.valueOf(destination.getZ()));
 		}
 		
 		updateButton.active = false;
@@ -95,6 +92,9 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
 		goButton.active = this.menu.hasDestination();
+		// Make the update button clickable only when there is a parsed position and it is different from the original
+		updateButton.active = parsedPos != null && !parsedPos.equals(this.menu.getDestination());
+		
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.renderTooltip(matrixStack, mouseX, mouseY);
@@ -145,8 +145,6 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		if(parsedPos != null)
 		{
 			MSPacketHandler.sendToServer(new SendificatorPacket(parsedPos));
-			startingDestPos = parsedPos;
-			updateButton.active = false;
 		}
 	}
 	
@@ -158,12 +156,9 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		try
 		{
 			parsedPos = parseBlockPos();
-			// Do not make the update button clickable if the position is not different
-			updateButton.active = !parsedPos.equals(startingDestPos);
 		} catch(NumberFormatException ignored)
 		{
 			parsedPos = null;
-			updateButton.active = false;
 		}
 	}
 	
