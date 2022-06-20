@@ -97,10 +97,7 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 			this.destinationTextFieldZ.setValue(String.valueOf(tePos.getZ()));
 			
 			startingDestPos = tePos;
-			
-			goButton.active = true;
-		} else
-			goButton.active = false;
+		}
 		
 		updateButton.active = false;
 	}
