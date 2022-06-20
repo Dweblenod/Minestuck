@@ -180,18 +180,12 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		}
 	}
 	
-	private static int parseInt(TextFieldWidget widget)
-			throws NumberFormatException
-	{
-		return Integer.parseInt(widget.getValue());
-	}
-	
 	private BlockPos parseBlockPos()
 			throws NumberFormatException
 	{
-		int x = parseInt(destinationTextFieldX);
-		int y = parseInt(destinationTextFieldY);
-		int z = parseInt(destinationTextFieldZ);
+		int x = Integer.parseInt(destinationTextFieldX.getValue());
+		int y = Integer.parseInt(destinationTextFieldY.getValue());
+		int z = Integer.parseInt(destinationTextFieldZ.getValue());
 		
 		return new BlockPos(x, y, z);
 	}
