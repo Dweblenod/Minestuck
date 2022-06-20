@@ -39,7 +39,9 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	private ExtendedButton updateButton;
 	private ExtendedButton goButton;
 	@Nullable
-	private final BlockPos startingDestPos;
+	private BlockPos startingDestPos;
+	@Nullable
+	private BlockPos parsedPos;
 	
 	
 	SendificatorScreen(SendificatorContainer screenContainer, PlayerInventory inv, ITextComponent titleIn)
@@ -153,9 +155,12 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	
 	private void updateDestinationPos()
 	{
-		MSPacketHandler.sendToServer(new SendificatorPacket(parseBlockPos()));
-		updateButton.active = false;
-		goButton.active = true;
+		if(parsedPos != null)
+		{
+			MSPacketHandler.sendToServer(new SendificatorPacket(parsedPos));
+			startingDestPos = parsedPos;
+			updateButton.active = false;
+		}
 	}
 	
 	/**
@@ -165,10 +170,12 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	{
 		try
 		{
-			if(!parseBlockPos().equals(startingDestPos)) //prevents it from becoming active during resizing or if non-changing modifications are made to the text fields
-				updateButton.active = true;
+			parsedPos = parseBlockPos();
+			// Do not make the update button clickable if the position is not different
+			updateButton.active = !parsedPos.equals(startingDestPos);
 		} catch(NumberFormatException ignored)
 		{
+			parsedPos = null;
 			updateButton.active = false;
 		}
 	}
