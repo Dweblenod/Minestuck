@@ -32,7 +32,6 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	private final int goX;
 	private final int goY;
 	
-	private final SendificatorTileEntity te;
 	private TextFieldWidget destinationTextFieldX;
 	private TextFieldWidget destinationTextFieldY;
 	private TextFieldWidget destinationTextFieldZ;
@@ -57,15 +56,14 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		goY = 60;
 		
 		//TODO find out if there is a more elegant method of getting the te
-		SendificatorTileEntity tempTE = null;
+		SendificatorTileEntity te = null;
 		World world = inv.player.level;
 		if(world != null && screenContainer.machinePos != null)
 		{
 			TileEntity tileEntity = world.getBlockEntity(screenContainer.machinePos);
 			if(tileEntity instanceof SendificatorTileEntity)
-				tempTE = ((SendificatorTileEntity) tileEntity); //will cause crashes if a check for a null te is not done
+				te = ((SendificatorTileEntity) tileEntity); //will cause crashes if a check for a null te is not done
 		}
-		te = tempTE;
 		startingDestPos = te != null ? te.getDestinationBlockPos() : null;
 	}
 	
@@ -107,7 +105,7 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
-		goButton.active = te != null && te.getDestinationBlockPos() != null;
+		goButton.active = this.menu.hasDestination();
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.renderTooltip(matrixStack, mouseX, mouseY);
