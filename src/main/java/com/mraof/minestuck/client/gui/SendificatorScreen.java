@@ -18,6 +18,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.gui.widget.ExtendedButton;
 
+import javax.annotation.Nullable;
+
 public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 {
 	private static final ResourceLocation BACKGROUND = new ResourceLocation("minestuck:textures/gui/sendificator.png");
@@ -36,7 +38,8 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 	private TextFieldWidget destinationTextFieldZ;
 	private ExtendedButton updateButton;
 	private ExtendedButton goButton;
-	private BlockPos startingDestPos;
+	@Nullable
+	private final BlockPos startingDestPos;
 	
 	
 	SendificatorScreen(SendificatorContainer screenContainer, PlayerInventory inv, ITextComponent titleIn)
@@ -61,6 +64,7 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 				tempTE = ((SendificatorTileEntity) tileEntity); //will cause crashes if a check for a null te is not done
 		}
 		te = tempTE;
+		startingDestPos = te != null ? te.getDestinationBlockPos() : null;
 	}
 	
 	@Override
@@ -88,15 +92,11 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		goButton = new GoButton((width - imageWidth) / 2 + goX, yOffset + goY, 30, 12, new StringTextComponent(menu.overrideStop() ? "STOP" : "GO"));
 		addButton(goButton);
 		
-		BlockPos tePos = te != null ? te.getDestinationBlockPos() : null;
-		
-		if(tePos != null)
+		if(startingDestPos != null)
 		{
-			this.destinationTextFieldX.setValue(String.valueOf(tePos.getX()));
-			this.destinationTextFieldY.setValue(String.valueOf(tePos.getY()));
-			this.destinationTextFieldZ.setValue(String.valueOf(tePos.getZ()));
-			
-			startingDestPos = tePos;
+			this.destinationTextFieldX.setValue(String.valueOf(startingDestPos.getX()));
+			this.destinationTextFieldY.setValue(String.valueOf(startingDestPos.getY()));
+			this.destinationTextFieldZ.setValue(String.valueOf(startingDestPos.getZ()));
 		}
 		
 		updateButton.active = false;
