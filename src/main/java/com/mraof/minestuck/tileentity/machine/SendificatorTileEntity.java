@@ -1,5 +1,6 @@
 package com.mraof.minestuck.tileentity.machine;
 
+import com.mraof.minestuck.inventory.OptionalPosHolder;
 import com.mraof.minestuck.inventory.SendificatorContainer;
 import com.mraof.minestuck.tileentity.MSTileEntityTypes;
 import com.mraof.minestuck.util.ExtraForgeTags;
@@ -28,6 +29,7 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class SendificatorTileEntity extends MachineProcessTileEntity implements INamedContainerProvider
 {
@@ -55,20 +57,7 @@ public class SendificatorTileEntity extends MachineProcessTileEntity implements 
 			fuel = (short) value;
 		}
 	};
-	private final IntReferenceHolder hasDestHolder = new IntReferenceHolder()
-	{
-		@Override
-		public int get()
-		{
-			return destBlockPos != null ? 1 : 0;
-		}
-		
-		@Override
-		public void set(int value)
-		{
-			throw new UnsupportedOperationException();
-		}
-	};
+	private final OptionalPosHolder destinationHolder = OptionalPosHolder.forPos(() -> Optional.ofNullable(this.getDestinationBlockPos()));
 	
 	public SendificatorTileEntity()
 	{
@@ -228,8 +217,8 @@ public class SendificatorTileEntity extends MachineProcessTileEntity implements 
 	public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player)
 	{
 		return new SendificatorContainer(windowId, playerInventory, itemHandler,
-				parameters, fuelHolder, hasDestHolder,
-				IWorldPosCallable.create(level, worldPosition), worldPosition, destBlockPos);
+				parameters, fuelHolder, destinationHolder,
+				IWorldPosCallable.create(level, worldPosition), worldPosition);
 	}
 	
 	public short getFuel()

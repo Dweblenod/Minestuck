@@ -53,7 +53,7 @@ public class SendificatorScreen extends MachineScreen<SendificatorContainer>
 		goX = 115;
 		goY = 60;
 		
-		startingDestPos = screenContainer.getStartingDestination();
+		startingDestPos = screenContainer.getDestination();
 	}
 	
 	@Override
