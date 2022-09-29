@@ -596,6 +596,13 @@
       "minestuck:mob/giclops/death"
     ]
   },
+  "entity.denizen.ambient": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.minestuck.denizen.ambient",
+    "sounds": [
+      "minestuck:mob/denizen/ambient_1"
+    ]
+  },
   "item.long_forgotten_warhorn.use": {
     "category": "ambient",
     "subtitle": "subtitles.minestuck.warhorn",

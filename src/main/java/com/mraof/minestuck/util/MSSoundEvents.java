@@ -82,6 +82,7 @@ public class MSSoundEvents
 	public static final SoundEvent ENTITY_GICLOPS_AMBIENT = getNull();
 	public static final SoundEvent ENTITY_GICLOPS_HURT = getNull();
 	public static final SoundEvent ENTITY_GICLOPS_DEATH = getNull();
+	public static final SoundEvent ENTITY_DENIZEN_AMBIENT = getNull();
 	public static final SoundEvent ITEM_LONG_FORGOTTEN_WARHORN_USE = getNull();
 	public static final SoundEvent ITEM_GRIMOIRE_USE = getNull();
 	public static final SoundEvent ITEM_HORN_USE = getNull();
@@ -127,6 +128,7 @@ public class MSSoundEvents
 				"entity.basilisk.ambient", "entity.basilisk.hurt", "entity.basilisk.death",
 				"entity.lich.ambient", "entity.lich.hurt", "entity.lich.death",
 				"entity.giclops.ambient", "entity.giclops.hurt", "entity.giclops.death",
+				"entity.denizen.ambient",
 				"item.long_forgotten_warhorn.use", "item.grimoire.use",  "item.horn.use",
 				"item.eeeeeeeeeeee.hit", "event.echeladder.increase", "event.electric_shock",
 				"event.electric_autoharp.stroke.amajor","event.electric_autoharp.stroke.bmajor",

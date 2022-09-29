@@ -72,6 +72,7 @@ public class ClientProxy
 		EntityRenderers.register(MSEntityTypes.DERSITE_ROOK.get(), context -> new SimpleTexturedEntityRenderer<>(context, new RookModel<>(context.bakeLayer(MSModelLayers.ROOK)), 2.5F));
 		EntityRenderers.register(MSEntityTypes.PROSPITIAN_PAWN.get(), PawnRenderer::new);
 		EntityRenderers.register(MSEntityTypes.DERSITE_PAWN.get(), PawnRenderer::new);
+		EntityRenderers.register(MSEntityTypes.DENIZEN.get(), DenizenRenderer::new);
 		EntityRenderers.register(MSEntityTypes.GRIST.get(), GristRenderer::new);
 		EntityRenderers.register(MSEntityTypes.VITALITY_GEL.get(), VitalityGelRenderer::new);
 		EntityRenderers.register(MSEntityTypes.PLAYER_DECOY.get(), DecoyRenderer::new);
