@@ -93,7 +93,7 @@ public class DenizenEntity extends Mob implements IAnimatable, IEntityAdditional
 	@Override
 	protected SoundEvent getAmbientSound()
 	{
-		return MSSoundEvents.ENTITY_DENIZEN_AMBIENT;
+		return MSSoundEvents.ENTITY_DENIZEN_AMBIENT.get();
 	}
 	
 	@Override
