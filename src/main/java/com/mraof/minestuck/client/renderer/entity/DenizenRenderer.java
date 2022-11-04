@@ -51,14 +51,16 @@ public class DenizenRenderer extends GeoEntityRenderer<DenizenEntity>
 		//modelProvider.getModel(new ResourceLocation("minestuck", "geo/denizen.geo.json")).getBone("head").get().getWorldPosition();
 		Quaternion cameraQuaternion = this.entityRenderDispatcher.cameraOrientation();
 		Vec3 cameraVec3 = this.entityRenderDispatcher.camera.getPosition();
-		Vec3 denizenHeadVec = denizen.getEyePosition().add(denizen.getLookAngle().scale(10));
+		//Vec3 denizenHeadVec = denizen.getEyePosition().add(denizen.getLookAngle().scale(10));
+		Vector3d denizenHeadVec3d = modelProvider.getModel(new ResourceLocation("minestuck", "geo/denizen.geo.json")).getBone("head").orElseThrow().getWorldPosition();
+		Vec3 denizenHeadVec = new Vec3(denizenHeadVec3d.x, denizenHeadVec3d.y, denizenHeadVec3d.z);
 		Vec3 angledToCamera = cameraVec3.subtract(denizenHeadVec); //creates a point between the camera and the eyes of the denizen that the glow will be positioned at in order to obfuscate the models face
 		//Vec3 angledToCamera = denizenHeadVec.subtract(cameraVec3);
 		double distanceBetweenEntities = cameraVec3.distanceTo(denizenHeadVec);
-		float eyeOffset = (float) (denizen.getEyeY() - denizen.getY());
+		float eyeOffset = (float) (denizen.getEyeY() - denizen.getY()); //denizenHeadVec3d.y
 		poseStack.pushPose();
 		//poseStack.translate(denizen.getLookAngle().x * 7, eyeOffset - 4, denizen.getLookAngle().z * 7); //TODO figure out how to make the translation forward always face the camera so as to be projected in a radius in front of the denizens eyes
-		poseStack.translate((angledToCamera.x() * 8) / distanceBetweenEntities, angledToCamera.y() / distanceBetweenEntities + eyeOffset, (angledToCamera.z() * 8) / distanceBetweenEntities);
+		poseStack.translate((angledToCamera.x() * -30) / distanceBetweenEntities, angledToCamera.y() * -2 / distanceBetweenEntities + eyeOffset, (angledToCamera.z() * -30) / distanceBetweenEntities);
 		//poseStack.translate(angledToCamera.x(), angledToCamera.y(), angledToCamera.z());
 		poseStack.scale(scaleSwing, scaleSwing, scaleSwing);
 		poseStack.mulPose(cameraQuaternion);
