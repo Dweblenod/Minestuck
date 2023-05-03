@@ -1,10 +1,9 @@
 package com.mraof.minestuck.data.recipe;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.block.MSBlocks;
 import com.mraof.minestuck.item.MSItems;
-import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.alchemy.GristTypes;
 import com.mraof.minestuck.util.ExtraForgeTags;
 import com.mraof.minestuck.util.MSTags;
 import net.minecraft.data.DataGenerator;
@@ -421,7 +420,8 @@ public class MinestuckGristCostsProvider extends RecipeProvider
 		
 		GristCostRecipeBuilder.of(MSItems.MAILBOX.get()).grist(BUILD, 19).grist(MERCURY, 3).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.BLACKSMITH_HAMMER.get()).grist(RUST, 11).grist(SULFUR, 15).grist(CAULK, 13).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.POGO_HAMMER.get()).grist(BUILD, 152).grist(SHALE, 19).build(recipeSaver);
+		//GristCostRecipeBuilder.of(MSItems.POGO_HAMMER.get()).grist(BUILD, 152).grist(SHALE, 19).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.POGO_HAMMER.get()).gristsFromWeights(new DefaultImmutableGristSet(new MutableGristSet().add(BUILD, 2).add(SHALE, 1))).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.WRINKLEFUCKER.get()).grist(BUILD, 238).grist(SHALE, 25).grist(TAR, 31).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.TELESCOPIC_SASSACRUSHER.get()).grist(SHALE, 87).grist(TAR, 53).grist(MERCURY, 56).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.DEMOCRATIC_DEMOLITIONER.get()).grist(BUILD, 50).grist(GOLD, 1).grist(MARBLE, 10).build(recipeSaver);

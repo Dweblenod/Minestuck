@@ -3,7 +3,10 @@ package com.mraof.minestuck.item.weapon;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.mraof.minestuck.item.MSItemTypes;
+import com.mraof.minestuck.util.UniversalToolCostUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,10 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -28,16 +28,22 @@ import net.minecraftforge.common.ToolAction;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class WeaponItem extends TieredItem
 {
 	private final float efficiency;
 	private final boolean disableShield;
+	private final boolean hasKnockback;
+	private final boolean playSound;
+	private final float attackDamage;
+	private final float attackSpeed;
 	//private static final HashMap<ToolType, Set<Material>> toolMaterials = new HashMap<>();
 	
 	@Nullable
 	private final MSToolType toolType;
 	private final Set<ToolAction> toolActions;
+	private final int fireDuration;
 	private final List<OnHitEffect> onHitEffects;
 	@Nullable
 	private final DestroyBlockEffect destroyBlockEffect;
@@ -61,10 +67,15 @@ public class WeaponItem extends TieredItem
 	public WeaponItem(Builder builder, Properties properties)
 	{
 		super(builder.tier, properties);
+		attackDamage = builder.attackDamage;
+		attackSpeed = builder.attackSpeed;
 		toolType = builder.toolType;
 		toolActions = builder.toolActions;
 		efficiency = builder.efficiency;
 		disableShield = builder.disableShield;
+		hasKnockback = builder.hasKnockback;
+		playSound = builder.playSound;
+		fireDuration = builder.fireDuration;
 		onHitEffects = ImmutableList.copyOf(builder.onHitEffects);
 		destroyBlockEffect = builder.destroyBlockEffect;
 		rightClickBlockEffect = builder.rightClickBlockEffect;
@@ -75,9 +86,75 @@ public class WeaponItem extends TieredItem
 		tickEffects = ImmutableList.copyOf(builder.tickEffects);
 		
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> modifiers = ImmutableMultimap.builder();
-		modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double) builder.attackDamage + getTier().getAttackDamageBonus(), AttributeModifier.Operation.ADDITION));
-		modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", builder.attackSpeed, AttributeModifier.Operation.ADDITION));
+		modifiers.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", getDamage(), AttributeModifier.Operation.ADDITION));
+		modifiers.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getSpeed(), AttributeModifier.Operation.ADDITION));
 		attributeModifiers = modifiers.build();
+	}
+	
+	public double getDamage()
+	{
+		return (double) attackDamage + getTier().getAttackDamageBonus();
+	}
+	
+	public double getSpeed()
+	{
+		return attackSpeed;
+	}
+	
+	/**
+	 * Generates an item's universal cost from the constants defined in UniversalToolCostUtil
+	 * @return the universal cost value, as a long.
+	 */
+	public long generateUniversalCost()
+	{
+		double inGameDamage = getDamage() + 1.0; //In-game base damage adds one to the attribute.
+		double inGameSpeed = getSpeed() + 4.0; //In-game base speed is positive, so to convert code base-speed we add its hard-cap, positive four.
+		
+		//some dps calculations from the spreadsheet
+		double dpsNormal = inGameDamage * inGameSpeed;
+		double dpsPvpAdjusted = (inGameDamage * 1.05) + (inGameSpeed * 0.95);
+		double damageRecalc = ((dpsPvpAdjusted * 1.5) + (dpsNormal * 0.5)) / 2.0;
+		
+		//Item-material
+		double tierModifier = UniversalToolCostUtil.tierConstants.getOrDefault(getTier(), 1.0);
+		
+		//detect vanilla on-hit effects.
+		double disableShieldModifier = canDisableShield(null, null, null, null) ? 1.0 : 0;
+		double sweepModifier = onHitEffects.contains(OnHitEffect.SWEEP) ? 1.0 : 0;
+		double knockbackModifier = hasKnockback ? 1.0 : 0;
+		
+		//category mods
+		double rangedCategoryModifier = UniversalToolCostUtil.rangedCategoryConstants.getOrDefault(this, 0.0);
+		double toolCategoryModifier = UniversalToolCostUtil.toolCategoryConstants.getOrDefault(toolType, 0.0);
+		
+		double totalSpecialPropertyModifier = sumOfSpecialProperties();
+		
+		double rarityModifier = UniversalToolCostUtil.rarityConstants.getOrDefault(getRarity(getDefaultInstance()), 0.0);
+		
+		int itemDurability = getDefaultInstance().getMaxDamage();
+		double durabilityModifier = !canBeDepleted() ? 3.0 : itemDurability == getTier().getUses() ? 1.0 : 1.0 + Math.log(itemDurability/getTier().getUses());
+		
+		double fireImmuneModifier = isFireResistant() ? 1.0 : 0.0;
+		
+		return (long) Math.pow(2.5, ((damageRecalc / 2.0) + (tierModifier / 4.0) + (disableShieldModifier/4.0) + (sweepModifier/6.0) + (knockbackModifier/4.0) + (rangedCategoryModifier) + (toolCategoryModifier/6.0) + (totalSpecialPropertyModifier) + (rarityModifier) + (durabilityModifier/2.0) + (fireImmuneModifier)));
+	}
+	
+	private double sumOfSpecialProperties()
+	{
+		double pogoModifier = UniversalToolCostUtil.pogoConstants.getOrDefault(itemRightClickEffect instanceof PogoEffect pogoEffect ? pogoEffect : itemRightClickEffect, 0.0);
+		double aspectOrDenizenModifier = UniversalToolCostUtil.aspectOrDenizenConstants.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
+		double onHitFireDurationModifier = fireDuration / 6.0;
+		double farmineModifier = destroyBlockEffect instanceof FarmineEffect ? 0.5 : 0.0;
+		double randomDamageModifier = onHitEffects.contains(OnHitEffect.RANDOM_DAMAGE) ? 3.0 : 0.0;
+		double sordModifier = onHitEffects.contains(OnHitEffect.SORD_DROP) ? -2.0 : 0.0;
+		double rightClickBlockModifier = UniversalToolCostUtil.rightClickBlockConstants.getOrDefault(this, 0.0);
+		double playSoundModifier = playSound ? 0.25 : 0.0;
+		double edibleModifier = isEdible() ? 1.0 : 0.0;
+		double finishUseModifier = UniversalToolCostUtil.finishUseConstants.getOrDefault(this, 0.0);
+		double iceShardModifier = onHitEffects.contains(OnHitEffect.ICE_SHARD) ? 0.25 : 0.0;
+		double onHitPotionModifier = UniversalToolCostUtil.onHitPotionConstants.getOrDefault(this, 0.0);
+		
+		return pogoModifier + aspectOrDenizenModifier + onHitFireDurationModifier + farmineModifier + randomDamageModifier + sordModifier + rightClickBlockModifier + playSoundModifier + edibleModifier + finishUseModifier + iceShardModifier + onHitPotionModifier;
 	}
 	
 	@Override
@@ -233,6 +310,9 @@ public class WeaponItem extends TieredItem
 		private final Set<ToolAction> toolActions = new HashSet<>();
 		private float efficiency;
 		private boolean disableShield;
+		private boolean hasKnockback;
+		private boolean playSound;
+		private int fireDuration;
 		private final List<OnHitEffect> onHitEffects = new ArrayList<>();
 		@Nullable
 		private DestroyBlockEffect destroyBlockEffect = null;
@@ -292,6 +372,27 @@ public class WeaponItem extends TieredItem
 		public Builder disableShield()
 		{
 			disableShield = true;
+			return this;
+		}
+		
+		public Builder knockback(float amplifier)
+		{
+			hasKnockback = true;
+			add(OnHitEffect.enemyKnockback(amplifier));
+			return this;
+		}
+		
+		public Builder fireAspect(int seconds)
+		{
+			fireDuration = seconds;
+			add(OnHitEffect.setOnFire(seconds));
+			return this;
+		}
+		
+		public Builder playSound(Supplier<SoundEvent> sound, float volume, float pitch)
+		{
+			playSound = true;
+			add(OnHitEffect.playSound(sound, volume, pitch));
 			return this;
 		}
 		

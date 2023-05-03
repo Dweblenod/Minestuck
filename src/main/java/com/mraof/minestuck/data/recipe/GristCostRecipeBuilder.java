@@ -3,10 +3,13 @@ package com.mraof.minestuck.data.recipe;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
+import com.mraof.minestuck.alchemy.GristSet;
 import com.mraof.minestuck.alchemy.ImmutableGristSet;
 import com.mraof.minestuck.item.crafting.MSRecipeTypes;
 import com.mraof.minestuck.alchemy.GristType;
 import com.mraof.minestuck.alchemy.DefaultImmutableGristSet;
+import com.mraof.minestuck.item.weapon.WeaponItem;
+import com.mraof.minestuck.util.UniversalToolCostUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -70,6 +73,31 @@ public class GristCostRecipeBuilder
 	{
 		costBuilder.put(type, amount);
 		return this;
+	}
+	
+	public GristCostRecipeBuilder gristsFromWeights(ImmutableGristSet weights)
+	{
+		if(ingredient.getItems()[0].getItem() instanceof WeaponItem weapon)
+		{
+			long universalCost = weapon.generateUniversalCost();
+			LOGGER.debug("Pogo hammer: " + universalCost);
+			costBuilder.put(weights.asAmounts().get(0).type(), UniversalToolCostUtil.weightedValue(weights, weights.asAmounts().size(), universalCost));
+			if(weights.asMap().size() > 1)
+				return gristsFromWeights(DefaultImmutableGristSet.create(weights.asAmounts().subList(1, weights.asAmounts().size())), weights.asAmounts().size(), universalCost);
+			else
+				return this;
+		}
+		else
+			throw new IllegalStateException("Grist cost being built MUST be of a WeaponItem to use universal cost formula.");
+	}
+	
+	private GristCostRecipeBuilder gristsFromWeights(ImmutableGristSet weights, int initialSize, long universalCost)
+	{
+			costBuilder.put(weights.asAmounts().get(0).type(), UniversalToolCostUtil.weightedValue(weights, initialSize, universalCost));
+			if(weights.asMap().size() > 1)
+				return gristsFromWeights(DefaultImmutableGristSet.create(weights.asAmounts().subList(1, weights.asAmounts().size())), initialSize, universalCost);
+			else
+				return this;
 	}
 	
 	public GristCostRecipeBuilder priority(int priority)
