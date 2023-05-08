@@ -3,11 +3,8 @@ package com.mraof.minestuck.data.recipe;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import com.mraof.minestuck.alchemy.GristSet;
-import com.mraof.minestuck.alchemy.ImmutableGristSet;
+import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.item.crafting.MSRecipeTypes;
-import com.mraof.minestuck.alchemy.GristType;
-import com.mraof.minestuck.alchemy.DefaultImmutableGristSet;
 import com.mraof.minestuck.item.weapon.WeaponItem;
 import com.mraof.minestuck.util.UniversalToolCostUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -81,23 +78,15 @@ public class GristCostRecipeBuilder
 		{
 			long universalCost = weapon.generateUniversalCost();
 			LOGGER.debug("Pogo hammer: " + universalCost);
-			costBuilder.put(weights.asAmounts().get(0).type(), UniversalToolCostUtil.weightedValue(weights, weights.asAmounts().size(), universalCost));
-			if(weights.asMap().size() > 1)
-				return gristsFromWeights(DefaultImmutableGristSet.create(weights.asAmounts().subList(1, weights.asAmounts().size())), weights.asAmounts().size(), universalCost);
-			else
-				return this;
+			ImmutableGristSet costSet = UniversalToolCostUtil.weightedValue(weights, universalCost);
+			for(GristAmount amount : costSet.asAmounts())
+			{
+				costBuilder.put(amount.type(), amount.amount());
+			}
+			return this;
 		}
 		else
 			throw new IllegalStateException("Grist cost being built MUST be of a WeaponItem to use universal cost formula.");
-	}
-	
-	private GristCostRecipeBuilder gristsFromWeights(ImmutableGristSet weights, int initialSize, long universalCost)
-	{
-			costBuilder.put(weights.asAmounts().get(0).type(), UniversalToolCostUtil.weightedValue(weights, initialSize, universalCost));
-			if(weights.asMap().size() > 1)
-				return gristsFromWeights(DefaultImmutableGristSet.create(weights.asAmounts().subList(1, weights.asAmounts().size())), initialSize, universalCost);
-			else
-				return this;
 	}
 	
 	public GristCostRecipeBuilder priority(int priority)

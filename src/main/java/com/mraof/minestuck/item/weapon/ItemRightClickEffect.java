@@ -61,36 +61,33 @@ public interface ItemRightClickEffect
 		};
 	}
 	
-	static ItemRightClickEffect summonFireball()
-	{
-		return (world, player, hand) -> {
-			ItemStack itemStackIn = player.getItemInHand(hand);
-			world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLAZE_SHOOT, SoundSource.PLAYERS, 1.0F, 0.8F);
-			
-			AABB axisalignedbb = player.getBoundingBox().inflate(32.0D, 32.0D, 32.0D);
-			List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, axisalignedbb);
-			list.remove(player);
-			if(!list.isEmpty() && !world.isClientSide)
-			{
-				for(LivingEntity livingentity : list)
-				{
-					LargeFireball fireball = new LargeFireball(world, player, 0, -8.0, 0, 1);
-					fireball.setPos(livingentity.getX() + (player.getRandom().nextInt(6) - 3), livingentity.getY() + 40, livingentity.getZ() + (player.getRandom().nextInt(6) - 3));
-					player.getCooldowns().addCooldown(itemStackIn.getItem(), 20);
-					itemStackIn.hurtAndBreak(2, player, playerEntity -> playerEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND));
-					world.addFreshEntity(fireball);
-				}
-			} else if(!world.isClientSide)
+	ItemRightClickEffect SUMMON_FIREBALL = (world, player, hand) -> {
+		ItemStack itemStackIn = player.getItemInHand(hand);
+		world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLAZE_SHOOT, SoundSource.PLAYERS, 1.0F, 0.8F);
+		
+		AABB axisalignedbb = player.getBoundingBox().inflate(32.0D, 32.0D, 32.0D);
+		List<LivingEntity> list = player.level.getEntitiesOfClass(LivingEntity.class, axisalignedbb);
+		list.remove(player);
+		if(!list.isEmpty() && !world.isClientSide)
+		{
+			for(LivingEntity livingentity : list)
 			{
 				LargeFireball fireball = new LargeFireball(world, player, 0, -8.0, 0, 1);
-				fireball.setPos(player.getX() + (player.getRandom().nextInt(20) - 10), player.getY() + 40, player.getZ() + (player.getRandom().nextInt(20) - 10));
+				fireball.setPos(livingentity.getX() + (player.getRandom().nextInt(6) - 3), livingentity.getY() + 40, livingentity.getZ() + (player.getRandom().nextInt(6) - 3));
 				player.getCooldowns().addCooldown(itemStackIn.getItem(), 20);
 				itemStackIn.hurtAndBreak(2, player, playerEntity -> playerEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 				world.addFreshEntity(fireball);
 			}
-			return InteractionResultHolder.pass(itemStackIn);
-		};
-	}
+		} else if(!world.isClientSide)
+		{
+			LargeFireball fireball = new LargeFireball(world, player, 0, -8.0, 0, 1);
+			fireball.setPos(player.getX() + (player.getRandom().nextInt(20) - 10), player.getY() + 40, player.getZ() + (player.getRandom().nextInt(20) - 10));
+			player.getCooldowns().addCooldown(itemStackIn.getItem(), 20);
+			itemStackIn.hurtAndBreak(2, player, playerEntity -> playerEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+			world.addFreshEntity(fireball);
+		}
+		return InteractionResultHolder.pass(itemStackIn);
+	};
 	
 	static ItemRightClickEffect extinguishFire(int mod)
 	{

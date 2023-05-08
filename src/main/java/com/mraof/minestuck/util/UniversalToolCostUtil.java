@@ -1,6 +1,6 @@
 package com.mraof.minestuck.util;
 
-import com.mraof.minestuck.alchemy.ImmutableGristSet;
+import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.item.MSItemTypes;
 import com.mraof.minestuck.item.MSItems;
 import com.mraof.minestuck.item.weapon.MSToolType;
@@ -75,14 +75,6 @@ public class UniversalToolCostUtil
 			Map.entry(Rarity.EPIC, 3.0)
 	);
 	
-	public static final Map<PogoEffect, Double> pogoConstants = Map.ofEntries(
-			Map.entry(PogoEffect.EFFECT_02, 0.2),
-			Map.entry(PogoEffect.EFFECT_04, 0.4),
-			Map.entry(PogoEffect.EFFECT_05, 0.5),
-			Map.entry(PogoEffect.EFFECT_06, 0.6),
-			Map.entry(PogoEffect.EFFECT_07, 0.7)
-	);
-	
 	public static final Map<Item, Double> aspectOrDenizenConstants = Map.ofEntries(
 			Map.entry(MSItems.UMBRELLA.get(), 1.0),
 			Map.entry(MSItems.ZEPHYR_CANE.get(), 2.0),
@@ -111,16 +103,56 @@ public class UniversalToolCostUtil
 			Map.entry(MSItems.SHADOWRAZOR.get(), 0.75)
 	);
 	
+	public static final Map<Float, Double> backstabDamageConstants = Map.ofEntries(
+			Map.entry(3.0f, 2.0),
+			Map.entry(4.0f, 2.0),
+			Map.entry(9.0f, 3.0)
+	);
+	
+	public static final Map<Item, Double> destroyBlockEffectConstants = Map.ofEntries(
+			Map.entry(MSItems.MELONSBANE.get(), 0.25),
+			Map.entry(MSItems.CROP_CHOP.get(), 0.5),
+			Map.entry(MSItems.THE_LAST_STRAW.get(), 0.5)
+	);
+	
+	public static final Map<Item, Double> targetExtraDamageConstants = Map.ofEntries(
+			Map.entry(MSItems.SKELETON_DISPLACER_DRAWN.get(), 2.25),
+			Map.entry(MSItems.TEARS_OF_THE_ENDERLICH_DRAWN.get(), 2.5),
+			Map.entry(MSItems.PIGLINS_PRIDE.get(), 2.25),
+			Map.entry(MSItems.BASILISK_BREATH_DRAGONSLAYER.get(), 2.5)
+	);
+	
+	public static final Map<Item, Double> itemRightClickConstants = Map.ofEntries(
+			Map.entry(MSItems.BLACK_KINGS_SCEPTER.get(), 2.0),
+			Map.entry(MSItems.WHITE_KINGS_SCEPTER.get(), 2.0),
+			Map.entry(MSItems.KRAKENS_EYE.get(), 0.75)
+	);
+	
 	/**
-	 * Gets the grist-cost value for the first weight in a weight-set, given a universal cost for a given item.
+	 * Gets the grist-cost set for a set of weights, given a universal cost for a given item.
 	 * @param weights the grist-set of weights to use after the universal cost is calculated.
-	 * @param initialSize the initial size of the weights.
 	 * @param universalCost the total amount of grist that should be distributed across the weighted grist-types.
-	 * @return grist-value of type long
+	 * @return Grist-set with all weights applied.
 	 */
-	public static long weightedValue(ImmutableGristSet weights, int initialSize, long universalCost)
+	public static ImmutableGristSet weightedValue(ImmutableGristSet weights, long universalCost)
 	{
-		return ((weights.asAmounts().get(0).amount() * universalCost) / initialSize);
+		double roundingMod = Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0);
+		
+		double sumOfWeights = 0;
+		for(GristAmount amount : weights.asAmounts())
+		{
+			sumOfWeights += amount.amount();
+		}
+		
+		double multiplierValue = (universalCost/sumOfWeights);
+		
+		MutableGristSet finalCost = new MutableGristSet();
+		for(GristAmount amount : weights.asAmounts())
+		{
+			finalCost.add(amount.type(), (long)(multiplierValue * amount.amount() * amount.type().getRarity()));
+		}
+		
+		return finalCost.asImmutable();
 	}
 	
 }

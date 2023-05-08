@@ -44,6 +44,8 @@ public class WeaponItem extends TieredItem
 	private final MSToolType toolType;
 	private final Set<ToolAction> toolActions;
 	private final int fireDuration;
+	private final float backstabDamage;
+	private double pogoMotion;
 	private final List<OnHitEffect> onHitEffects;
 	@Nullable
 	private final DestroyBlockEffect destroyBlockEffect;
@@ -51,6 +53,7 @@ public class WeaponItem extends TieredItem
 	private final RightClickBlockEffect rightClickBlockEffect;
 	@Nullable
 	private final ItemRightClickEffect itemRightClickEffect;
+	private final boolean innocuousDouble;
 	private final int useDuration;
 	private final UseAnim useAction;
 	private final List<FinishUseItemEffect> itemUsageEffects;
@@ -76,9 +79,12 @@ public class WeaponItem extends TieredItem
 		hasKnockback = builder.hasKnockback;
 		playSound = builder.playSound;
 		fireDuration = builder.fireDuration;
+		backstabDamage = builder.backstabDamage;
+		pogoMotion = builder.pogoMotion;
 		onHitEffects = ImmutableList.copyOf(builder.onHitEffects);
 		destroyBlockEffect = builder.destroyBlockEffect;
 		rightClickBlockEffect = builder.rightClickBlockEffect;
+		innocuousDouble = builder.innocuousDouble;
 		itemRightClickEffect = builder.itemRightClickEffect;
 		useDuration = builder.useDuration;
 		useAction = builder.useAction;
@@ -141,7 +147,7 @@ public class WeaponItem extends TieredItem
 	
 	private double sumOfSpecialProperties()
 	{
-		double pogoModifier = UniversalToolCostUtil.pogoConstants.getOrDefault(itemRightClickEffect instanceof PogoEffect pogoEffect ? pogoEffect : itemRightClickEffect, 0.0);
+		double pogoModifier = pogoMotion;
 		double aspectOrDenizenModifier = UniversalToolCostUtil.aspectOrDenizenConstants.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
 		double onHitFireDurationModifier = fireDuration / 6.0;
 		double farmineModifier = destroyBlockEffect instanceof FarmineEffect ? 0.5 : 0.0;
@@ -153,8 +159,19 @@ public class WeaponItem extends TieredItem
 		double finishUseModifier = UniversalToolCostUtil.finishUseConstants.getOrDefault(this, 0.0);
 		double iceShardModifier = onHitEffects.contains(OnHitEffect.ICE_SHARD) ? 0.25 : 0.0;
 		double onHitPotionModifier = UniversalToolCostUtil.onHitPotionConstants.getOrDefault(this, 0.0);
+		double musicPlayerModifier = this instanceof MusicPlayerWeapon ? 3.0 : 0.0;
+		double backstabModifier = UniversalToolCostUtil.backstabDamageConstants.getOrDefault(backstabDamage, 0.0);
+		double destroyBlockModifier = UniversalToolCostUtil.destroyBlockEffectConstants.getOrDefault(this, 0.0);
+		double dropCandyModifier = onHitEffects.contains(OnHitEffect.SET_CANDY_DROP_FLAG) ? 0.25 : 0.0;
+		double kundlerSurpriseModifier = onHitEffects.contains(OnHitEffect.KUNDLER_SURPRISE) ? 0.25 : 0.0;
+		double switchItemModifier = innocuousDouble ? 0.25 : 0.0;
+		double dropEnemysItemModifier = onHitEffects.contains(OnHitEffect.DROP_FOE_ITEM) ? 1.5 : 0.0;
+		double dropInWaterModifier = tickEffects.contains(InventoryTickEffect.DROP_WHEN_IN_WATER) ? -0.5 : 0.0;
+		double targetExtraDamageModifier = UniversalToolCostUtil.targetExtraDamageConstants.getOrDefault(this, 0.0);
+		double itemRightClickModifier = UniversalToolCostUtil.itemRightClickConstants.getOrDefault(this, 0.0);
+		double onHitHorrorterrorModifier = 0.0; //unused for now
 		
-		return pogoModifier + aspectOrDenizenModifier + onHitFireDurationModifier + farmineModifier + randomDamageModifier + sordModifier + rightClickBlockModifier + playSoundModifier + edibleModifier + finishUseModifier + iceShardModifier + onHitPotionModifier;
+		return pogoModifier + aspectOrDenizenModifier + onHitFireDurationModifier + farmineModifier + randomDamageModifier + sordModifier + rightClickBlockModifier + playSoundModifier + edibleModifier + finishUseModifier + iceShardModifier + onHitPotionModifier + musicPlayerModifier + backstabModifier + destroyBlockModifier + dropCandyModifier + kundlerSurpriseModifier + switchItemModifier + dropEnemysItemModifier + dropInWaterModifier +targetExtraDamageModifier + itemRightClickModifier + onHitHorrorterrorModifier;
 	}
 	
 	@Override
@@ -313,6 +330,8 @@ public class WeaponItem extends TieredItem
 		private boolean hasKnockback;
 		private boolean playSound;
 		private int fireDuration;
+		private float backstabDamage;
+		private double pogoMotion;
 		private final List<OnHitEffect> onHitEffects = new ArrayList<>();
 		@Nullable
 		private DestroyBlockEffect destroyBlockEffect = null;
@@ -320,6 +339,7 @@ public class WeaponItem extends TieredItem
 		private RightClickBlockEffect rightClickBlockEffect = null;
 		@Nullable
 		private ItemRightClickEffect itemRightClickEffect;
+		private boolean innocuousDouble;
 		private int useDuration = 0;
 		private UseAnim useAction = UseAnim.NONE;
 		private final List<FinishUseItemEffect> itemUsageEffects = new ArrayList<>();
@@ -363,6 +383,14 @@ public class WeaponItem extends TieredItem
 			return this;
 		}
 		
+		public Builder pogo(double amplifier)
+		{
+			pogoMotion = amplifier;
+			set(new PogoEffect(amplifier));
+			add(new PogoEffect(amplifier));
+			return this;
+		}
+		
 		public Builder efficiency(float efficiency)
 		{
 			this.efficiency = efficiency;
@@ -393,6 +421,20 @@ public class WeaponItem extends TieredItem
 		{
 			playSound = true;
 			add(OnHitEffect.playSound(sound, volume, pitch));
+			return this;
+		}
+		
+		public Builder backstab(float damage)
+		{
+			backstabDamage = damage;
+			add(OnHitEffect.backstab(damage));
+			return this;
+		}
+		
+		public Builder switchTo(Supplier<Item> item)
+		{
+			innocuousDouble = true;
+			set(ItemRightClickEffect.switchTo(item));
 			return this;
 		}
 		
