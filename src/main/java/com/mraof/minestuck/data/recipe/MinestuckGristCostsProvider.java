@@ -423,15 +423,15 @@ public class MinestuckGristCostsProvider extends RecipeProvider
 		GristCostRecipeBuilder.of(MSItems.POGO_HAMMER.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 3).add(SHALE, 1).asImmutable()).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.WRINKLEFUCKER.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 9).add(SHALE, 2).add(TAR, 3).asImmutable()).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.TELESCOPIC_SASSACRUSHER.get()).gristsFromWeights(new MutableGristSet().add(SHALE, 2).add(TAR, 1).add(MERCURY, 1).asImmutable()).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.DEMOCRATIC_DEMOLITIONER.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 10).add(GOLD, 10).add(MARBLE, 10).asImmutable()).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.REGI_HAMMER.get()).grist(AMETHYST, 32).grist(TAR, 77).grist(GOLD, 32).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.FEAR_NO_ANVIL.get()).grist(BUILD, 5150).grist(GARNET, 3157).grist(DIAMOND, 206).grist(GOLD, 247).grist(QUARTZ, 1).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.MELT_MASHER.get()).grist(BUILD, 4566).grist(TAR, 913).grist(GARNET, 274).grist(DIAMOND, 310).grist(GOLD, 91).grist(SULFUR, 274).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.ESTROGEN_EMPOWERED_EVERYTHING_ERADICATOR.get()).grist(BUILD, 1108).grist(SHALE, 92).grist(URANIUM, 17).grist(RUST, 13).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.EEEEEEEEEEEE.get()).grist(ARTIFACT, -17).grist(BUILD, 1).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.POPAMATIC_VRILLYHOO.get()).grist(BUILD, 5500).grist(QUARTZ, 13200).grist(DIAMOND, 5500).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.SCARLET_ZILLYHOO.get()).grist(BUILD, 2000).grist(RUBY, 3600).grist(DIAMOND, 1600).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.MWRTHWL.get()).grist(BUILD, 4063).grist(GOLD, 3088).grist(RUST, 1950).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.DEMOCRATIC_DEMOLITIONER.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 45).add(GOLD, 5).add(MARBLE, 15).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.REGI_HAMMER.get()).gristsFromWeights(new MutableGristSet().add(AMETHYST, 2).add(TAR, 3).add(GOLD, 3).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.FEAR_NO_ANVIL.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 8).add(GARNET, 10).add(DIAMOND, 1).add(GOLD, 1).add(QUARTZ, 0).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.MELT_MASHER.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 20).add(TAR, 8).add(GARNET, 4).add(DIAMOND, 7).add(GOLD, 2).add(SULFUR, 3).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.ESTROGEN_EMPOWERED_EVERYTHING_ERADICATOR.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 25).add(SHALE, 4).add(URANIUM, 2).add(RUST, 1).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.EEEEEEEEEEEE.get()).gristsFromWeights(new MutableGristSet().add(ARTIFACT, -17).add(BUILD, 1).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.POPAMATIC_VRILLYHOO.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 1).add(QUARTZ, 6).add(DIAMOND, 5).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.SCARLET_ZILLYHOO.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 1).add(RUBY, 6).add(DIAMOND, 4).asImmutable()).build(recipeSaver);
+		GristCostRecipeBuilder.of(MSItems.MWRTHWL.get()).gristsFromWeights(new MutableGristSet().add(BUILD, 2).add(GOLD, 8).add(RUST, 3).asImmutable()).build(recipeSaver);
 		
 		GristCostRecipeBuilder.of(MSItems.SORD.get()).grist(BUILD, 0).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.PAPER_SWORD.get()).grist(BUILD, 12).grist(TAR, 3).build(recipeSaver);

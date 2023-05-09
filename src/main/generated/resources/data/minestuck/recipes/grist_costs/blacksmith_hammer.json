@@ -1,9 +1,9 @@
 {
   "type": "minestuck:grist_cost",
   "grist_cost": {
-    "minestuck:caulk": 13,
-    "minestuck:rust": 11,
-    "minestuck:sulfur": 15
+    "minestuck:caulk": 12,
+    "minestuck:rust": 7,
+    "minestuck:sulfur": 20
   },
   "ingredient": {
     "item": "minestuck:blacksmith_hammer"

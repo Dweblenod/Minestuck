@@ -1,8 +1,8 @@
 {
   "type": "minestuck:grist_cost",
   "grist_cost": {
-    "minestuck:build": 152,
-    "minestuck:shale": 19
+    "minestuck:build": 140,
+    "minestuck:shale": 23
   },
   "ingredient": {
     "item": "minestuck:pogo_hammer"

@@ -1,10 +1,10 @@
 {
   "type": "minestuck:grist_cost",
   "grist_cost": {
-    "minestuck:build": 5150,
-    "minestuck:diamond": 206,
-    "minestuck:garnet": 3157,
-    "minestuck:gold": 247,
+    "minestuck:build": 10920,
+    "minestuck:diamond": 273,
+    "minestuck:garnet": 4095,
+    "minestuck:gold": 273,
     "minestuck:quartz": 1
   },
   "ingredient": {

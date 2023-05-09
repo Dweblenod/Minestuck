@@ -1,9 +1,9 @@
 {
   "type": "minestuck:grist_cost",
   "grist_cost": {
-    "minestuck:build": 238,
+    "minestuck:build": 225,
     "minestuck:shale": 25,
-    "minestuck:tar": 31
+    "minestuck:tar": 37
   },
   "ingredient": {
     "item": "minestuck:wrinklefucker"
