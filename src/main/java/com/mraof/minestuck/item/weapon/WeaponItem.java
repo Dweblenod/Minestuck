@@ -7,6 +7,7 @@ import com.mraof.minestuck.item.MSItemTypes;
 import com.mraof.minestuck.util.UniversalToolCostUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -149,7 +150,7 @@ public class WeaponItem extends TieredItem
 	{
 		double pogoModifier = pogoMotion;
 		double aspectOrDenizenModifier = UniversalToolCostUtil.aspectOrDenizenConstants.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
-		double onHitFireDurationModifier = fireDuration / 6.0;
+		double onHitFireDurationModifier = Mth.clamp(fireDuration / 15.0, 0.0, 4.0);
 		double farmineModifier = destroyBlockEffect instanceof FarmineEffect ? 0.5 : 0.0;
 		double randomDamageModifier = onHitEffects.contains(OnHitEffect.RANDOM_DAMAGE) ? 3.0 : 0.0;
 		double sordModifier = onHitEffects.contains(OnHitEffect.SORD_DROP) ? -2.0 : 0.0;

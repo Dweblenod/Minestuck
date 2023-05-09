@@ -6,6 +6,7 @@ import com.mraof.minestuck.item.MSItems;
 import com.mraof.minestuck.item.weapon.MSToolType;
 import com.mraof.minestuck.item.weapon.PogoEffect;
 import com.mraof.minestuck.item.weapon.RightClickBlockEffect;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
@@ -136,15 +137,16 @@ public class UniversalToolCostUtil
 	 */
 	public static ImmutableGristSet weightedValue(ImmutableGristSet weights, long universalCost)
 	{
-		double roundingMod = Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0);
+		int roundingMod = (int)Mth.clamp(Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0), 1, Integer.MAX_VALUE);
+		long roundedUniversalCost = (universalCost/roundingMod) * roundingMod;
 		
 		double sumOfWeights = 0;
 		for(GristAmount amount : weights.asAmounts())
 		{
-			sumOfWeights += amount.amount();
+			sumOfWeights += Math.abs(amount.amount());
 		}
 		
-		double multiplierValue = (universalCost/sumOfWeights);
+		double multiplierValue = (roundedUniversalCost/sumOfWeights);
 		
 		MutableGristSet finalCost = new MutableGristSet();
 		for(GristAmount amount : weights.asAmounts())

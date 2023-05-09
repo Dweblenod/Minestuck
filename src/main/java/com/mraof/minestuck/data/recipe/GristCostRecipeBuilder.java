@@ -11,6 +11,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -77,11 +78,14 @@ public class GristCostRecipeBuilder
 		if(ingredient.getItems()[0].getItem() instanceof WeaponItem weapon)
 		{
 			long universalCost = weapon.generateUniversalCost();
-			LOGGER.debug("Pogo hammer: " + universalCost);
+			LOGGER.debug(weapon.getDescription().getString() + ": " + universalCost);
 			ImmutableGristSet costSet = UniversalToolCostUtil.weightedValue(weights, universalCost);
 			for(GristAmount amount : costSet.asAmounts())
 			{
-				costBuilder.put(amount.type(), amount.amount());
+				if(amount.amount() != 0)
+					costBuilder.put(amount.type(), amount.amount());
+				else
+					costBuilder.put(amount.type(), 1L);
 			}
 			return this;
 		}
