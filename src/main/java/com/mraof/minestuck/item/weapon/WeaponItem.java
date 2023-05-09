@@ -46,7 +46,7 @@ public class WeaponItem extends TieredItem
 	private final Set<ToolAction> toolActions;
 	private final int fireDuration;
 	private final float backstabDamage;
-	private double pogoMotion;
+	private final double pogoMotion;
 	private final List<OnHitEffect> onHitEffects;
 	@Nullable
 	private final DestroyBlockEffect destroyBlockEffect;
@@ -148,6 +148,7 @@ public class WeaponItem extends TieredItem
 	
 	private double sumOfSpecialProperties()
 	{
+		//special property modifiers are listed in the same order as in the spreadsheet.
 		double pogoModifier = pogoMotion;
 		double aspectOrDenizenModifier = UniversalToolCostUtil.aspectOrDenizenConstants.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
 		double onHitFireDurationModifier = Mth.clamp(fireDuration / 15.0, 0.0, 4.0);

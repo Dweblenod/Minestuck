@@ -4,8 +4,6 @@ import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.item.MSItemTypes;
 import com.mraof.minestuck.item.MSItems;
 import com.mraof.minestuck.item.weapon.MSToolType;
-import com.mraof.minestuck.item.weapon.PogoEffect;
-import com.mraof.minestuck.item.weapon.RightClickBlockEffect;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -15,6 +13,9 @@ import java.util.Map;
 
 public class UniversalToolCostUtil
 {
+	
+	//The following constant maps are taken from the value tables in the cost generator spreadsheet.
+	
 	public static final Map<Tier, Double> tierConstants = Map.ofEntries(
 			Map.entry(Tiers.WOOD, 0.25),
 			Map.entry(Tiers.STONE, 0.4),
