@@ -110,6 +110,7 @@ public class WeaponItem extends TieredItem
 	
 	/**
 	 * Generates an item's universal cost from the constants defined in UniversalToolCostUtil
+	 *
 	 * @return the universal cost value, as a long.
 	 */
 	public long generateUniversalCost()
@@ -123,7 +124,7 @@ public class WeaponItem extends TieredItem
 		double damageRecalc = ((dpsPvpAdjusted * 1.5) + (dpsNormal * 0.5)) / 2.0;
 		
 		//Item-material
-		double tierModifier = UniversalToolCostUtil.tierConstants.getOrDefault(getTier(), 1.0);
+		double tierModifier = UniversalToolCostUtil.TIER_CONSTANTS.getOrDefault(getTier(), 1.0);
 		
 		//detect vanilla on-hit effects.
 		double disableShieldModifier = canDisableShield(null, null, null, null) ? 1.0 : 0;
@@ -131,49 +132,49 @@ public class WeaponItem extends TieredItem
 		double knockbackModifier = hasKnockback ? 1.0 : 0;
 		
 		//category mods
-		double rangedCategoryModifier = UniversalToolCostUtil.rangedCategoryConstants.getOrDefault(this, 0.0);
-		double toolCategoryModifier = UniversalToolCostUtil.toolCategoryConstants.getOrDefault(toolType, 0.0);
+		double rangedCategoryModifier = UniversalToolCostUtil.RANGED_CATEGORY_CONSTANTS.getOrDefault(this, 0.0);
+		double toolCategoryModifier = UniversalToolCostUtil.TOOL_CATEGORY_CONSTANTS.getOrDefault(toolType, 0.0);
 		
 		double totalSpecialPropertyModifier = sumOfSpecialProperties();
 		
-		double rarityModifier = UniversalToolCostUtil.rarityConstants.getOrDefault(getRarity(getDefaultInstance()), 0.0);
+		double rarityModifier = UniversalToolCostUtil.RARITY_CONSTANTS.getOrDefault(getRarity(getDefaultInstance()), 0.0);
 		
 		int itemDurability = getDefaultInstance().getMaxDamage();
-		double durabilityModifier = !canBeDepleted() ? 3.0 : itemDurability == getTier().getUses() ? 1.0 : 1.0 + Math.log(itemDurability/getTier().getUses());
+		double durabilityModifier = !canBeDepleted() ? 3.0 : itemDurability == getTier().getUses() ? 1.0 : 1.0 + Math.log(itemDurability / getTier().getUses());
 		
 		double fireImmuneModifier = isFireResistant() ? 1.0 : 0.0;
 		
-		return (long) Math.pow(2.5, ((damageRecalc / 2.0) + (tierModifier / 4.0) + (disableShieldModifier/4.0) + (sweepModifier/6.0) + (knockbackModifier/4.0) + (rangedCategoryModifier) + (toolCategoryModifier/6.0) + (totalSpecialPropertyModifier) + (rarityModifier) + (durabilityModifier/2.0) + (fireImmuneModifier)));
+		return (long) Math.pow(2.5, ((damageRecalc / 2.0) + (tierModifier / 4.0) + (disableShieldModifier / 4.0) + (sweepModifier / 6.0) + (knockbackModifier / 4.0) + (rangedCategoryModifier) + (toolCategoryModifier / 6.0) + (totalSpecialPropertyModifier) + (rarityModifier) + (durabilityModifier / 2.0) + (fireImmuneModifier)));
 	}
 	
 	private double sumOfSpecialProperties()
 	{
 		//special property modifiers are listed in the same order as in the spreadsheet.
 		double pogoModifier = pogoMotion;
-		double aspectOrDenizenModifier = UniversalToolCostUtil.aspectOrDenizenConstants.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
+		double aspectOrDenizenModifier = UniversalToolCostUtil.ASPECT_OR_DENIZEN_CONSTANTS.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
 		double onHitFireDurationModifier = Mth.clamp(fireDuration / 15.0, 0.0, 4.0);
 		double farmineModifier = destroyBlockEffect instanceof FarmineEffect ? 0.5 : 0.0;
 		double randomDamageModifier = onHitEffects.contains(OnHitEffect.RANDOM_DAMAGE) ? 3.0 : 0.0;
 		double sordModifier = onHitEffects.contains(OnHitEffect.SORD_DROP) ? -2.0 : 0.0;
-		double rightClickBlockModifier = UniversalToolCostUtil.rightClickBlockConstants.getOrDefault(this, 0.0);
+		double rightClickBlockModifier = UniversalToolCostUtil.RIGHT_CLICK_BLOCK_CONSTANTS.getOrDefault(this, 0.0);
 		double playSoundModifier = playSound ? 0.25 : 0.0;
 		double edibleModifier = isEdible() ? 1.0 : 0.0;
-		double finishUseModifier = UniversalToolCostUtil.finishUseConstants.getOrDefault(this, 0.0);
+		double finishUseModifier = UniversalToolCostUtil.FINISH_USE_CONSTANTS.getOrDefault(this, 0.0);
 		double iceShardModifier = onHitEffects.contains(OnHitEffect.ICE_SHARD) ? 0.25 : 0.0;
-		double onHitPotionModifier = UniversalToolCostUtil.onHitPotionConstants.getOrDefault(this, 0.0);
+		double onHitPotionModifier = UniversalToolCostUtil.ON_HIT_POTION_CONSTANTS.getOrDefault(this, 0.0);
 		double musicPlayerModifier = this instanceof MusicPlayerWeapon ? 3.0 : 0.0;
-		double backstabModifier = UniversalToolCostUtil.backstabDamageConstants.getOrDefault(backstabDamage, 0.0);
-		double destroyBlockModifier = UniversalToolCostUtil.destroyBlockEffectConstants.getOrDefault(this, 0.0);
+		double backstabModifier = UniversalToolCostUtil.BACKSTAB_DAMAGE_CONSTANTS.getOrDefault(backstabDamage, 0.0);
+		double destroyBlockModifier = UniversalToolCostUtil.DESTROY_BLOCK_EFFECT_CONSTANTS.getOrDefault(this, 0.0);
 		double dropCandyModifier = onHitEffects.contains(OnHitEffect.SET_CANDY_DROP_FLAG) ? 0.25 : 0.0;
 		double kundlerSurpriseModifier = onHitEffects.contains(OnHitEffect.KUNDLER_SURPRISE) ? 0.25 : 0.0;
 		double switchItemModifier = innocuousDouble ? 0.25 : 0.0;
 		double dropEnemysItemModifier = onHitEffects.contains(OnHitEffect.DROP_FOE_ITEM) ? 1.5 : 0.0;
 		double dropInWaterModifier = tickEffects.contains(InventoryTickEffect.DROP_WHEN_IN_WATER) ? -0.5 : 0.0;
-		double targetExtraDamageModifier = UniversalToolCostUtil.targetExtraDamageConstants.getOrDefault(this, 0.0);
-		double itemRightClickModifier = UniversalToolCostUtil.itemRightClickConstants.getOrDefault(this, 0.0);
+		double targetExtraDamageModifier = UniversalToolCostUtil.TARGET_EXTRA_DAMAGE_CONSTANTS.getOrDefault(this, 0.0);
+		double itemRightClickModifier = UniversalToolCostUtil.ITEM_RIGHT_CLICK_CONSTANTS.getOrDefault(this, 0.0);
 		double onHitHorrorterrorModifier = 0.0; //unused for now
 		
-		return pogoModifier + aspectOrDenizenModifier + onHitFireDurationModifier + farmineModifier + randomDamageModifier + sordModifier + rightClickBlockModifier + playSoundModifier + edibleModifier + finishUseModifier + iceShardModifier + onHitPotionModifier + musicPlayerModifier + backstabModifier + destroyBlockModifier + dropCandyModifier + kundlerSurpriseModifier + switchItemModifier + dropEnemysItemModifier + dropInWaterModifier +targetExtraDamageModifier + itemRightClickModifier + onHitHorrorterrorModifier;
+		return pogoModifier + aspectOrDenizenModifier + onHitFireDurationModifier + farmineModifier + randomDamageModifier + sordModifier + rightClickBlockModifier + playSoundModifier + edibleModifier + finishUseModifier + iceShardModifier + onHitPotionModifier + musicPlayerModifier + backstabModifier + destroyBlockModifier + dropCandyModifier + kundlerSurpriseModifier + switchItemModifier + dropEnemysItemModifier + dropInWaterModifier + targetExtraDamageModifier + itemRightClickModifier + onHitHorrorterrorModifier;
 	}
 	
 	@Override

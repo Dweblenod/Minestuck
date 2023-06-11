@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
+
 import java.util.Map;
 
 public class UniversalToolCostUtil
@@ -16,7 +17,7 @@ public class UniversalToolCostUtil
 	
 	//The following constant maps are taken from the value tables in the cost generator spreadsheet.
 	
-	public static final Map<Tier, Double> tierConstants = Map.ofEntries(
+	public static final Map<Tier, Double> TIER_CONSTANTS = Map.ofEntries(
 			Map.entry(Tiers.WOOD, 0.25),
 			Map.entry(Tiers.STONE, 0.4),
 			Map.entry(Tiers.IRON, 0.55),
@@ -43,7 +44,7 @@ public class UniversalToolCostUtil
 			Map.entry(MSItemTypes.WELSH_TIER, 1.0)
 	);
 	
-	public static final Map<Item, Double> rangedCategoryConstants = Map.ofEntries(
+	public static final Map<Item, Double> RANGED_CATEGORY_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.ARTIFUCKER.get(), 0.5),
 			Map.entry(MSItems.POINTER_WAND.get(), 0.9),
 			Map.entry(MSItems.NEEDLE_WAND.get(), 1.0),
@@ -53,7 +54,7 @@ public class UniversalToolCostUtil
 			Map.entry(MSItems.QUILL_OF_ECHIDNA.get(), 3.0)
 	);
 	
-	public static final Map<MSToolType, Double> toolCategoryConstants = Map.ofEntries(
+	public static final Map<MSToolType, Double> TOOL_CATEGORY_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItemTypes.MISC_TOOL, 0.0),
 			Map.entry(MSItemTypes.SICKLE_TOOL, 0.25),
 			Map.entry(MSItemTypes.CLAWS_TOOL, 0.25),
@@ -70,14 +71,14 @@ public class UniversalToolCostUtil
 			Map.entry(MSItemTypes.GAUNTLET_TOOL, 2.0)
 	);
 	
-	public static final Map<Rarity, Double> rarityConstants = Map.ofEntries(
+	public static final Map<Rarity, Double> RARITY_CONSTANTS = Map.ofEntries(
 			Map.entry(Rarity.COMMON, 0.0),
 			Map.entry(Rarity.UNCOMMON, 1.0),
 			Map.entry(Rarity.RARE, 2.0),
 			Map.entry(Rarity.EPIC, 3.0)
 	);
 	
-	public static final Map<Item, Double> aspectOrDenizenConstants = Map.ofEntries(
+	public static final Map<Item, Double> ASPECT_OR_DENIZEN_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.UMBRELLA.get(), 1.0),
 			Map.entry(MSItems.ZEPHYR_CANE.get(), 2.0),
 			Map.entry(MSItems.CLOWN_CLUB.get(), 1.75),
@@ -87,44 +88,44 @@ public class UniversalToolCostUtil
 			Map.entry(MSItems.FEAR_NO_ANVIL.get(), 2.05)
 	);
 	
-	public static final Map<Item, Double> rightClickBlockConstants = Map.ofEntries(
+	public static final Map<Item, Double> RIGHT_CLICK_BLOCK_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.MELONBALLER.get(), 0.5),
 			Map.entry(MSItems.SWONGE.get(), 0.75),
 			Map.entry(MSItems.PUMORD.get(), 0.75)
 	);
 	
-	public static final Map<Item, Double> finishUseConstants = Map.ofEntries(
+	public static final Map<Item, Double> FINISH_USE_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.IRRADIATED_STEAK_SWORD.get(), -4.0),
 			Map.entry(MSItems.DOCTOR_DETERRENT.get(), 1.0)
 	);
 	
-	public static final Map<Item, Double> onHitPotionConstants = Map.ofEntries(
+	public static final Map<Item, Double> ON_HIT_POTION_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.QUANTUM_SABRE.get(), 2.0),
 			Map.entry(MSItems.RED_EYES.get(), 1.0),
 			Map.entry(MSItems.BEAR_POKING_STICK.get(), -1.0),
 			Map.entry(MSItems.SHADOWRAZOR.get(), 0.75)
 	);
 	
-	public static final Map<Float, Double> backstabDamageConstants = Map.ofEntries(
+	public static final Map<Float, Double> BACKSTAB_DAMAGE_CONSTANTS = Map.ofEntries(
 			Map.entry(3.0f, 2.0),
 			Map.entry(4.0f, 2.0),
 			Map.entry(9.0f, 3.0)
 	);
 	
-	public static final Map<Item, Double> destroyBlockEffectConstants = Map.ofEntries(
+	public static final Map<Item, Double> DESTROY_BLOCK_EFFECT_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.MELONSBANE.get(), 0.25),
 			Map.entry(MSItems.CROP_CHOP.get(), 0.5),
 			Map.entry(MSItems.THE_LAST_STRAW.get(), 0.5)
 	);
 	
-	public static final Map<Item, Double> targetExtraDamageConstants = Map.ofEntries(
+	public static final Map<Item, Double> TARGET_EXTRA_DAMAGE_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.SKELETON_DISPLACER_DRAWN.get(), 2.25),
 			Map.entry(MSItems.TEARS_OF_THE_ENDERLICH_DRAWN.get(), 2.5),
 			Map.entry(MSItems.PIGLINS_PRIDE.get(), 2.25),
 			Map.entry(MSItems.BASILISK_BREATH_DRAGONSLAYER.get(), 2.5)
 	);
 	
-	public static final Map<Item, Double> itemRightClickConstants = Map.ofEntries(
+	public static final Map<Item, Double> ITEM_RIGHT_CLICK_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.BLACK_KINGS_SCEPTER.get(), 2.0),
 			Map.entry(MSItems.WHITE_KINGS_SCEPTER.get(), 2.0),
 			Map.entry(MSItems.KRAKENS_EYE.get(), 0.75)
@@ -132,14 +133,16 @@ public class UniversalToolCostUtil
 	
 	/**
 	 * Gets the grist-cost set for a set of weights, given a universal cost for a given item.
-	 * @param weights the grist-set of weights to use after the universal cost is calculated.
+	 *
+	 * @param weights       the grist-set of weights to use after the universal cost is calculated.
 	 * @param universalCost the total amount of grist that should be distributed across the weighted grist-types.
 	 * @return Grist-set with all weights applied.
 	 */
 	public static ImmutableGristSet weightedValue(ImmutableGristSet weights, long universalCost)
 	{
-		int roundingMod = (int)Mth.clamp(Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0), 1, Integer.MAX_VALUE);
-		long roundedUniversalCost = (universalCost/roundingMod) * roundingMod;
+		//TODO consider making rounding optional instead of mandatory
+		int roundingMod = (int) Mth.clamp(Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0), 1, Integer.MAX_VALUE);
+		long roundedUniversalCost = (universalCost / roundingMod) * roundingMod;
 		
 		double sumOfWeights = 0;
 		for(GristAmount amount : weights.asAmounts())
@@ -147,15 +150,41 @@ public class UniversalToolCostUtil
 			sumOfWeights += Math.abs(amount.amount());
 		}
 		
-		double multiplierValue = (roundedUniversalCost/sumOfWeights);
+		double multiplierValue = (roundedUniversalCost / sumOfWeights);
 		
 		MutableGristSet finalCost = new MutableGristSet();
 		for(GristAmount amount : weights.asAmounts())
 		{
-			finalCost.add(amount.type(), (long)(multiplierValue * amount.amount() * amount.type().getRarity()));
+			float gristRarity = amount.type().getRarity();
+			
+			if(gristRarity > 0)
+				finalCost.add(amount.type(), (long) (multiplierValue * amount.amount() * gristRarity));
+			else
+				throw new IllegalStateException("Grists with a rarity of 0 or lower should not be included in a weapon's weight GristSet");
 		}
 		
 		return finalCost.asImmutable();
 	}
 	
+	/**
+	 * Create
+	 * @param outliers grist-set
+	 * @return the combined value of all grists in the outliers
+	 */
+	public static long universalOutlierCost(ImmutableGristSet outliers)
+	{
+		long outlierCost = 0;
+		
+		for(GristAmount amount : outliers.asAmounts())
+		{
+			float gristRarity = amount.type().getRarity();
+			
+			if(gristRarity > 0)
+				outlierCost += amount.amount() * (1 / gristRarity);
+			else
+				throw new IllegalStateException("Grists with a rarity of 0 or lower should not be included in a weapon's outlier GristSet");
+		}
+		
+		return outlierCost;
+	}
 }

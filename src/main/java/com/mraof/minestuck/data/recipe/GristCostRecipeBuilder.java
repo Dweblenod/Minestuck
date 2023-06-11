@@ -37,7 +37,7 @@ public class GristCostRecipeBuilder
 	public static GristCostRecipeBuilder of(TagKey<Item> tag)
 	{
 		ResourceLocation tagId = tag.location();
-		return new GristCostRecipeBuilder(new ResourceLocation(tagId.getNamespace(), tagId.getPath()+"_tag"), Ingredient.of(tag));
+		return new GristCostRecipeBuilder(new ResourceLocation(tagId.getNamespace(), tagId.getPath() + "_tag"), Ingredient.of(tag));
 	}
 	
 	public static GristCostRecipeBuilder of(ItemLike item)
@@ -72,24 +72,38 @@ public class GristCostRecipeBuilder
 		return this;
 	}
 	
-	public GristCostRecipeBuilder gristsFromWeights(ImmutableGristSet weights)
+	public GristCostRecipeBuilder gristsFromWeights(MutableGristSet weights)
+	{
+		return gristsFromWeights(weights, new MutableGristSet());
+	}
+	
+	public GristCostRecipeBuilder gristsFromWeights(MutableGristSet weights, MutableGristSet outliers)
 	{
 		if(ingredient.getItems()[0].getItem() instanceof WeaponItem weapon)
 		{
-			long universalCost = weapon.generateUniversalCost();
+			ImmutableGristSet immutableOutliers = outliers.asImmutable();
+			
+			long universalCost = weapon.generateUniversalCost() - UniversalToolCostUtil.universalOutlierCost(immutableOutliers);
 			LOGGER.debug(weapon.getDescription().getString() + ": " + universalCost);
-			ImmutableGristSet costSet = UniversalToolCostUtil.weightedValue(weights, universalCost);
-			for(GristAmount amount : costSet.asAmounts())
-			{
-				if(amount.amount() != 0)
-					costBuilder.put(amount.type(), amount.amount());
-				else
-					costBuilder.put(amount.type(), 1L);
-			}
+			ImmutableGristSet costSet = UniversalToolCostUtil.weightedValue(weights.asImmutable(), universalCost);
+			
+			addGristSetToBuilder(costSet);
+			addGristSetToBuilder(immutableOutliers);
+			
 			return this;
-		}
-		else
+		} else
 			throw new IllegalStateException("Grist cost being built MUST be of a WeaponItem to use universal cost formula.");
+	}
+	
+	public void addGristSetToBuilder(ImmutableGristSet outliers)
+	{
+		for(GristAmount amount : outliers.asAmounts())
+		{
+			if(amount.amount() != 0)
+				costBuilder.put(amount.type(), amount.amount());
+			else
+				costBuilder.put(amount.type(), 1L);
+		}
 	}
 	
 	public GristCostRecipeBuilder priority(int priority)
@@ -112,7 +126,7 @@ public class GristCostRecipeBuilder
 	
 	public void build(Consumer<FinishedRecipe> recipeSaver, ResourceLocation id)
 	{
-		recipeSaver.accept(new Result(new ResourceLocation(id.getNamespace(), "grist_costs/"+id.getPath()), ingredient, new DefaultImmutableGristSet(costBuilder), priority));
+		recipeSaver.accept(new Result(new ResourceLocation(id.getNamespace(), "grist_costs/" + id.getPath()), ingredient, new DefaultImmutableGristSet(costBuilder), priority));
 	}
 	
 	public static class Result implements FinishedRecipe
