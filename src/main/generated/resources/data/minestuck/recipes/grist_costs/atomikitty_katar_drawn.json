@@ -2,8 +2,8 @@
   "type": "minestuck:grist_cost",
   "grist_cost": {
     "minestuck:build": 413,
-    "minestuck:caulk": 95,
-    "minestuck:uranium": 228
+    "minestuck:caulk": -12,
+    "minestuck:uranium": -24
   },
   "ingredient": {
     "item": "minestuck:atomikitty_katar_drawn"

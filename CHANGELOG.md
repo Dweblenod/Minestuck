@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Cinnamon Sword
 - Alchemiter splash particles
 - Alchemiter, Transportalizer, Totem Lathe sound effects
+- Method of automating grist cost creation for weapons
 
 ### Fixed
 
@@ -19,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Contributors for this release
 
-- Vivian-Zane, rose_bushes_, DORO, Riotmode(SpoiledMysterymeat), Akiesphila
+- Vivian-Zane, rose_bushes_, DORO, Riotmode(SpoiledMysterymeat), Akiesphila, Caldw3ll, Dweblenod
 
 ## [1.19.2-1.10.2.0] - 2023-04-20
 

@@ -4,7 +4,6 @@ import com.mraof.minestuck.alchemy.*;
 import com.mraof.minestuck.item.MSItemTypes;
 import com.mraof.minestuck.item.MSItems;
 import com.mraof.minestuck.item.weapon.MSToolType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tier;
@@ -101,6 +100,7 @@ public class UniversalToolCostUtil
 	
 	public static final Map<Item, Double> ON_HIT_POTION_CONSTANTS = Map.ofEntries(
 			Map.entry(MSItems.QUANTUM_SABRE.get(), 2.0),
+			Map.entry(MSItems.ATOMIKITTY_KATAR_DRAWN.get(), 2.0), //TODO everything that uses on hit potion effects needs their own entry
 			Map.entry(MSItems.RED_EYES.get(), 1.0),
 			Map.entry(MSItems.BEAR_POKING_STICK.get(), -1.0),
 			Map.entry(MSItems.SHADOWRAZOR.get(), 0.75)
@@ -138,19 +138,42 @@ public class UniversalToolCostUtil
 	 * @param universalCost the total amount of grist that should be distributed across the weighted grist-types.
 	 * @return Grist-set with all weights applied.
 	 */
-	public static ImmutableGristSet weightedValue(ImmutableGristSet weights, long universalCost)
+	public static ImmutableGristSet finalCostByValueWeight(ImmutableGristSet weights, long universalCost)
 	{
-		//TODO consider making rounding optional instead of mandatory
-		int roundingMod = (int) Mth.clamp(Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0), 1, Integer.MAX_VALUE);
-		long roundedUniversalCost = (universalCost / roundingMod) * roundingMod;
-		
 		double sumOfWeights = 0;
 		for(GristAmount amount : weights.asAmounts())
 		{
 			sumOfWeights += Math.abs(amount.amount());
 		}
 		
-		double multiplierValue = (roundedUniversalCost / sumOfWeights);
+		double multiplierValue = (universalCost / sumOfWeights);
+		
+		MutableGristSet finalCost = new MutableGristSet();
+		for(GristAmount amount : weights.asAmounts())
+		{
+			float gristRarity = amount.type().getRarity();
+			
+			if(gristRarity > 0)
+				finalCost.add(amount.type(), (long) (multiplierValue * amount.amount() * gristRarity));
+			else
+				throw new IllegalStateException("Grists with a rarity of 0 or lower should not be included in a weapon's weight GristSet");
+		}
+		
+		return finalCost.asImmutable();
+	}
+	
+	public static ImmutableGristSet finalCostByCountWeight(ImmutableGristSet weights, long universalCost)
+	{
+		double sumOfWeights = 0;
+		for(GristAmount amount : weights.asAmounts())
+		{
+			float gristRarity = amount.type().getRarity();
+			
+			if(gristRarity > 0)
+				sumOfWeights += Math.abs(amount.amount() * (1 / gristRarity));
+		}
+		
+		double multiplierValue = (universalCost / sumOfWeights);
 		
 		MutableGristSet finalCost = new MutableGristSet();
 		for(GristAmount amount : weights.asAmounts())

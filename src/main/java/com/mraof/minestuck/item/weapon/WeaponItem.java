@@ -139,6 +139,7 @@ public class WeaponItem extends TieredItem
 		
 		double rarityModifier = UniversalToolCostUtil.RARITY_CONSTANTS.getOrDefault(getRarity(getDefaultInstance()), 0.0);
 		
+		//value of 3 if unbreakable, value of 1 if item uses the tiers default durability, log scaled value scaled to tiers default durability if neither of those are true
 		int itemDurability = getDefaultInstance().getMaxDamage();
 		double durabilityModifier = !canBeDepleted() ? 3.0 : itemDurability == getTier().getUses() ? 1.0 : 1.0 + Math.log(itemDurability / getTier().getUses());
 		
@@ -149,6 +150,8 @@ public class WeaponItem extends TieredItem
 	
 	private double sumOfSpecialProperties()
 	{
+		//TODO consider finding a method of producing a warning if an item is assumed to have a special property but hasnt been properly added to UniversalToolCostUtil
+		
 		//special property modifiers are listed in the same order as in the spreadsheet.
 		double pogoModifier = pogoMotion;
 		double aspectOrDenizenModifier = UniversalToolCostUtil.ASPECT_OR_DENIZEN_CONSTANTS.getOrDefault(this, getTier() == MSItemTypes.DENIZEN_TIER ? 2.0 : 0.0);
@@ -172,7 +175,7 @@ public class WeaponItem extends TieredItem
 		double dropInWaterModifier = tickEffects.contains(InventoryTickEffect.DROP_WHEN_IN_WATER) ? -0.5 : 0.0;
 		double targetExtraDamageModifier = UniversalToolCostUtil.TARGET_EXTRA_DAMAGE_CONSTANTS.getOrDefault(this, 0.0);
 		double itemRightClickModifier = UniversalToolCostUtil.ITEM_RIGHT_CLICK_CONSTANTS.getOrDefault(this, 0.0);
-		double onHitHorrorterrorModifier = 0.0; //unused for now
+		double onHitHorrorterrorModifier = 0.0; //effects balance out at the moment, but this could change
 		
 		return pogoModifier + aspectOrDenizenModifier + onHitFireDurationModifier + farmineModifier + randomDamageModifier + sordModifier + rightClickBlockModifier + playSoundModifier + edibleModifier + finishUseModifier + iceShardModifier + onHitPotionModifier + musicPlayerModifier + backstabModifier + destroyBlockModifier + dropCandyModifier + kundlerSurpriseModifier + switchItemModifier + dropEnemysItemModifier + dropInWaterModifier + targetExtraDamageModifier + itemRightClickModifier + onHitHorrorterrorModifier;
 	}

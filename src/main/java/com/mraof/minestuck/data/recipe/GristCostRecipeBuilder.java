@@ -11,6 +11,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -33,6 +34,12 @@ public class GristCostRecipeBuilder
 	private final Ingredient ingredient;
 	private final ImmutableMap.Builder<GristType, Long> costBuilder = ImmutableMap.builder();
 	private Integer priority = null;
+	
+	public enum WEIGHT_TYPE
+	{
+		BY_VALUE,
+		BY_COUNT
+	}
 	
 	public static GristCostRecipeBuilder of(TagKey<Item> tag)
 	{
@@ -72,20 +79,31 @@ public class GristCostRecipeBuilder
 		return this;
 	}
 	
-	public GristCostRecipeBuilder gristsFromWeights(MutableGristSet weights)
+	public GristCostRecipeBuilder gristsFromWeights(MutableGristSet weights, boolean round, WEIGHT_TYPE weightType)
 	{
-		return gristsFromWeights(weights, new MutableGristSet());
+		return gristsFromWeights(weights, round, weightType, new MutableGristSet());
 	}
 	
-	public GristCostRecipeBuilder gristsFromWeights(MutableGristSet weights, MutableGristSet outliers)
+	public GristCostRecipeBuilder gristsFromWeights(MutableGristSet weights, boolean round, WEIGHT_TYPE weightType, MutableGristSet outliers)
 	{
 		if(ingredient.getItems()[0].getItem() instanceof WeaponItem weapon)
 		{
 			ImmutableGristSet immutableOutliers = outliers.asImmutable();
 			
-			long universalCost = weapon.generateUniversalCost() - UniversalToolCostUtil.universalOutlierCost(immutableOutliers);
+			long universalCost = weapon.generateUniversalCost();
+			if(round)
+			{
+				int roundingMod = (int) Mth.clamp(Math.pow(10.0, Math.round(Math.log10(universalCost)) - 2.0), 1, Integer.MAX_VALUE);
+				universalCost = (universalCost / roundingMod) * roundingMod;
+			}
+			universalCost -= UniversalToolCostUtil.universalOutlierCost(immutableOutliers);
+			
 			LOGGER.debug(weapon.getDescription().getString() + ": " + universalCost);
-			ImmutableGristSet costSet = UniversalToolCostUtil.weightedValue(weights.asImmutable(), universalCost);
+			ImmutableGristSet costSet;
+			if(weightType == WEIGHT_TYPE.BY_VALUE)
+				costSet = UniversalToolCostUtil.finalCostByValueWeight(weights.asImmutable(), universalCost);
+			else
+				costSet = UniversalToolCostUtil.finalCostByCountWeight(weights.asImmutable(), universalCost);
 			
 			addGristSetToBuilder(costSet);
 			addGristSetToBuilder(immutableOutliers);
