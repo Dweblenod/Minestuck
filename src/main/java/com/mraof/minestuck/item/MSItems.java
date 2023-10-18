@@ -30,6 +30,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.armortrim.ArmorTrim;
+import net.minecraft.world.item.armortrim.TrimPatterns;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fml.common.Mod;
@@ -469,6 +471,13 @@ public class MSItems
 	public static final RegistryObject<MSArmorItem> NOSTRILDAMUS = REGISTER.register("nostrildamus", () -> new MSArmorItem(MSItemTypes.CLOTH_ARMOR, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<MSArmorItem> PONYTAIL = REGISTER.register("ponytail", () -> new MSArmorItem(MSItemTypes.CLOTH_ARMOR, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
 	
+	
+	//Armor Trims
+	//new SmithingTemplateItem(ARMOR_TRIM_APPLIES_TO, ARMOR_TRIM_INGREDIENTS, Component.translatable(Util.makeDescriptionId("trim_pattern", pLocation)).withStyle(TITLE_FORMAT), ARMOR_TRIM_BASE_SLOT_DESCRIPTION, ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION, createTrimmableArmorIconList(), createTrimmableMaterialIconList());
+	//public static final RegistryObject<Item> LORD_ARMOR_TRIM_SMITHING_TEMPLATE = REGISTER.register("lord_armor_trim_smithing_template", () -> new SmithingTemplateItem(ARMOR_TRIM_APPLIES_TO, ARMOR_TRIM_INGREDIENTS, Component.translatable(Util.makeDescriptionId("trim_pattern", pLocation)).withStyle(TITLE_FORMAT), ARMOR_TRIM_BASE_SLOT_DESCRIPTION, ARMOR_TRIM_ADDITIONS_SLOT_DESCRIPTION, createTrimmableArmorIconList(), createTrimmableMaterialIconList()));
+	//public static final RegistryObject<Item> MUSE_ARMOR_TRIM_SMITHING_TEMPLATE = REGISTER.register("muse_armor_trim_smithing_template", () -> SmithingTemplateItem.createArmorTrimTemplate(MSTrimPatterns.MUSE));
+	public static final RegistryObject<Item> LORD_ARMOR_TRIM_SMITHING_TEMPLATE = REGISTER.register("lord_armor_trim_smithing_template", () -> SmithingTemplateItem.createArmorTrimTemplate(MSTrimPatterns.LORD));
+	public static final RegistryObject<Item> MUSE_ARMOR_TRIM_SMITHING_TEMPLATE = REGISTER.register("muse_armor_trim_smithing_template", () -> SmithingTemplateItem.createArmorTrimTemplate(MSTrimPatterns.MUSE));
 	
 	
 	//Core Items

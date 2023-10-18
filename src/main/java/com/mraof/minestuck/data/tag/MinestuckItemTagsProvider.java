@@ -100,6 +100,8 @@ public class MinestuckItemTagsProvider extends ItemTagsProvider
 		tag(Tags.Items.ARMORS_CHESTPLATES).add(PRISMARINE_CHESTPLATE.get(), IRON_LASS_CHESTPLATE.get());
 		tag(Tags.Items.ARMORS_LEGGINGS).add(PRISMARINE_LEGGINGS.get(), IRON_LASS_SKIRT.get());
 		tag(Tags.Items.ARMORS_BOOTS).add(PRISMARINE_BOOTS.get(), IRON_LASS_SHOES.get());
+		
+		tag(TRIM_TEMPLATES).add(LORD_ARMOR_TRIM_SMITHING_TEMPLATE.get(), MUSE_ARMOR_TRIM_SMITHING_TEMPLATE.get());
 
 		tag(ItemTags.MUSIC_DISCS).add(MUSIC_DISC_DANCE_STAB_DANCE.get(), MUSIC_DISC_EMISSARY_OF_DANCE.get(), MUSIC_DISC_RETRO_BATTLE.get());
 		tag(DUSTS).add(MSBlocks.GLOWYSTONE_DUST.get().asItem());

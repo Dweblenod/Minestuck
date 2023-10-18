@@ -1,0 +1,5 @@
+{
+    "asset_id": "minecraft:lord",
+    "description": "Lord Class Armor Trim",
+    "template_item": "minestuck:lord_armor_trim_smithing_template"
+}

@@ -1,0 +1,13 @@
+{
+    "sources": [
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "trims/models/armor/lord",
+                "trims/models/armor/lord_leggings",
+                "trims/models/armor/muse",
+                "trims/models/armor/muse_leggings"
+            ]
+        }
+    ]
+}
