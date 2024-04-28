@@ -9,10 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - Silicone Caulk Bucket alchemy recipe was changed from Water Bucket && Quartz to Water Bucket && Amethyst Shard, to avoid conflict with Prismarine Shard alchemy recipe
+- Retexture of chess dirt
 
 ### Contributors for this release
 
-- Akisephila
+- Akisephila, Riotmode
 
 ## [1.20.1-1.12.0.1] - 2024-04-15
 
