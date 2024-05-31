@@ -3,10 +3,7 @@ package com.mraof.minestuck.data.recipe;
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.api.alchemy.GristType;
 import com.mraof.minestuck.api.alchemy.GristTypes;
-import com.mraof.minestuck.api.alchemy.recipe.ContainerGristCostBuilder;
-import com.mraof.minestuck.api.alchemy.recipe.GristCostRecipeBuilder;
-import com.mraof.minestuck.api.alchemy.recipe.SourceGristCostBuilder;
-import com.mraof.minestuck.api.alchemy.recipe.WildcardGristCostBuilder;
+import com.mraof.minestuck.api.alchemy.recipe.*;
 import com.mraof.minestuck.block.MSBlocks;
 import com.mraof.minestuck.item.MSItems;
 import com.mraof.minestuck.util.ExtraForgeTags;
@@ -471,7 +468,8 @@ public final class MinestuckGristCostsProvider
 		GristCostRecipeBuilder.of(MSItems.SHATTER_BEACON.get()).grist(BUILD, 315).grist(COBALT, 294).grist(DIAMOND, 210).grist(URANIUM, 630).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.SHATTER_BACON.get()).grist(BUILD, 50).grist(IODINE, 25).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.SUBTRACTSHUMIDIRE_ZOMORRODNEGATIVE.get()).grist(BUILD, 666).grist(AMBER, 1167).grist(GARNET, 600).grist(DIAMOND, 333).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.PILLOW_TALK.get()).grist(BUILD, 4217).grist(AMBER, 2108).grist(QUARTZ, 5061).grist(RUBY, 2530).grist(URANIUM, 6748).build(recipeSaver);
+		WeaponGristCostBuilder.of(MSItems.PILLOW_TALK.get()).build(recipeSaver);
+		//GristCostRecipeBuilder.of(MSItems.PILLOW_TALK.get()).grist(BUILD, 4217).grist(AMBER, 2108).grist(QUARTZ, 5061).grist(RUBY, 2530).grist(URANIUM, 6748).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.KRAKENS_EYE.get()).grist(BUILD, 323).grist(COBALT, 129).grist(DIAMOND, 65).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.CINNAMON_SWORD.get()).grist(BUILD,20).grist(IODINE, 10).grist(AMBER, 10).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.UNION_BUSTER.get()).grist(BUILD, 8966).grist(TAR, 4483).grist(DIAMOND, 1).grist(GOLD,10760).build(recipeSaver);
@@ -489,7 +487,8 @@ public final class MinestuckGristCostsProvider
 		GristCostRecipeBuilder.of(MSItems.THOUSAND_DEGREE_KNIFE.get()).grist(TAR, 460).grist(MERCURY, 369).grist(RUBY, 277).grist(URANIUM, 460).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.STARSHARD_TRI_BLADE.get()).grist(URANIUM, 474).grist(DIAMOND, 474).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.TOOTHRIPPER.get()).grist(RUST, 73).grist(CAULK, 121).build(recipeSaver);
-		GristCostRecipeBuilder.of(MSItems.SHADOWRAZOR.get()).grist(TAR, 115).grist(SULFUR, 115).grist(CHALK, 231).build(recipeSaver);
+		WeaponGristCostBuilder.of(MSItems.SHADOWRAZOR.get()).build(recipeSaver);
+		//GristCostRecipeBuilder.of(MSItems.SHADOWRAZOR.get()).grist(TAR, 115).grist(SULFUR, 115).grist(CHALK, 231).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.PRINCESS_PERIL.get()).grist(CHALK, 113).grist(TAR, 225).grist(SULFUR, 180).grist(SHALE, 113).grist(MARBLE, 180).grist(URANIUM, 1).build(recipeSaver);
 		
 		GristCostRecipeBuilder.of(MSItems.KEYBLADE.get()).grist(BUILD, 7).grist(RUST, 10).build(recipeSaver);
@@ -600,7 +599,8 @@ public final class MinestuckGristCostsProvider
 		GristCostRecipeBuilder.of(MSItems.SKAITHE.get()).grist(BUILD, 2000).grist(QUARTZ, 2400).grist(AMETHYST, 512).grist(GOLD, 512).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.HELLBRINGERS_HOE_INACTIVE.get()).grist(BUILD, 420).grist(TAR, 420).grist(SULFUR, 168).grist(GARNET, 378).grist(RUBY, 252).build(recipeSaver);
 		
-		GristCostRecipeBuilder.of(MSItems.STALE_BAGUETTE.get()).grist(IODINE, 6).grist(AMBER, 4).build(recipeSaver);
+		WeaponGristCostBuilder.of(MSItems.STALE_BAGUETTE.get()).build(recipeSaver);
+		//GristCostRecipeBuilder.of(MSItems.STALE_BAGUETTE.get()).grist(IODINE, 6).grist(AMBER, 4).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.GLUB_CLUB.get()).grist(BUILD, 10).grist(CAULK, 8).grist(AMBER, 3).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.NIGHT_CLUB.get()).grist(TAR, 8).grist(SHALE, 8).grist(COBALT, 2).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.NIGHTSTICK.get()).grist(TAR, 18).grist(MARBLE, 7).grist(GOLD, 1).build(recipeSaver);

@@ -227,6 +227,33 @@ public class WeaponItem extends TieredItem
 		return itemRightClickEffect;
 	}
 	
+	@Nullable
+	public DestroyBlockEffect getDestroyBlockEffect()
+	{
+		return destroyBlockEffect;
+	}
+	
+	public List<FinishUseItemEffect> getItemUsageEffects()
+	{
+		return itemUsageEffects;
+	}
+	
+	public List<InventoryTickEffect> getTickEffects()
+	{
+		return tickEffects;
+	}
+	
+	public List<OnHitEffect> getOnHitEffects()
+	{
+		return onHitEffects;
+	}
+	
+	@Nullable
+	public RightClickBlockEffect getRightClickBlockEffect()
+	{
+		return rightClickBlockEffect;
+	}
+	
 	public static class Builder
 	{
 		private final Tier tier;
