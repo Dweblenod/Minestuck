@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
@@ -82,9 +83,17 @@ public final class WeaponGristCostBuilder
 	{
 		if(itemLike instanceof WeaponItem item)
 		{
-			Multimap<Attribute, AttributeModifier> attributes = item.getAttributeModifiers(EquipmentSlot.MAINHAND, ((WeaponItem) itemLike).getDefaultInstance());
+			ItemStack defaultStack = item.getDefaultInstance();
 			
-			return (long) dps(attributes);
+			Multimap<Attribute, AttributeModifier> attributes = item.getAttributeModifiers(EquipmentSlot.MAINHAND, defaultStack);
+			
+			float durability = (float) defaultStack.getMaxDamage() / 2;
+			
+			int fireResistant = item.isFireResistant() ? 1 : 0;
+			
+			return (long) (dps(attributes) + durability + fireResistant);
+			
+			//original formula (each has their own calculation)
 			//return 2.5 ^ (dps/2 + material/4 + shield/4 + sweep/6 + knockback/4 + ranged + tool_type/6 + special_prop_total + rarity + durability/2 + fire_resistant);
 		}
 		
@@ -109,7 +118,9 @@ public final class WeaponGristCostBuilder
 		
 		double pvpAdjustedDPS = (damage * 1.05) + (speed * 0.95);
 		
-		return (float) (((pvpAdjustedDPS * 1.5) + (directDPS * 0.5)) / 2);
+		float completeRecalc = (float) (((pvpAdjustedDPS * 1.5) + (directDPS * 0.5)) / 2);
+		
+		return completeRecalc / 2;
 	}
 	
 	public void build(RecipeOutput recipeOutput)
