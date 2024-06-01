@@ -1,7 +1,7 @@
 {
   "type": "minestuck:grist_cost",
   "grist_cost": {
-    "minestuck:build": 20
+    "minestuck:build": 9
   },
   "ingredient": {
     "item": "minestuck:wand"

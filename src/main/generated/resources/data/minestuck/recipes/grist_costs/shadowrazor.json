@@ -1,7 +1,9 @@
 {
   "type": "minestuck:grist_cost",
   "grist_cost": {
-    "minestuck:build": 9
+    "minestuck:chalk": 0,
+    "minestuck:sulfur": 0,
+    "minestuck:tar": 0
   },
   "ingredient": {
     "item": "minestuck:shadowrazor"
