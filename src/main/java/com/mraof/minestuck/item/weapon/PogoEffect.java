@@ -37,9 +37,14 @@ public class PogoEffect implements ItemRightClickEffect, OnHitEffect
 	}
 	
 	@Override
-	public void onHit(ItemStack stack, LivingEntity target, LivingEntity player)
+	public float onHit(ItemStack stack, LivingEntity target, LivingEntity player)
 	{
+		if(player == null || target == null)
+			return (float) pogoMotion;
+		
 		hitEntity(stack, target, player, getPogoMotion(stack));
+		
+		return (float) pogoMotion;
 	}
 	
 	private double getPogoMotion(ItemStack stack)

@@ -26,6 +26,7 @@ import net.minecraft.world.level.ItemLike;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -182,7 +183,16 @@ public final class WeaponGristCostBuilder
 			
 			float shieldDisabling = item.canDisableShield(defaultStack, null, null, null) ? 0.25F : 0F;
 			
-			float canSweep = item.getOnHitEffects().contains(OnHitEffect.SWEEP) ? (float) 1 / 6 : 0F;
+			List<OnHitEffect> onHitEffects = item.getOnHitEffects();
+			
+			float specialPropertySum = 0F;
+			
+			for(OnHitEffect effect : onHitEffects)
+			{
+				specialPropertySum += effect.onHit(defaultStack, null, null);
+			}
+			
+			float canSweep = onHitEffects.contains(OnHitEffect.SWEEP) ? (float) 1 / 6 : 0F;
 			
 			//TODO result of durability does not match how the result you would get with other applications
 			//item durability in relation to its tiers default durability
@@ -190,7 +200,7 @@ public final class WeaponGristCostBuilder
 			
 			int fireResistant = item.isFireResistant() ? 1 : 0;
 			
-			return (long) Math.pow(2.5, (dps(attributes) + tierValue + shieldDisabling + canSweep + durability + fireResistant));
+			return (long) Math.pow(2.5, (dps(attributes) + tierValue + shieldDisabling + canSweep + durability + fireResistant + specialPropertySum));
 			
 			//original formula (each has their own calculation)
 			//return 2.5 ^ (dps/2 + material/4 + shield/4 + sweep/6 + knockback/4 + ranged + tool_type/6 + special_prop_total + rarity + durability/2 + fire_resistant);
