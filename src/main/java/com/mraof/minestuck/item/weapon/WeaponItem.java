@@ -3,6 +3,7 @@ package com.mraof.minestuck.item.weapon;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.mraof.minestuck.item.MSItemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -128,6 +129,7 @@ public class WeaponItem extends TieredItem
 	@Override
 	public boolean canPerformAction(ItemStack stack, ToolAction toolAction)
 	{
+		//TODO the builder now automatically adds all tool actions from the tooltype, ensure this is appropriate
 		return this.toolActions.contains(toolAction) || this.toolType != null && this.toolType.hasAction(toolAction);
 	}
 	
@@ -178,6 +180,11 @@ public class WeaponItem extends TieredItem
 	{
 		for(InventoryTickEffect effect : tickEffects)
 			effect.inventoryTick(stack, level, entityIn, itemSlot, isSelected);
+	}
+	
+	public Set<ToolAction> getToolActions()
+	{
+		return toolActions;
 	}
 	
 	@Override
@@ -281,12 +288,19 @@ public class WeaponItem extends TieredItem
 			this.tier = tier;
 			this.attackDamage = attackDamage;
 			this.attackSpeed = attackSpeed;
-			efficiency = tier.getSpeed();
+			efficiency = tier.getSpeed(); //TODO we manually define efficiency with almost every weapon, perhaps we should change it from tier to something else
 		}
 		
 		public Builder set(@Nullable MSToolType toolType)
 		{
 			this.toolType = toolType;
+			
+			if(toolType == MSItemTypes.AXE_TOOL || toolType == MSItemTypes.SICKLE_TOOL)
+				disableShield = true;
+			
+			if(toolType != null)
+				this.toolActions.addAll(toolType.getActions());
+			
 			return this;
 		}
 		
@@ -326,6 +340,12 @@ public class WeaponItem extends TieredItem
 			return this;
 		}
 		
+		public Builder dontDisableShield()
+		{
+			disableShield = false;
+			return this;
+		}
+		
 		public Builder add(OnHitEffect... effects)
 		{
 			onHitEffects.addAll(Arrays.asList(effects));
@@ -341,6 +361,12 @@ public class WeaponItem extends TieredItem
 		public Builder add(ToolAction... actions)
 		{
 			toolActions.addAll(List.of(actions));
+			return this;
+		}
+		
+		public Builder remove(ToolAction... actions)
+		{
+			List.of(actions).forEach(toolActions::remove);
 			return this;
 		}
 		

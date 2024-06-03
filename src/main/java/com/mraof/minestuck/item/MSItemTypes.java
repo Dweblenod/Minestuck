@@ -62,9 +62,9 @@ public class MSItemTypes
 	public static final MSToolType CLAWS_TOOL = new MSToolType().addMining(BlockTags.SWORD_EFFICIENT, ToolActions.SWORD_DIG).addEnchantments(EnchantmentCategory.WEAPON);
 	public static final MSToolType PICKAXE_TOOL = new MSToolType().addMining(BlockTags.MINEABLE_WITH_PICKAXE, ToolActions.PICKAXE_DIG).addEnchantments(EnchantmentCategory.DIGGER);
 	public static final MSToolType HAMMER_TOOL = new MSToolType(PICKAXE_TOOL).addEnchantments(EnchantmentCategory.WEAPON);
-	public static final MSToolType AXE_TOOL = new MSToolType().addMining(BlockTags.MINEABLE_WITH_AXE, ToolActions.AXE_DIG).addEnchantments(EnchantmentCategory.DIGGER, EnchantmentCategory.WEAPON);
-	public static final MSToolType SHOVEL_TOOL = new MSToolType().addMining(BlockTags.MINEABLE_WITH_SHOVEL, ToolActions.SHOVEL_DIG).addEnchantments(EnchantmentCategory.DIGGER);
-	public static final MSToolType SWORD_TOOL = new MSToolType().addMining(BlockTags.SWORD_EFFICIENT, ToolActions.SWORD_DIG).addEnchantments(EnchantmentCategory.WEAPON);
+	public static final MSToolType AXE_TOOL = new MSToolType().addMining(BlockTags.MINEABLE_WITH_AXE, ToolActions.AXE_DIG).addAction(ToolActions.AXE_STRIP).addAction(ToolActions.AXE_SCRAPE).addAction(ToolActions.AXE_WAX_OFF).addEnchantments(EnchantmentCategory.DIGGER, EnchantmentCategory.WEAPON); //TODO add right click functionality
+	public static final MSToolType SHOVEL_TOOL = new MSToolType().addMining(BlockTags.MINEABLE_WITH_SHOVEL, ToolActions.SHOVEL_DIG).addAction(ToolActions.SHOVEL_FLATTEN).addEnchantments(EnchantmentCategory.DIGGER); //TODO add right click functionality
+	public static final MSToolType SWORD_TOOL = new MSToolType().addMining(BlockTags.SWORD_EFFICIENT, ToolActions.SWORD_DIG).addAction(ToolActions.SWORD_SWEEP).addEnchantments(EnchantmentCategory.WEAPON);
 	public static final MSToolType MISC_TOOL = new MSToolType().addEnchantments(EnchantmentCategory.WEAPON);
 	
 	//Combo Tools

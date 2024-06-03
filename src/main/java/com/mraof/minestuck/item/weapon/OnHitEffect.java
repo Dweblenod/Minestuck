@@ -202,36 +202,6 @@ public interface OnHitEffect
 		return 3;
 	};
 	
-	OnHitEffect SWEEP = (stack, target, attacker) -> {
-		if(attacker == null || target == null)
-			return 0.25F;
-		
-		if(attacker instanceof Player playerAttacker)
-		{
-			boolean slowMoving = (double) (playerAttacker.walkDist - playerAttacker.walkDistO) < (double) playerAttacker.getSpeed();
-			boolean lastHitWasCrit = ServerEventHandler.wasLastHitCrit(playerAttacker);
-			if(slowMoving && !lastHitWasCrit && playerAttacker.onGround())
-			{
-				float attackDamage = (float) playerAttacker.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
-				float sweepEnchantMod = 1.0F + EnchantmentHelper.getSweepingDamageRatio(playerAttacker) * attackDamage;
-				
-				for(LivingEntity livingEntity : playerAttacker.level().getEntitiesOfClass(LivingEntity.class, target.getBoundingBox().inflate(1.0D, 0.25D, 1.0D)))
-				{
-					if(livingEntity != playerAttacker && livingEntity != target && !playerAttacker.isAlliedTo(livingEntity) && (!(livingEntity instanceof ArmorStand) || !((ArmorStand) livingEntity).isMarker()) && playerAttacker.distanceToSqr(livingEntity) < 9.0D)
-					{
-						livingEntity.knockback(0.4F, Mth.sin(playerAttacker.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(playerAttacker.getYRot() * ((float) Math.PI / 180F)));
-						livingEntity.hurt(attacker.damageSources().playerAttack(playerAttacker), sweepEnchantMod);
-					}
-				}
-				
-				playerAttacker.level().playSound(null, playerAttacker.getX(), playerAttacker.getY(), playerAttacker.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, playerAttacker.getSoundSource(), 1.0F, 1.0F);
-				playerAttacker.sweepAttack();
-			}
-		}
-		
-		return 0.25F;
-	};
-	
 	/**
 	 * A knockback effect that does a right-vector (relative to the attacker's orientation)
 	 * and direction to target dot calculation to spread targets further horizontally.
@@ -484,7 +454,7 @@ public interface OnHitEffect
 	}
 	
 	/**
-	 * A function that causes a sweep effect (code based off of {@link #SWEEP}) and applies an array of effects on the target.
+	 * A function that causes a sweep effect (code based off of the now removed SWEEP OnHitEffect) and applies an array of effects on the target.
 	 *
 	 * @param effects A varargs value, essentially an optional array of hit effects to be applied.
 	 */

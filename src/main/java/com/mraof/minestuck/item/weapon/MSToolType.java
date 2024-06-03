@@ -47,6 +47,11 @@ public class MSToolType
 		return this;
 	}
 	
+	public Set<ToolAction> getActions()
+	{
+		return miningActions;
+	}
+	
 	public MSToolType addMining(TagKey<Block> tag, ToolAction action)
 	{
 		this.miningEfficiencyTags.add(tag);

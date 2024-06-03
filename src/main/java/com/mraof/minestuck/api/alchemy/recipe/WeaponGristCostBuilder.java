@@ -23,13 +23,12 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.neoforged.neoforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolActions;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -177,30 +176,28 @@ public final class WeaponGristCostBuilder
 			ItemStack defaultStack = item.getDefaultInstance();
 			
 			Multimap<Attribute, AttributeModifier> attributes = item.getAttributeModifiers(EquipmentSlot.MAINHAND, defaultStack);
-			
-			Tier itemTier = item.getTier();
-			double tierValue = TIER_CONSTANTS.get(itemTier) / 4D;
-			
-			float shieldDisabling = item.canDisableShield(defaultStack, null, null, null) ? 0.25F : 0F;
-			
 			List<OnHitEffect> onHitEffects = item.getOnHitEffects();
+			Set<ToolAction> toolActions = item.getToolActions();
+			Tier itemTier = item.getTier();
 			
-			float specialPropertySum = 0F;
+			double exponent = 0;
+			
+			exponent += dps(attributes);
+			exponent += TIER_CONSTANTS.get(itemTier) / 4D;
+			exponent += item.canDisableShield(defaultStack, null, null, null) ? 0.25F : 0F;
+			exponent += toolActions.contains(ToolActions.SWORD_SWEEP) ? (float) 1 / 6 : 0F;
+			exponent += item.isFireResistant() ? 1 : 0;
 			
 			for(OnHitEffect effect : onHitEffects)
 			{
-				specialPropertySum += effect.onHit(defaultStack, null, null);
+				exponent += effect.onHit(defaultStack, null, null);
 			}
-			
-			float canSweep = onHitEffects.contains(OnHitEffect.SWEEP) ? (float) 1 / 6 : 0F;
 			
 			//TODO result of durability does not match how the result you would get with other applications
 			//item durability in relation to its tiers default durability
-			float durability = (float) ((1D + Math.log((double) defaultStack.getMaxDamage() / itemTier.getUses())) / 2D);
+			exponent += (1D + Math.log((double) defaultStack.getMaxDamage() / (double) itemTier.getUses())) / 2D;
 			
-			int fireResistant = item.isFireResistant() ? 1 : 0;
-			
-			return (long) Math.pow(2.5, (dps(attributes) + tierValue + shieldDisabling + canSweep + durability + fireResistant + specialPropertySum));
+			return (long) Math.pow(2.5, exponent);
 			
 			//original formula (each has their own calculation)
 			//return 2.5 ^ (dps/2 + material/4 + shield/4 + sweep/6 + knockback/4 + ranged + tool_type/6 + special_prop_total + rarity + durability/2 + fire_resistant);
