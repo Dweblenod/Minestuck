@@ -13,6 +13,9 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -88,9 +91,9 @@ public final class WeaponGristCostBuilder
 		return this;
 	}
 	
-	public WeaponGristCostBuilder gristOutlier(GristType type, long amount)
+	public WeaponGristCostBuilder gristOutlier(Supplier<GristType> type, long amount)
 	{
-		outlierBuilder.put(type, amount);
+		outlierBuilder.put(type.get(), amount);
 		return this;
 	}
 	
@@ -270,4 +273,32 @@ public final class WeaponGristCostBuilder
 	{
 		recipeOutput.accept(id.withPrefix("grist_costs/"), new GristCost(ingredient, new DefaultImmutableGristSet(calculatedGrist), Optional.ofNullable(priority)), null);
 	}
+	
+	public static float mobEffectInstanceCalculation(MobEffectInstance effectInstance, boolean flipBeneficial)
+	{
+		//TODO make sure flip actually works
+		
+		float calculation = 1;
+		
+		MobEffect effect = effectInstance.getEffect();
+		if(EFFECT_CONSTANTS.containsKey(effect))
+			calculation *= EFFECT_CONSTANTS.get(effect);
+		
+		if(!effect.isInstantenous())
+			calculation *= ((effectInstance.getDuration() / 100F) + 0.5F);
+		
+		calculation *= (effectInstance.getAmplifier() / 3F) + 1;
+		
+		if((effect.isBeneficial() && flipBeneficial) || !effect.isBeneficial())
+			calculation = -calculation;
+		
+		return calculation;
+	}
+	
+	public static final Map<MobEffect, Float> EFFECT_CONSTANTS = Map.ofEntries(
+			Map.entry(MobEffects.WATER_BREATHING, 0.25F),
+			Map.entry(MobEffects.WITHER, 0.9F),
+			Map.entry(MobEffects.MOVEMENT_SLOWDOWN, 0.9F),
+			Map.entry(MobEffects.LEVITATION, 0.8F)
+	);
 }

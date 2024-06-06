@@ -1,6 +1,7 @@
 package com.mraof.minestuck.item.weapon;
 
 import com.google.common.collect.ImmutableList;
+import com.mraof.minestuck.api.alchemy.recipe.WeaponGristCostBuilder;
 import com.mraof.minestuck.effects.CreativeShockEffect;
 import com.mraof.minestuck.entity.underling.UnderlingEntity;
 import com.mraof.minestuck.event.ServerEventHandler;
@@ -433,11 +434,11 @@ public interface OnHitEffect
 	{
 		return (stack, target, attacker) -> {
 			if(attacker == null || target == null)
-				return 1;
+				return WeaponGristCostBuilder.mobEffectInstanceCalculation(effect.get(), false);
 			
 			attacker.addEffect(effect.get());
 			
-			return 1;
+			return WeaponGristCostBuilder.mobEffectInstanceCalculation(effect.get(), false);
 		};
 	}
 	
@@ -445,11 +446,11 @@ public interface OnHitEffect
 	{
 		return (stack, target, attacker) -> {
 			if(attacker == null || target == null)
-				return 1;
+				return WeaponGristCostBuilder.mobEffectInstanceCalculation(effect.get(), true);
 			
 			target.addEffect(effect.get());
 			
-			return 1;
+			return WeaponGristCostBuilder.mobEffectInstanceCalculation(effect.get(), true);
 		};
 	}
 	
@@ -519,13 +520,16 @@ public interface OnHitEffect
 	static OnHitEffect requireAspect(EnumAspect aspect, OnHitEffect effect)
 	{
 		return (stack, target, attacker) -> {
+			if(attacker == null || target == null)
+				return effect.onHit(null, null, null);
+			
 			if(attacker instanceof ServerPlayer player
 					&& (player.isCreative() || Title.isPlayerOfAspect(player, aspect)))
 			{
 				effect.onHit(stack, target, attacker);
 			}
 			
-			return 0;
+			return effect.onHit(null, null, null);
 		};
 	}
 	
@@ -536,14 +540,14 @@ public interface OnHitEffect
 	{
 		return (stack, target, attacker) -> {
 			if(attacker == null || target == null)
-				return 0;
+				return effect.onHit(null, null, null);
 			
 			if(!(attacker instanceof Player player) || !CreativeShockEffect.doesCreativeShockLimit(player, CreativeShockEffect.LIMIT_MOBILITY_ITEMS))
 			{
 				effect.onHit(stack, target, attacker);
 			}
 			
-			return 0;
+			return effect.onHit(null, null, null);
 		};
 	}
 	
@@ -551,12 +555,12 @@ public interface OnHitEffect
 	{
 		return (stack, target, attacker) -> {
 			if(attacker == null || target == null)
-				return 0;
+				return effect.onHit(null, null, null);
 			
 			if(ServerEventHandler.wasLastHitCrit(attacker))
 				effect.onHit(stack, target, attacker);
 			
-			return 0;
+			return effect.onHit(null, null, null);
 		};
 	}
 	
@@ -564,22 +568,25 @@ public interface OnHitEffect
 	{
 		return (stack, target, attacker) -> {
 			if(attacker == null || target == null)
-				return 0;
+				return effect.onHit(null, null, null);
 			
 			if(!attacker.level().isClientSide && attacker.getRandom().nextFloat() < (ServerEventHandler.wasLastHitCrit(attacker) ? 0.2 : 0.1))
 				effect.onHit(stack, target, attacker);
 			
-			return 0;
+			return effect.onHit(null, null, null);
 		};
 	}
 	
 	static OnHitEffect notAtPlayer(OnHitEffect effect)
 	{
 		return (stack, target, attacker) -> {
+			if(attacker == null || target == null)
+				return effect.onHit(null, null, null);
+			
 			if(!(target instanceof Player))
 				effect.onHit(stack, target, attacker);
 			
-			return 0;
+			return effect.onHit(null, null, null);
 		};
 	}
 	
@@ -587,7 +594,7 @@ public interface OnHitEffect
 	{
 		return (stack, target, attacker) -> {
 			if(attacker == null || target == null)
-				return 1;
+				return WeaponGristCostBuilder.mobEffectInstanceCalculation(effect.get(), true);
 			
 			AABB axisalignedbb = attacker.getBoundingBox().inflate(4.0D, 2.0D, 4.0D);
 			List<LivingEntity> list = attacker.level().getEntitiesOfClass(LivingEntity.class, axisalignedbb);
@@ -599,17 +606,17 @@ public interface OnHitEffect
 					livingentity.addEffect(effect.get());
 			}
 			
-			return 1;
+			return WeaponGristCostBuilder.mobEffectInstanceCalculation(effect.get(), true);
 		};
 	}
 	
 	default OnHitEffect and(OnHitEffect effect)
 	{
 		return (stack, target, attacker) -> {
-			this.onHit(stack, target, attacker);
-			effect.onHit(stack, target, attacker);
+			float thisValue = this.onHit(stack, target, attacker);
+			float newValue = effect.onHit(stack, target, attacker);
 			
-			return 0;
+			return thisValue + newValue;
 		};
 	}
 }
