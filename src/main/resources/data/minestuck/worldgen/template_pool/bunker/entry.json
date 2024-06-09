@@ -9,6 +9,15 @@
         "location": "minestuck:bunker/bunker_derse_entry_upper",
         "processors": "minecraft:empty"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "minestuck:bunker/bunker_derse_entry_null",
+        "processors": "minecraft:empty"
+      }
     }
   ]
 }
