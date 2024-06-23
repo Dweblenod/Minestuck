@@ -38,7 +38,7 @@ public class WeaponItem extends TieredItem
 	@Nullable
 	private final MSToolType toolType;
 	private final Set<ToolAction> toolActions;
-	private final List<OnHitEffect> onHitEffects;
+	private final List<OnHitEffectWrapper> onHitEffects;
 	@Nullable
 	private final DestroyBlockEffect destroyBlockEffect;
 	@Nullable
@@ -250,7 +250,7 @@ public class WeaponItem extends TieredItem
 		return tickEffects;
 	}
 	
-	public List<OnHitEffect> getOnHitEffects()
+	public List<OnHitEffectWrapper> getOnHitEffects()
 	{
 		return onHitEffects;
 	}
@@ -271,7 +271,7 @@ public class WeaponItem extends TieredItem
 		private final Set<ToolAction> toolActions = new HashSet<>();
 		private float efficiency;
 		private boolean disableShield;
-		private final List<OnHitEffect> onHitEffects = new ArrayList<>();
+		private final List<OnHitEffectWrapper> onHitEffects = new ArrayList<>();
 		@Nullable
 		private DestroyBlockEffect destroyBlockEffect = null;
 		@Nullable
@@ -346,9 +346,19 @@ public class WeaponItem extends TieredItem
 			return this;
 		}
 		
-		public Builder add(OnHitEffect... effects)
+		public Builder add(OnHitEffectWrapper... effects)
 		{
 			onHitEffects.addAll(Arrays.asList(effects));
+			return this;
+		}
+		
+		public Builder add(PogoEffect... effects)
+		{
+			List<OnHitEffectWrapper> wrappedEffects = new ArrayList<>();
+			
+			Arrays.stream(effects).forEach(effect -> wrappedEffects.add(new OnHitEffectWrapper((float) effect.getPogoMotion(), effect)));
+			
+			onHitEffects.addAll(wrappedEffects);
 			return this;
 		}
 		

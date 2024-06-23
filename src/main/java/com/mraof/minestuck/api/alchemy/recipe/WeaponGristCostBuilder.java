@@ -7,7 +7,7 @@ import com.mraof.minestuck.api.alchemy.DefaultImmutableGristSet;
 import com.mraof.minestuck.api.alchemy.GristType;
 import com.mraof.minestuck.api.alchemy.GristTypes;
 import com.mraof.minestuck.item.MSItemTypes;
-import com.mraof.minestuck.item.weapon.OnHitEffect;
+import com.mraof.minestuck.item.weapon.OnHitEffectWrapper;
 import com.mraof.minestuck.item.weapon.WeaponItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -179,7 +179,7 @@ public final class WeaponGristCostBuilder
 			ItemStack defaultStack = item.getDefaultInstance();
 			
 			Multimap<Attribute, AttributeModifier> attributes = item.getAttributeModifiers(EquipmentSlot.MAINHAND, defaultStack);
-			List<OnHitEffect> onHitEffects = item.getOnHitEffects();
+			List<OnHitEffectWrapper> onHitEffects = item.getOnHitEffects();
 			Set<ToolAction> toolActions = item.getToolActions();
 			Tier itemTier = item.getTier();
 			
@@ -191,9 +191,9 @@ public final class WeaponGristCostBuilder
 			exponent += toolActions.contains(ToolActions.SWORD_SWEEP) ? (float) 1 / 6 : 0F;
 			exponent += item.isFireResistant() ? 1 : 0;
 			
-			for(OnHitEffect effect : onHitEffects)
+			for(OnHitEffectWrapper effect : onHitEffects)
 			{
-				exponent += effect.onHit(defaultStack, null, null);
+				exponent += effect.value();
 			}
 			
 			//TODO result of durability does not match how the result you would get with other applications

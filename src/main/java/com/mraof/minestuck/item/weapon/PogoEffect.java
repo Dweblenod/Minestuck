@@ -37,17 +37,12 @@ public class PogoEffect implements ItemRightClickEffect, OnHitEffect
 	}
 	
 	@Override
-	public float onHit(ItemStack stack, LivingEntity target, LivingEntity player)
+	public void onHit(ItemStack stack, LivingEntity target, LivingEntity player)
 	{
-		if(player == null || target == null)
-			return (float) pogoMotion;
-		
-		hitEntity(stack, target, player, getPogoMotion(stack));
-		
-		return (float) pogoMotion;
+		hitEntity(stack, target, player, getPogoMotion());
 	}
 	
-	private double getPogoMotion(ItemStack stack)
+	public double getPogoMotion()
 	{
 		return pogoMotion;
 	}
@@ -65,7 +60,7 @@ public class PogoEffect implements ItemRightClickEffect, OnHitEffect
 		
 		if(blockraytraceresult.getType() == HitResult.Type.BLOCK)
 		{
-			return onItemUse(player, level, blockraytraceresult.getBlockPos(), stack, blockraytraceresult.getDirection(), getPogoMotion(stack)) == InteractionResult.SUCCESS ? InteractionResultHolder.success(stack) : InteractionResultHolder.pass(stack);
+			return onItemUse(player, level, blockraytraceresult.getBlockPos(), stack, blockraytraceresult.getDirection(), getPogoMotion()) == InteractionResult.SUCCESS ? InteractionResultHolder.success(stack) : InteractionResultHolder.pass(stack);
 		}
 		
 		return InteractionResultHolder.pass(stack);
