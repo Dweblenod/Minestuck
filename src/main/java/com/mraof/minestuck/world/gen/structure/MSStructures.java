@@ -142,6 +142,8 @@ public final class MSStructures
 		ConsortVillage.init();
 	}
 	
+	public static final ResourceKey<Structure> BUNKER = key("bunker");
+	
 	public static final Supplier<StructureType<LargeWoodObjectStructure>> LARGE_WOOD_OBJECT_TYPE =
 			TYPE_REGISTER.register("large_wood_object", () -> asType(LargeWoodObjectStructure.CODEC));
 	public static final ResourceKey<Structure> LARGE_WOOD_OBJECT = key("large_wood_object");
