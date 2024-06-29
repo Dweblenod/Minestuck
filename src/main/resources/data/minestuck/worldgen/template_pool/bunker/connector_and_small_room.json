@@ -1,5 +1,5 @@
 {
-  "fallback": "minecraft:empty",
+  "fallback": "minestuck:bunker/small_room",
   "elements": [
     {
       "weight": 1,

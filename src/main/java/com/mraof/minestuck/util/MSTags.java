@@ -185,6 +185,7 @@ public class MSTags
 		public static final TagKey<Biome> HAS_SMALL_RUIN = tag("has_structure/small_ruin");
 		public static final TagKey<Biome> HAS_IMP_DUNGEON = tag("has_structure/imp_dungeon");
 		public static final TagKey<Biome> HAS_CONSORT_VILLAGE = tag("has_structure/consort_village");
+		public static final TagKey<Biome> HAS_BUNKER = tag("has_structure/bunker");
 		
 		// Skaia
 		public static final TagKey<Biome> HAS_SKAIA_CASTLE = tag("has_structure/skaia_castle");

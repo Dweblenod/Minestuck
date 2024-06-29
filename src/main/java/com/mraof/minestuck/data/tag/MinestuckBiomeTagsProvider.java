@@ -37,6 +37,7 @@ public class MinestuckBiomeTagsProvider extends BiomeTagsProvider
 		this.tag(HAS_SMALL_RUIN).addTag(LAND_NORMAL);
 		this.tag(HAS_IMP_DUNGEON).addTags(LAND_NORMAL, LAND_ROUGH);
 		this.tag(HAS_CONSORT_VILLAGE).addTag(LAND_NORMAL);
+		this.tag(HAS_BUNKER).addTag(LAND_NORMAL);
 		
 		this.tag(HAS_SKAIA_CASTLE).add(MSBiomes.SKAIA);
 	}

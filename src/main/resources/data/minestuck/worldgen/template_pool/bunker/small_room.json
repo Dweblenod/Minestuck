@@ -1,12 +1,12 @@
 {
-  "fallback": "minestuck:bunker/small_room",
+  "fallback": "minecraft:empty",
   "elements": [
     {
       "weight": 1,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "minestuck:bunker/bunker_derse_straight_001",
+        "location": "minestuck:bunker/bunker_derse_farm_001",
         "processors": "minecraft:empty"
       }
     },
@@ -15,7 +15,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "minestuck:bunker/bunker_derse_straight_002",
+        "location": "minestuck:bunker/bunker_derse_farm_002",
         "processors": "minecraft:empty"
       }
     },
@@ -24,16 +24,7 @@
       "element": {
         "element_type": "minecraft:single_pool_element",
         "projection": "rigid",
-        "location": "minestuck:bunker/bunker_derse_straight_003",
-        "processors": "minecraft:empty"
-      }
-    },
-    {
-      "weight": 1,
-      "element": {
-        "element_type": "minecraft:single_pool_element",
-        "projection": "rigid",
-        "location": "minestuck:bunker/bunker_derse_straight_004",
+        "location": "minestuck:bunker/bunker_derse_farm_003",
         "processors": "minecraft:empty"
       }
     }
