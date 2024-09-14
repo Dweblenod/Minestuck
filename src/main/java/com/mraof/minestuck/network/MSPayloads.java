@@ -53,6 +53,8 @@ public class MSPayloads
 				.play(ThemeSelectPacket.ID, ThemeSelectPacket::read, MSPacket.PlayToServer::handler)
 				.play(DataCheckerPacket.ID, DataCheckerPacket::read, MSPacket.PlayToBoth::handlerBoth)
 				
+				.play(GutterUpdatePacket.ID, GutterUpdatePacket::read, MSPacket.PlayToClient::handler)
+				
 				.play(MiscContainerPacket.ID, MiscContainerPacket::read, MSPacket.PlayToServer::handler)
 				
 				.play(ClientEditPacket.ID, ClientEditPacket::read, MSPacket.PlayToServer::handler)
