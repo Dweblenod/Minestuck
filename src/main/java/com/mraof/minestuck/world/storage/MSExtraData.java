@@ -2,6 +2,7 @@ package com.mraof.minestuck.world.storage;
 
 import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.alchemy.CardCaptchas;
+import com.mraof.minestuck.alchemy.TorrentSession;
 import com.mraof.minestuck.computer.editmode.EditData;
 import com.mraof.minestuck.entry.PostEntryTask;
 import net.minecraft.nbt.CompoundTag;
@@ -36,6 +37,7 @@ public class MSExtraData extends SavedData
 	private final List<EditData.ConnectionRecovery> editConnectionRecovery = new ArrayList<>();
 	
 	private final CardCaptchas cardCaptchas = new CardCaptchas();
+	private final List<TorrentSession> torrentSessions = new ArrayList<>();
 	private final List<PostEntryTask> postEntryTasks = new ArrayList<>();
 	
 	private MSExtraData()
@@ -73,6 +75,13 @@ public class MSExtraData extends SavedData
 		if(nbt.contains("card_captchas", Tag.TAG_COMPOUND))
 			data.cardCaptchas.deserialize(nbt.getCompound("card_captchas"));
 		
+		ListTag torrentSessionList = nbt.getList("torrent_sessions", Tag.TAG_COMPOUND);
+		for(int i = 0; i < torrentSessionList.size(); i++)
+		{
+			TorrentSession.CODEC.parse(NbtOps.INSTANCE, torrentSessionList.getCompound(i))
+					.resultOrPartial(LOGGER::error).ifPresent(data.torrentSessions::add);
+		}
+		
 		return data;
 	}
 	
@@ -93,6 +102,13 @@ public class MSExtraData extends SavedData
 		compound.put("entry_tasks", entryTaskList);
 		
 		compound.put("card_captchas", cardCaptchas.serialize());
+		
+		ListTag torrentSessionList = new ListTag();
+		torrentSessions.stream()
+				.flatMap(session -> TorrentSession.CODEC.encodeStart(NbtOps.INSTANCE, session).resultOrPartial(LOGGER::error).stream())
+				.forEach(torrentSessionList::add);
+		
+		compound.put("torrent_sessions", torrentSessionList);
 		
 		return compound;
 	}
@@ -205,6 +221,21 @@ public class MSExtraData extends SavedData
 	public CardCaptchas getCardCaptchas()
 	{
 		return cardCaptchas;
+	}
+	
+	public List<TorrentSession> getTorrentSessions()
+	{
+		return torrentSessions;
+	}
+	
+	public void addTorrentSession(TorrentSession newSession)
+	{
+		//TODO does this check actually confirm whether a given UUIDIdentifier is present
+		if(torrentSessions.stream().noneMatch(existingSession -> existingSession.getSeeder().getUUID().equals(newSession.getSeeder().getUUID())))
+		{
+			torrentSessions.add(newSession);
+			setDirty();
+		}
 	}
 	
 	@Override
