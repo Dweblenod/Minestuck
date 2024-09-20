@@ -54,6 +54,7 @@ public class MSPayloads
 				.play(DataCheckerPacket.ID, DataCheckerPacket::read, MSPacket.PlayToBoth::handlerBoth)
 				
 				.play(GutterUpdatePacket.ID, GutterUpdatePacket::read, MSPacket.PlayToClient::handler)
+				.play(TorrentUpdatePacket.ID, TorrentUpdatePacket::read, MSPacket.PlayToClient::handler)
 				
 				.play(MiscContainerPacket.ID, MiscContainerPacket::read, MSPacket.PlayToServer::handler)
 				
