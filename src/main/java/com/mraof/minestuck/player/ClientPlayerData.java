@@ -7,7 +7,7 @@ import com.mraof.minestuck.client.gui.MSScreenFactories;
 import com.mraof.minestuck.inventory.captchalogue.CaptchaDeckHandler;
 import com.mraof.minestuck.inventory.captchalogue.Modus;
 import com.mraof.minestuck.network.GutterUpdatePacket;
-import com.mraof.minestuck.network.TorrentUpdatePacket;
+import com.mraof.minestuck.network.TorrentPackets;
 import com.mraof.minestuck.network.data.*;
 import com.mraof.minestuck.util.ColorHandler;
 import net.neoforged.api.distmarker.Dist;
@@ -193,7 +193,7 @@ public final class ClientPlayerData
 		gutterRemainingCapacity = packet.remainingCapacity();
 	}
 	
-	public static void handleDataPacket(TorrentUpdatePacket packet)
+	public static void handleDataPacket(TorrentPackets.UpdateClient packet)
 	{
 		visibleTorrentSessions = packet.availableSessions();
 	}
