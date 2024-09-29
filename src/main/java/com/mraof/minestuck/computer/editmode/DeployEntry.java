@@ -23,11 +23,10 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
-public record DeployEntry(String name, int tier, AvailabilityConditions condition, ConditionalItem item, DeployGristCost grist, DeployList.EntryLists category)
+public record DeployEntry(String name, int tier, AvailabilityConditions condition, ConditionalItem item,
+						  DeployGristCost grist, DeployList.EntryLists category)
 {
 	public static final Codec<DeployEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			Codec.STRING.fieldOf("name").forGetter(DeployEntry::name),
@@ -177,13 +176,9 @@ public record DeployEntry(String name, int tier, AvailabilityConditions conditio
 		}
 		
 		@FunctionalInterface
-		public interface QuadFunction<A, B, C, D, X> {
+		public interface QuadFunction<A, B, C, D, X>
+		{
 			X apply(A var1, B var2, C var3, D var4);
-			
-			default <Y> QuadFunction<A, B, C, D, Y> andThen(Function<? super X, ? extends Y> after) {
-				Objects.requireNonNull(after);
-				return (a, b, c, d) -> after.apply(this.apply(a, b, c, d));
-			}
 		}
 	}
 }

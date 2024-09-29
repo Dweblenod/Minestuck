@@ -25,7 +25,7 @@ public class EditmodeMenu extends AbstractContainerMenu
 	
 	private final Player player;
 	private final Container inventory = new SimpleContainer(14);
-	private List<ItemStack> items  = new ArrayList<>();
+	private List<ItemStack> items = new ArrayList<>();
 	private int scroll;
 	
 	public EditmodeMenu(int windowId, Inventory playerInventory)
@@ -42,7 +42,7 @@ public class EditmodeMenu extends AbstractContainerMenu
 	public void updateScroll(boolean increase)
 	{
 		scroll += increase ? 1 : -1;
-		scroll = Mth.clamp(scroll, 0, items.size()/2-7);
+		scroll = Mth.clamp(scroll, 0, items.size() / 2 - 7);
 		
 		sendPacket();
 	}
@@ -82,10 +82,10 @@ public class EditmodeMenu extends AbstractContainerMenu
 	{
 		
 		for(int i = 0; i < 14; i++)
-			addSlot(new InventorySlot(inventory, i, 26+(i/2)*18, 16+(i%2)*18));
+			addSlot(new InventorySlot(inventory, i, 26 + (i / 2) * 18, 16 + (i % 2) * 18));
 		
 		for(int i = 0; i < 9; i++)
-			addSlot(new ToolbarSlot(player.getInventory(), i, 8+i*18, 74));
+			addSlot(new ToolbarSlot(player.getInventory(), i, 8 + i * 18, 74));
 	}
 	
 	private void updateInventory()
@@ -127,16 +127,16 @@ public class EditmodeMenu extends AbstractContainerMenu
 	private void sendPacket()
 	{
 		if(!(player instanceof ServerPlayer serverPlayer))
-			throw new IllegalStateException("Can't send update packet to player! Found player object "+player+".");
+			throw new IllegalStateException("Can't send update packet to player! Found player object " + player + ".");
 		
 		ArrayList<ItemStack> itemList = new ArrayList<>();
 		for(int i = 0; i < 14; i++)
 		{
-			itemList.add(this.items.size() <= i + scroll*2? ItemStack.EMPTY:this.items.get(i + scroll*2));
+			itemList.add(this.items.size() <= i + scroll * 2 ? ItemStack.EMPTY : this.items.get(i + scroll * 2));
 			this.inventory.setItem(i, itemList.get(i));
 		}
 		
-		EditmodeInventoryPacket packet = EditmodeInventoryPacket.update(itemList, scroll > 0, scroll*2 + 14 < items.size());
+		EditmodeInventoryPacket packet = EditmodeInventoryPacket.update(itemList, scroll > 0, scroll * 2 + 14 < items.size());
 		PacketDistributor.PLAYER.with(serverPlayer).send(packet);
 	}
 	
@@ -188,7 +188,8 @@ public class EditmodeMenu extends AbstractContainerMenu
 		
 		@Override
 		public void set(ItemStack stack)
-		{}
+		{
+		}
 		
 	}
 }

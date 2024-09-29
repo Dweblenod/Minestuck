@@ -319,8 +319,6 @@ public class DeployListProvider implements DataProvider
 			if(entry.name().equals(name))
 				return true;
 		return false;
-		
-		//return containsEntry(name, EntryLists.ALL);
 	}
 	
 	/*public boolean containsEntry(String name, EntryLists entryList)

@@ -60,6 +60,11 @@ public class DeployList
 		{
 			return name().toLowerCase(Locale.ROOT);
 		}
+		
+		public boolean listsMatch(EntryLists otherList)
+		{
+			return this.equals(ALL) || this.equals(otherList);
+		}
 	}
 	
 	public List<DeployEntry> getItemList(MinecraftServer server, SburbPlayerData playerData)
@@ -71,7 +76,7 @@ public class DeployList
 	{
 		int tier = SburbHandler.availableTier(server, playerData.playerId());
 		ArrayList<DeployEntry> itemList = new ArrayList<>();
-		for(DeployEntry entry : entries.stream().filter(entry -> entry.category() == entryList).toList())
+		for(DeployEntry entry : entries.stream().filter(entry -> entry.category().listsMatch(entryList)).toList())
 			if(entry.isAvailable(playerData, tier))
 				itemList.add(entry);
 		
@@ -90,11 +95,6 @@ public class DeployList
 		return stack;
 	}
 	
-	public static boolean containsItemStack(ItemStack stack, SburbPlayerData playerData, Level level)
-	{
-		return containsItemStack(stack, playerData, level, EntryLists.ALL);
-	}
-	
 	public static boolean containsItemStack(ItemStack stack, SburbPlayerData playerData, Level level, EntryLists entryList)
 	{
 		return getEntryForItem(stack, playerData, level, entryList) != null;
@@ -109,15 +109,10 @@ public class DeployList
 	{
 		List<DeployEntry> entries = playerData.getDeployList().entries;
 		stack = cleanStack(stack);
-		for(DeployEntry entry : entries.stream().filter(entry -> entry.category() == entryList).toList())
+		for(DeployEntry entry : entries.stream().filter(entry -> entry.category().listsMatch(entryList)).toList())
 			if(ItemStack.matches(stack, entry.getItemStack(playerData, level)))
 				return entry;
 		return null;
-	}
-	
-	public static BiFunction<SburbPlayerData, Level, ItemStack> item(ItemLike item)
-	{
-		return (playerData, world) -> new ItemStack(item);
 	}
 	
 	static CompoundTag getDeployListTag(MinecraftServer server, SburbPlayerData playerData)
