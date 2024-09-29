@@ -446,7 +446,7 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 			DeployEntry entry = DeployList.getEntryForItem(stack, data.sburbData(), event.getLevel());
 			if(block.getDestroySpeed(event.getLevel(), event.getPos()) < 0 || block.is(MSTags.Blocks.EDITMODE_BREAK_BLACKLIST)
 					|| (!data.getGristCache().canAfford(blockBreakCost()) && !MinestuckConfig.SERVER.gristRefund.get()
-					|| entry == null || entry.getCategory() == DeployList.EntryLists.ATHENEUM))
+					|| entry == null || entry.category() == DeployList.EntryLists.ATHENEUM))
 			{
 				event.setCanceled(true);
 				return;
@@ -519,7 +519,7 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 			if(entry != null)
 			{
 				GristSet cost = entry.getCurrentCost(targetData);
-				if(entry.getCategory() == DeployList.EntryLists.DEPLOY)
+				if(entry.category() == DeployList.EntryLists.DEPLOY)
 				{
 					targetData.setHasGivenItem(entry);
 					SburbHandler.onEntryItemsDeployed(player.server, data.getTarget());
@@ -529,7 +529,7 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 					//Assumes that this will succeed because of the check in onRightClickBlockControl()
 					data.getGristCache().tryTake(cost, GristHelper.EnumSource.SERVER);
 				}
-				if(entry.getCategory() != DeployList.EntryLists.ATHENEUM)
+				if(entry.category() != DeployList.EntryLists.ATHENEUM)
 					player.getInventory().items.set(player.getInventory().selected, ItemStack.EMPTY);
 				
 			} else
@@ -652,10 +652,11 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 	
 	public static void updateInventory(ServerPlayer player, SburbPlayerData playerData)
 	{
-		List<DeployEntry> deployList = DeployList.getItemList(player.getServer(), playerData);
-		deployList.removeIf(entry -> entry.getCurrentCost(playerData) == null);
+		DeployList deployList = playerData.getDeployList();
+		List<DeployEntry> filteredDeployList = deployList.getItemList(player.getServer(), playerData);
+		filteredDeployList.removeIf(entry -> entry.getCurrentCost(playerData) == null);
 		List<ItemStack> itemList = new ArrayList<>();
-		deployList.forEach(deployEntry -> itemList.add(deployEntry.getItemStack(playerData, player.level())));
+		filteredDeployList.forEach(deployEntry -> itemList.add(deployEntry.getItemStack(playerData, player.level())));
 		
 		boolean inventoryChanged = false;
 		for(int i = 0; i < player.getInventory().items.size(); i++)

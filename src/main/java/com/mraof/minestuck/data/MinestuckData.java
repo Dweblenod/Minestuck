@@ -1,6 +1,7 @@
 package com.mraof.minestuck.data;
 
 import com.mraof.minestuck.Minestuck;
+import com.mraof.minestuck.computer.editmode.DeployListProvider;
 import com.mraof.minestuck.data.dialogue.*;
 import com.mraof.minestuck.data.loot_table.MSLootModifiers;
 import com.mraof.minestuck.data.loot_table.MinestuckLootTableProvider;
@@ -51,6 +52,7 @@ public final class MinestuckData
 		gen.addProvider(event.includeServer(), new GeneratedGristCostConfigProvider(output, Minestuck.MOD_ID));
 		
 		gen.addProvider(event.includeServer(), new ComputerThemeProvider(output));
+		gen.addProvider(event.includeServer(), new DeployListProvider(output, Minestuck.MOD_ID));
 		
 		gen.addProvider(event.includeServer(), new BoondollarPriceProvider(output, Minestuck.MOD_ID));
 		gen.addProvider(event.includeServer(), MinestuckLootTableProvider.create(output));

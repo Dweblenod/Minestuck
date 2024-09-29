@@ -1,0 +1,28 @@
+{
+  "category": "atheneum",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 2
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 2
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minecraft:acacia_fence"
+    }
+  },
+  "name": "acacia_fence",
+  "tier": 0
+}

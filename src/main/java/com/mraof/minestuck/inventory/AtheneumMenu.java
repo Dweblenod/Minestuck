@@ -100,7 +100,7 @@ public class AtheneumMenu extends AbstractContainerMenu
 		SburbPlayerData playerData = editData.sburbData();
 		
 		//Gets items from the atheneum category of the DeployList
-		List<DeployEntry> atheneumItems = DeployList.getItemList(player.getServer(), playerData, DeployList.EntryLists.ATHENEUM);
+		List<DeployEntry> atheneumItems = playerData.getDeployList().getItemList(player.getServer(), playerData, DeployList.EntryLists.ATHENEUM);
 		atheneumItems.removeIf(deployEntry -> deployEntry.getCurrentCost(playerData) == null);
 		
 		//if each stack is not empty, put it in the item list.

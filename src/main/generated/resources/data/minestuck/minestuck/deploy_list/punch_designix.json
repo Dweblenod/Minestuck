@@ -1,0 +1,18 @@
+{
+  "category": "deploy",
+  "condition": "none",
+  "grist": {
+    "condition": "four_base_grist",
+    "primary_cost": [],
+    "secondary_cost": []
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:punch_designix"
+    }
+  },
+  "name": "punch_designix",
+  "tier": 0
+}

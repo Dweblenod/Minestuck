@@ -1,0 +1,28 @@
+{
+  "category": "deploy",
+  "condition": "deploy_card_enabled",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 25
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 25
+      }
+    ]
+  },
+  "item": {
+    "condition": "punched_item_card",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:captcha_card"
+    }
+  },
+  "name": "card_punched_card",
+  "tier": 0
+}

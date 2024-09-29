@@ -1,0 +1,28 @@
+{
+  "category": "deploy",
+  "condition": "portable_machines_enabled",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 200
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 200
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:mini_totem_lathe"
+    }
+  },
+  "name": "portable_totem_lathe",
+  "tier": 1
+}

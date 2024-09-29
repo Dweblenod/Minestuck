@@ -1,0 +1,23 @@
+{
+  "category": "deploy",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 100
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:alchemiter"
+    }
+  },
+  "name": "alchemiter",
+  "tier": 0
+}

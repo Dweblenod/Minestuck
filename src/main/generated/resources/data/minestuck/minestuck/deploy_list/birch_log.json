@@ -1,0 +1,28 @@
+{
+  "category": "atheneum",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 4
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 4
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minecraft:birch_log"
+    }
+  },
+  "name": "birch_log",
+  "tier": 0
+}

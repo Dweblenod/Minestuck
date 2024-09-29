@@ -1,0 +1,28 @@
+{
+  "category": "atheneum",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 2
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 2
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minecraft:dark_oak_stairs"
+    }
+  },
+  "name": "dark_oak_stairs",
+  "tier": 0
+}

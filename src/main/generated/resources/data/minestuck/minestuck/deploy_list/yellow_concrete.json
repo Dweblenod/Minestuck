@@ -1,0 +1,44 @@
+{
+  "category": "atheneum",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 1
+      },
+      {
+        "type": "minestuck:cobalt",
+        "amount": 1
+      },
+      {
+        "type": "minestuck:amber",
+        "amount": 1
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 1
+      },
+      {
+        "type": "minestuck:cobalt",
+        "amount": 1
+      },
+      {
+        "type": "minestuck:amber",
+        "amount": 1
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minecraft:yellow_concrete"
+    }
+  },
+  "name": "yellow_concrete",
+  "tier": 2
+}

@@ -1,0 +1,28 @@
+{
+  "category": "deploy",
+  "condition": "portable_machines_enabled",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 200
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 200
+      }
+    ]
+  },
+  "item": {
+    "condition": "mini_cruxtruder_with_color",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:generic_object"
+    }
+  },
+  "name": "portable_cruxtruder",
+  "tier": 1
+}

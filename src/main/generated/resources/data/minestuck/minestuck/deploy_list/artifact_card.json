@@ -1,0 +1,18 @@
+{
+  "category": "deploy",
+  "condition": "has_not_entered",
+  "grist": {
+    "condition": "no_secondary",
+    "primary_cost": [],
+    "secondary_cost": []
+  },
+  "item": {
+    "condition": "punched_entry_item_card",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:generic_object"
+    }
+  },
+  "name": "artifact_card",
+  "tier": 0
+}

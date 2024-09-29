@@ -1,0 +1,28 @@
+{
+  "category": "deploy",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 4000
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 4000
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minestuck:holopad"
+    }
+  },
+  "name": "holopad",
+  "tier": 2
+}

@@ -1,0 +1,28 @@
+{
+  "category": "atheneum",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 1
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 1
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minecraft:polished_diorite_slab"
+    }
+  },
+  "name": "polished_diorite_slab",
+  "tier": 0
+}

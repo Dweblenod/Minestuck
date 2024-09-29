@@ -1,0 +1,36 @@
+{
+  "category": "atheneum",
+  "condition": "none",
+  "grist": {
+    "condition": "none",
+    "primary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 2
+      },
+      {
+        "type": "minestuck:tar",
+        "amount": 2
+      }
+    ],
+    "secondary_cost": [
+      {
+        "type": "minestuck:build",
+        "amount": 2
+      },
+      {
+        "type": "minestuck:tar",
+        "amount": 2
+      }
+    ]
+  },
+  "item": {
+    "condition": "none",
+    "item": {
+      "Count": 1,
+      "id": "minecraft:nether_brick_fence"
+    }
+  },
+  "name": "nether_brick_fence",
+  "tier": 3
+}

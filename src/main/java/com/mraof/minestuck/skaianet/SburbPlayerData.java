@@ -3,6 +3,7 @@ package com.mraof.minestuck.skaianet;
 import com.mraof.minestuck.alchemy.GristHelper;
 import com.mraof.minestuck.api.alchemy.GristType;
 import com.mraof.minestuck.computer.editmode.DeployEntry;
+import com.mraof.minestuck.computer.editmode.DeployList;
 import com.mraof.minestuck.computer.editmode.EditData;
 import com.mraof.minestuck.computer.editmode.ServerEditHandler;
 import com.mraof.minestuck.item.MSItems;
@@ -45,6 +46,7 @@ public final class SburbPlayerData
 	private ResourceKey<Level> landKey;
 	ArtifactType artifactType;
 	private GristType baseGrist;
+	private DeployList deployList;
 	
 	private final Set<String> givenItemList = new HashSet<>();
 	
@@ -54,6 +56,13 @@ public final class SburbPlayerData
 	{
 		this.playerId = playerId;
 		this.mcServer = mcServer;
+		
+		deployList = DeployList.getInstance();
+	}
+	
+	public DeployList getDeployList()
+	{
+		return deployList;
 	}
 	
 	void read(CompoundTag tag)
@@ -185,12 +194,12 @@ public final class SburbPlayerData
 	
 	public boolean hasGivenItem(DeployEntry item)
 	{
-		return givenItemList.contains(item.getName());
+		return givenItemList.contains(item.name());
 	}
 	
 	public void setHasGivenItem(DeployEntry item)
 	{
-		if(givenItemList.add(item.getName()))
+		if(givenItemList.add(item.name()))
 			resendGivenItems();
 	}
 	
