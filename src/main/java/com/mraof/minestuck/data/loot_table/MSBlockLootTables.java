@@ -940,6 +940,8 @@ public final class MSBlockLootTables extends BlockLootSubProvider
 		dropSelf(PLATFORM_GENERATOR.get());
 		add(PLATFORM_BLOCK.get(), noDrop());
 		dropSelf(PLATFORM_RECEPTACLE.get());
+		dropSelf(CONWAY_GENERATOR.get());
+		add(CONWAY_CELL.get(), noDrop());
 		dropSelf(ITEM_MAGNET.get());
 		dropSelf(REDSTONE_CLOCK.get());
 		dropSelf(ROTATOR.get());

@@ -898,6 +898,7 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		addBlockTooltip(MSBlocks.PUSHABLE_BLOCK, "Right click to push and shift right click to pull! Affected by gravity.");
 		addBlock(MSBlocks.BLOCK_TELEPORTER, "Block Teleporter");
 		addBlockTooltip(MSBlocks.BLOCK_TELEPORTER, "Teleports the block above it to a specified point in relation to where it is facing.");
+		addBlock(MSBlocks.CONWAY_CELL, "Conway Cell");
 		addBlock(MSBlocks.AND_GATE_BLOCK, "AND Gate");
 		addBlock(MSBlocks.OR_GATE_BLOCK, "OR Gate");
 		addBlock(MSBlocks.XOR_GATE_BLOCK, "XOR Gate");

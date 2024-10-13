@@ -1415,6 +1415,8 @@ public final class MSCreativeTabs
 		output.accept(MSItems.AREA_EFFECT_BLOCK.get());
 		output.accept(MSItems.PLATFORM_GENERATOR.get());
 		output.accept(MSItems.PLATFORM_RECEPTACLE.get());
+		output.accept(MSItems.CONWAY_GENERATOR.get());
+		output.accept(MSItems.CONWAY_CELL.get());
 		output.accept(MSItems.REMOTE_COMPARATOR.get());
 		output.accept(MSItems.STRUCTURE_CORE.get());
 		output.accept(MSItems.PUSHABLE_BLOCK.get());

@@ -1310,6 +1310,10 @@ public class MSBlockStateProvider extends BlockStateProvider
 			simpleBlock(MSBlocks.PLATFORM_BLOCK, id -> cubeAll(id).renderType("translucent"));
 		}
 		{
+			simpleBlockWithItem(MSBlocks.CONWAY_GENERATOR);
+			simpleBlock(MSBlocks.CONWAY_CELL, id -> cubeAll(id).renderType("translucent"));
+		}
+		{
 			ModelFile unpowered = cubeAll(id("platform_receptacle_unpowered"));
 			ModelFile powered = cubeAll(id("platform_receptacle_powered"));
 			ModelFile absorbing = cubeAll(id("platform_receptacle_powered_absorbing"));
