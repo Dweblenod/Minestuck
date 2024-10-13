@@ -36,6 +36,11 @@ public abstract class ButtonListProgram extends ComputerProgram
 	 */
 	protected abstract ArrayList<UnlocalizedString> getStringList(ComputerBlockEntity be);
 	
+	protected void updateTooltip(ComputerBlockEntity be, LinkedHashMap<Button, UnlocalizedString> buttonMap)
+	{
+	
+	}
+	
 	/**
 	 * Performs the action caused by pressing a button.
 	 *
@@ -85,8 +90,11 @@ public abstract class ButtonListProgram extends ComputerProgram
 	{
 		downButton.active = false;
 		upButton.active = index > 0;
-		ArrayList<UnlocalizedString> list = getStringList(gui.be);
-		if(!gui.be.latestmessage.get(this.getId()).isEmpty())
+		
+		ComputerBlockEntity be = gui.be;
+		
+		ArrayList<UnlocalizedString> list = getStringList(be);
+		if(!be.latestmessage.get(this.getId()).isEmpty())
 			list.add(1, new UnlocalizedString(CLEAR_BUTTON));
 		
 		int pos = -1;
@@ -125,6 +133,8 @@ public abstract class ButtonListProgram extends ComputerProgram
 			entry.getKey().active = !data.string.isEmpty();
 			entry.getKey().setMessage(data.asTextComponent());
 		}
+		
+		updateTooltip(be, buttonMap);
 	}
 	
 	@Override

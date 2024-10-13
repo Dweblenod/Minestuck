@@ -7,13 +7,24 @@ import com.mraof.minestuck.network.computer.CloseSburbConnectionPackets;
 import com.mraof.minestuck.network.computer.OpenSburbServerPacket;
 import com.mraof.minestuck.network.computer.ResumeSburbConnectionPackets;
 import com.mraof.minestuck.network.editmode.ClientEditPackets;
+import com.mraof.minestuck.player.ClientPlayerData;
+import com.mraof.minestuck.skaianet.LandChain;
+import com.mraof.minestuck.skaianet.SburbHandler;
+import com.mraof.minestuck.skaianet.SessionHandler;
 import com.mraof.minestuck.skaianet.client.ReducedConnection;
 import com.mraof.minestuck.skaianet.client.SkaiaClient;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class SburbServer extends ButtonListProgram
 {
@@ -32,7 +43,7 @@ public class SburbServer extends ButtonListProgram
 	@Override
 	public ArrayList<UnlocalizedString> getStringList(ComputerBlockEntity be)
 	{
-		int clientId = be.getData(1).contains("connectedClient") ? be.getData(1).getInt("connectedClient") : -1;
+		int clientId = getClientId(be);
 		ReducedConnection connection = clientId != -1 ? SkaiaClient.getClientConnection(clientId) : null;
 		if(connection != null && connection.server().id() != be.ownerId)
 			connection = null;
@@ -44,7 +55,7 @@ public class SburbServer extends ButtonListProgram
 			list.add(new UnlocalizedString(CONNECT, displayPlayer));
 			list.add(new UnlocalizedString(CLOSE_BUTTON));
 			list.add(new UnlocalizedString(MinestuckConfig.SERVER.giveItems.get() ? GIVE_BUTTON : EDIT_BUTTON));
-		} else if (be.getData(getId()).getBoolean("isOpen"))
+		} else if(be.getData(getId()).getBoolean("isOpen"))
 		{
 			list.add(new UnlocalizedString(RESUME_SERVER));
 			list.add(new UnlocalizedString(CLOSE_BUTTON));
@@ -60,6 +71,60 @@ public class SburbServer extends ButtonListProgram
 				list.add(new UnlocalizedString(RESUME_BUTTON));
 		}
 		return list;
+	}
+	
+	@Override
+	protected void updateTooltip(ComputerBlockEntity be, LinkedHashMap<Button, UnlocalizedString> buttonMap)
+	{
+		if(buttonMap.entrySet().isEmpty())
+			return;
+		
+		//SkaiaClient.hasPlayerEntered()
+		//Map<Integer, String> availableServers = SkaiaClient.getAvailableServers(be.ownerId);
+		
+		//(Map.Entry<Integer, String> entry : SkaiaClient.getAvailableServers(be.ownerId).entrySet())
+		
+		ReducedConnection connection = SkaiaClient.getClientConnection(getClientId(be));
+		
+		/*boolean isInLoop = false;
+		
+		if(be.getLevel() != null)
+		{
+			LandChain chain = SkaiaClient.getLandChain(be.getLevel().dimension());
+			
+			if(chain.lands().contains(SburbHandler))
+			
+			if(chain != null)
+				isInLoop = chain.isLoop();
+		}*/
+		
+		
+		for(Map.Entry<Button, UnlocalizedString> entry : buttonMap.entrySet())
+		{
+			if(entry.getValue().string.equals(EDIT_BUTTON))
+			{
+				if(connection == null)
+					continue;
+				
+				MutableComponent tooltip = Component.literal("Edit for " + connection.server().name());
+				
+				entry.getKey().setTooltip(Tooltip.create(tooltip));
+				
+				/*Optional<Map.Entry<Integer, String>> potentialServerName = availableServers.entrySet().stream().filter(serverEntry -> serverEntry.getValue().equals(entry.getKey().getMessage().getString())).findFirst();
+				
+				if(potentialServerName.isPresent())
+				{
+					MutableComponent tooltip = Component.literal(potentialServerName.get().getValue());
+					
+					entry.getKey().setTooltip(Tooltip.create(tooltip));
+				}*/
+			}
+		}
+	}
+	
+	private static int getClientId(ComputerBlockEntity be)
+	{
+		return be.getData(1).contains("connectedClient") ? be.getData(1).getInt("connectedClient") : -1;
 	}
 	
 	@Override

@@ -30,6 +30,8 @@ public class SburbClient extends ButtonListProgram
 	
 	public static final ResourceLocation ICON = new ResourceLocation(Minestuck.MOD_ID, "textures/gui/desktop_icon/sburb_client.png");
 	
+	//TODO move color button to settings
+	
 	@Override
 	public ArrayList<UnlocalizedString> getStringList(ComputerBlockEntity be)
 	{
