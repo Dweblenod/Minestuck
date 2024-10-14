@@ -898,6 +898,9 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		addBlockTooltip(MSBlocks.PUSHABLE_BLOCK, "Right click to push and shift right click to pull! Affected by gravity.");
 		addBlock(MSBlocks.BLOCK_TELEPORTER, "Block Teleporter");
 		addBlockTooltip(MSBlocks.BLOCK_TELEPORTER, "Teleports the block above it to a specified point in relation to where it is facing.");
+		addBlock(MSBlocks.CONWAY_GENERATOR, "Conway Generator");
+		addBlockTooltip(MSBlocks.CONWAY_GENERATOR, "Generates and sustains a grid of Conway Cells which will update every quarter second.");
+		addBlockExtra(MSBlocks.CONWAY_GENERATOR, "additional_info", "- Right click to set the start configuration\n- Clear the grid and generate the start configuration using a Toggler\n- Freeze the step by powering the block with redstone\n- Conway Cells will only survive if they have 2 or 3 neighbors, empty blocks will become Conway Cells if they have exactly 3 neighbors");
 		addBlock(MSBlocks.CONWAY_CELL, "Conway Cell");
 		addBlock(MSBlocks.AND_GATE_BLOCK, "AND Gate");
 		addBlock(MSBlocks.OR_GATE_BLOCK, "OR Gate");

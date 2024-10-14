@@ -92,6 +92,7 @@ public final class MSPayloads
 				.play(TransportalizerPackets.SetDestId.ID, TransportalizerPackets.SetDestId::read, MSPacket.PlayToServer::handler)
 				
 				.play(AreaEffectSettingsPacket.ID, AreaEffectSettingsPacket::read, MSPacket.PlayToServer::handler)
+				.play(ConwayGeneratorSettingsPacket.ID, ConwayGeneratorSettingsPacket::read, MSPacket.PlayToServer::handler)
 				.play(WirelessRedstoneTransmitterSettingsPacket.ID, WirelessRedstoneTransmitterSettingsPacket::read, MSPacket.PlayToServer::handler)
 				.play(StatStorerSettingsPacket.ID, StatStorerSettingsPacket::read, MSPacket.PlayToServer::handler)
 				.play(RemoteObserverSettingsPacket.ID, RemoteObserverSettingsPacket::read, MSPacket.PlayToServer::handler)

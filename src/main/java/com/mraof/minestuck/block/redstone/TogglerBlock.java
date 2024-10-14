@@ -101,6 +101,9 @@ public class TogglerBlock extends MSDirectionalBlock
 			if(!level.getBlockState(pos.relative(state.getValue(FACING).getOpposite())).is(BlockTags.WOOL)) //wont make a toggle sound if the toggler is "muted" by a wool block
 				level.playSound(null, facingPos, SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.BLOCKS, 0.5F, facingState.getValue(MSProperties.MACHINE_TOGGLE) ? 1.5F : 0.5F);
 		}
+		
+		if(facingState.getBlock() instanceof TogglerActivated activatable)
+			activatable.triggered(level, facingPos);
 	}
 	
 	private void discharge(Level level, BlockPos pos, BlockState state, BlockPos facingPos, BlockState facingState)

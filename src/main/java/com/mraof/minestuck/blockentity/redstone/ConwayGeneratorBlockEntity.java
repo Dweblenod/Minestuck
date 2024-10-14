@@ -1,10 +1,19 @@
 package com.mraof.minestuck.blockentity.redstone;
 
+import com.mojang.datafixers.util.Pair;
 import com.mraof.minestuck.block.MSBlocks;
 import com.mraof.minestuck.block.redstone.ConwayCellBlock;
+import com.mraof.minestuck.block.redstone.ConwayGeneratorBlock;
 import com.mraof.minestuck.blockentity.MSBlockEntityTypes;
+import com.mraof.minestuck.network.block.ConwayGeneratorSettingsPacket;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -20,16 +30,25 @@ public class ConwayGeneratorBlockEntity extends BlockEntity
 {
 	public static final int GEN_DISTANCE = 16;
 	private static final Map<BlockPos, Integer> neighborMap = new HashMap<>();
+	private static final Map<Pair<Integer, Integer>, Boolean> startConfiguration = new HashMap<>();
 	
 	public ConwayGeneratorBlockEntity(BlockPos pos, BlockState state)
 	{
 		super(MSBlockEntityTypes.CONWAY_GENERATOR.get(), pos, state);
+		
+		for(int x = 0; x < ConwayGeneratorBlockEntity.GEN_DISTANCE; x++)
+		{
+			for(int y = 0; y < ConwayGeneratorBlockEntity.GEN_DISTANCE; y++)
+			{
+				startConfiguration.put(Pair.of(x, y), false);
+			}
+		}
 	}
 	
 	public static void tick(Level level, BlockPos pos, BlockState state, ConwayGeneratorBlockEntity blockEntity)
 	{
-		//updates only every .25 seconds and then only if the full game board is loaded
-		if(level.getGameTime() % 5 != 0 || !level.isAreaLoaded(pos, GEN_DISTANCE))
+		//updates only every .25 seconds, the block is not power, and only if the full game board is loaded
+		if(level.getGameTime() % 5 != 0 || state.getValue(ConwayGeneratorBlock.POWERED) || !level.isAreaLoaded(pos, GEN_DISTANCE))
 			return;
 		
 		blockEntity.updateBoard();
@@ -42,13 +61,10 @@ public class ConwayGeneratorBlockEntity extends BlockEntity
 		
 		neighborMap.clear();
 		
-		BlockPos genPos = getBlockPos();
-		Iterable<BlockPos> allPos = BlockPos.betweenClosed(genPos.offset(GEN_DISTANCE, 1, GEN_DISTANCE), genPos.offset(-GEN_DISTANCE, 1, -GEN_DISTANCE));
+		Iterable<BlockPos> allPos = getAllPos();
 		
 		//repopulate the map
-		allPos.forEach(pos -> {
-			neighborMap.put(pos.immutable(), 0);
-		});
+		allPos.forEach(pos -> neighborMap.put(pos.immutable(), 0));
 		
 		for(BlockPos iteratePos : allPos)
 		{
@@ -63,15 +79,21 @@ public class ConwayGeneratorBlockEntity extends BlockEntity
 		enactRules();
 	}
 	
+	private Iterable<BlockPos> getAllPos()
+	{
+		BlockPos genPos = getBlockPos();
+		return BlockPos.betweenClosed(genPos.offset(GEN_DISTANCE, 1, GEN_DISTANCE), genPos.offset(-GEN_DISTANCE, 1, -GEN_DISTANCE));
+	}
+	
 	private void updateNeighbors(BlockPos iteratePos)
 	{
+		//TODO consider allowing for seamless connection of connected generators
 		for(BlockPos neighborPos : BlockPos.betweenClosed(iteratePos.offset(1, 0, 1), iteratePos.offset(-1, 0, -1)))
 		{
 			//skip if the neighbor is actually the original block or if the neighbor pos is not in the map (implying it is out of bounds)
 			if(neighborPos.equals(iteratePos) || !neighborMap.containsKey(neighborPos))
 				continue;
 			
-			//TODO update regardless?
 			neighborMap.replace(neighborPos, neighborMap.get(neighborPos) + 1);
 		}
 	}
@@ -105,5 +127,97 @@ public class ConwayGeneratorBlockEntity extends BlockEntity
 	{
 		//TODO consider using block tag
 		return state.getBlock() instanceof ConwayCellBlock;
+	}
+	
+	public Map<Pair<Integer, Integer>, Boolean> getStartConfiguration()
+	{
+		return startConfiguration;
+	}
+	
+	public void handleSettingsPacket(ConwayGeneratorSettingsPacket packet)
+	{
+		Objects.requireNonNull(this.level);
+		
+		startConfiguration.clear();
+		startConfiguration.putAll(packet.startConfiguration());
+		setChanged();
+	}
+	
+	public void resetBoard()
+	{
+		if(level == null || level.isClientSide())
+			return;
+		
+		getAllPos().forEach(pos -> {
+			BlockState state = level.getBlockState(pos);
+			
+			if(isCell(state))
+				level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+		});
+		
+		for(Map.Entry<Pair<Integer, Integer>, Boolean> entry : startConfiguration.entrySet())
+		{
+			boolean isLive = entry.getValue();
+			
+			if(!isLive)
+				continue;
+			
+			int entryXOffset = entry.getKey().getFirst();
+			int entryYOffset = entry.getKey().getSecond();
+			
+			BlockPos entryPos = getBlockPos().offset(entryXOffset, 1, entryYOffset);
+			
+			BlockState entryState = level.getBlockState(entryPos);
+			
+			if(entryState.canBeReplaced())
+				level.setBlockAndUpdate(entryPos, MSBlocks.CONWAY_CELL.get().defaultBlockState());
+		}
+	}
+	
+	@Override
+	public void load(CompoundTag compound)
+	{
+		super.load(compound);
+		
+		ListTag list = compound.getList("startConfiguration", Tag.TAG_COMPOUND);
+		for(int i = 0; i < list.size(); i++)
+		{
+			CompoundTag entryNbt = list.getCompound(i);
+			if(entryNbt.contains("xCoord") && entryNbt.contains("yCoord") && entryNbt.contains("live"))
+				startConfiguration.put(Pair.of(entryNbt.getInt("xCoord"), entryNbt.getInt("yCoord")), entryNbt.getBoolean("live"));
+		}
+	}
+	
+	@Override
+	public void saveAdditional(CompoundTag compound)
+	{
+		super.saveAdditional(compound);
+		
+		ListTag configTag = new ListTag();
+		
+		for(Map.Entry<Pair<Integer, Integer>, Boolean> entry : startConfiguration.entrySet())
+		{
+			CompoundTag entryNbt = new CompoundTag();
+			
+			entryNbt.putInt("xCoord", entry.getKey().getFirst());
+			entryNbt.putInt("yCoord", entry.getKey().getSecond());
+			entryNbt.putBoolean("live", entry.getValue());
+			
+			configTag.add(entryNbt);
+		}
+		
+		compound.put("startConfiguration", configTag);
+	}
+	
+	@Override
+	public CompoundTag getUpdateTag()
+	{
+		return this.saveWithoutMetadata();
+	}
+	
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket()
+	{
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 }

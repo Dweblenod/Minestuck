@@ -1548,7 +1548,6 @@ public class MSItems
 	public static final DeferredItem<BlockItem> PLATFORM_GENERATOR = registerBlockItem(MSBlocks.PLATFORM_GENERATOR, block -> new ExtraInfoBlockItem(block, new Item.Properties()));
 	public static final DeferredItem<BlockItem> PLATFORM_RECEPTACLE = registerBlockItem(MSBlocks.PLATFORM_RECEPTACLE);
 	public static final DeferredItem<BlockItem> CONWAY_GENERATOR = registerBlockItem(MSBlocks.CONWAY_GENERATOR, block -> new ExtraInfoBlockItem(block, new Item.Properties()));
-	public static final DeferredItem<BlockItem> CONWAY_CELL = registerBlockItem(MSBlocks.CONWAY_CELL, block -> new ExtraInfoBlockItem(block, new Item.Properties()));
 	public static final DeferredItem<BlockItem> ITEM_MAGNET = registerBlockItem(MSBlocks.ITEM_MAGNET, block -> new ExtraInfoBlockItem(block, new Item.Properties()));
 	public static final DeferredItem<BlockItem> REDSTONE_CLOCK = registerBlockItem(MSBlocks.REDSTONE_CLOCK);
 	public static final DeferredItem<BlockItem> ROTATOR = registerBlockItem(MSBlocks.ROTATOR);

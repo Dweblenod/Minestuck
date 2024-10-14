@@ -84,6 +84,11 @@ public class MSScreenFactories
 		Minecraft.getInstance().setScreen(new AreaEffectScreen(blockEntity));
 	}
 	
+	public static void displayConwayGeneratorScreen(ConwayGeneratorBlockEntity blockEntity)
+	{
+		Minecraft.getInstance().setScreen(new ConwayGeneratorScreen(blockEntity));
+	}
+	
 	public static void displayWirelessRedstoneTransmitterScreen(WirelessRedstoneTransmitterBlockEntity blockEntity)
 	{
 		Minecraft.getInstance().setScreen(new WirelessRedstoneTransmitterScreen(blockEntity));
