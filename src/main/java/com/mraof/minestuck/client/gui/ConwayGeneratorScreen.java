@@ -23,10 +23,10 @@ public class ConwayGeneratorScreen extends Screen
 {
 	public static final String TITLE = "minestuck.conway_generator";
 	public static final String DONE_MESSAGE = "minestuck.conway_generator.done";
-	private static final ResourceLocation GUI_BACKGROUND = new ResourceLocation("minestuck", "textures/gui/generic_medium.png");
+	private static final ResourceLocation GUI_BACKGROUND = new ResourceLocation("minestuck", "textures/gui/generic_extra_large.png");
 	
-	private static final int GUI_WIDTH = 150;
-	private static final int GUI_HEIGHT = 98;
+	private static final int GUI_WIDTH = 224;
+	private static final int GUI_HEIGHT = 176;
 	
 	private final ConwayGeneratorBlockEntity be;
 	private static final Map<Pair<Integer, Integer>, CellWidget> cellMap = new HashMap<>();
@@ -52,12 +52,12 @@ public class ConwayGeneratorScreen extends Screen
 			int x = entry.getKey().getFirst();
 			int y = entry.getKey().getSecond();
 			
-			CellWidget cell = new CellWidget(xOffset + 10 + (x * CellWidget.DIMENSION - 1), yOffset + 10 + (y * CellWidget.DIMENSION - 1), entry.getKey(), entry.getValue());
+			CellWidget cell = new CellWidget(xOffset + 10 + ConwayGeneratorBlockEntity.GEN_DISTANCE + (x * (CellWidget.DIMENSION - 1)), yOffset + 10 + ConwayGeneratorBlockEntity.GEN_DISTANCE + (y * (CellWidget.DIMENSION - 1)), entry.getKey(), entry.getValue());
 			cellMap.put(Pair.of(x, y), cell);
 			addRenderableWidget(cell);
 		}
 		
-		addRenderableWidget(new ExtendedButton(xOffset + 60, yOffset + 70, 40, 20, Component.translatable(DONE_MESSAGE), button -> finish()));
+		addRenderableWidget(new ExtendedButton(xOffset + 130, yOffset + 70, 40, 20, Component.translatable(DONE_MESSAGE), button -> finish()));
 	}
 	
 	@Override
@@ -87,7 +87,7 @@ public class ConwayGeneratorScreen extends Screen
 	{
 		public static int DIMENSION = 5;
 		
-		private Pair<Integer, Integer> coords;
+		private final Pair<Integer, Integer> coords;
 		private boolean live;
 		
 		public CellWidget(int x, int y, Pair<Integer, Integer> coords, boolean live)

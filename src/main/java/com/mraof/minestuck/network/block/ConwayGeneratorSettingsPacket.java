@@ -42,7 +42,8 @@ public record ConwayGeneratorSettingsPacket(Map<Pair<Integer, Integer>, Boolean>
 		
 		Map<Pair<Integer, Integer>, Boolean> startConfiguration = new HashMap<>();
 		
-		for(int i = 0; i < ConwayGeneratorBlockEntity.GEN_DISTANCE; i++)
+		//TODO bad
+		for(int i = -ConwayGeneratorBlockEntity.GEN_DISTANCE; i < ConwayGeneratorBlockEntity.GEN_DISTANCE; i++)
 		{
 			startConfiguration.put(Pair.of(buffer.readInt(), buffer.readInt()), buffer.readBoolean());
 		}

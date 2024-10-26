@@ -36,9 +36,11 @@ public class ConwayGeneratorBlockEntity extends BlockEntity
 	{
 		super(MSBlockEntityTypes.CONWAY_GENERATOR.get(), pos, state);
 		
-		for(int x = 0; x < ConwayGeneratorBlockEntity.GEN_DISTANCE; x++)
+		startConfiguration.clear();
+		
+		for(int x = -GEN_DISTANCE; x < GEN_DISTANCE; x++)
 		{
-			for(int y = 0; y < ConwayGeneratorBlockEntity.GEN_DISTANCE; y++)
+			for(int y = -GEN_DISTANCE; y < GEN_DISTANCE; y++)
 			{
 				startConfiguration.put(Pair.of(x, y), false);
 			}
