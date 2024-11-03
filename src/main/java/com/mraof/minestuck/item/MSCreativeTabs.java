@@ -370,6 +370,7 @@ public final class MSCreativeTabs
 		output.accept(MSItems.TRANS_PORTALIZER.get());
 		output.accept(MSItems.SENDIFICATOR.get());
 		output.accept(MSItems.GRIST_WIDGET.get());
+		output.accept(MSItems.AUTOWIDGET.get());
 		output.accept(MSItems.URANIUM_COOKER.get());
 		output.accept(MSItems.GRIST_COLLECTOR.get());
 		output.accept(MSItems.ANTHVIL.get());

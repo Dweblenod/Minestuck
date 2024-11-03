@@ -46,6 +46,7 @@ public class MSScreenFactories
 		event.register(MSMenuTypes.MINI_PUNCH_DESIGNIX.get(), MiniPunchDesignixScreen::new);
 		event.register(MSMenuTypes.SENDIFICATOR.get(), SendificatorScreen::new);
 		event.register(MSMenuTypes.GRIST_WIDGET.get(), GristWidgetScreen::new);
+		event.register(MSMenuTypes.AUTOWIDGET.get(), AutowidgetScreen::new);
 		event.register(MSMenuTypes.URANIUM_COOKER.get(), UraniumCookerScreen::new);
 		event.register(MSMenuTypes.ANTHVIL.get(), AnthvilScreen::new);
 		event.register(MSMenuTypes.CONSORT_MERCHANT.get(), ConsortShopScreen::new);

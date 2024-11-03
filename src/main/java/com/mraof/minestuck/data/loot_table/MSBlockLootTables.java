@@ -977,6 +977,7 @@ public final class MSBlockLootTables extends BlockLootSubProvider
 		add(TRANS_PORTALIZER.get(), this::droppingWithIds);
 		dropSelf(SENDIFICATOR.get());
 		dropSelf(GRIST_WIDGET.get());
+		dropSelf(AUTOWIDGET.get());
 		dropSelf(URANIUM_COOKER.get());
 		dropSelf(GRIST_COLLECTOR.get());
 		dropSelf(ANTHVIL.get());

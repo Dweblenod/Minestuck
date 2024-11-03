@@ -1579,6 +1579,7 @@ public class MSItems
 	public static final DeferredItem<BlockItem> TRANS_PORTALIZER = registerBlockItem(MSBlocks.TRANS_PORTALIZER, block -> new TransportalizerItem(block, new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<BlockItem> SENDIFICATOR = registerBlockItem(MSBlocks.SENDIFICATOR, block -> new SendificatorBlockItem(block, new Item.Properties().stacksTo(1)));
 	public static final DeferredItem<BlockItem> GRIST_WIDGET = registerBlockItem(MSBlocks.GRIST_WIDGET, new Item.Properties().rarity(Rarity.UNCOMMON));
+	public static final DeferredItem<BlockItem> AUTOWIDGET = registerBlockItem(MSBlocks.AUTOWIDGET, new Item.Properties().rarity(Rarity.UNCOMMON));
 	public static final DeferredItem<BlockItem> URANIUM_COOKER = registerBlockItem(MSBlocks.URANIUM_COOKER);
 	public static final DeferredItem<BlockItem> GRIST_COLLECTOR = registerBlockItem(MSBlocks.GRIST_COLLECTOR);
 	public static final DeferredItem<BlockItem> ANTHVIL = registerBlockItem(MSBlocks.ANTHVIL);

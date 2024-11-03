@@ -1517,6 +1517,8 @@ public class MSBlockStateProvider extends BlockStateProvider
 			horizontal(MSBlocks.GRIST_WIDGET, 0, state -> state.getValue(GristWidgetBlock.HAS_CARD) ? withCard : withoutCard);
 			flatItem(MSItems.GRIST_WIDGET, MSBlockStateProvider::itemTexture);
 		}
+		simpleBlockWithItem(MSBlocks.AUTOWIDGET);
+		//simpleHorizontalWithItem(MSBlocks.AUTOWIDGET, this::existing);
 		simpleHorizontalWithItem(MSBlocks.URANIUM_COOKER, this::existing);
 		simpleHorizontalWithItem(MSBlocks.GRIST_COLLECTOR, this::existing);
 		simpleHorizontalWithItem(MSBlocks.ANTHVIL, this::existing);

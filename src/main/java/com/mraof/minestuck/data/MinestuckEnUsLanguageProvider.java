@@ -934,6 +934,8 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		addBlock(MSBlocks.SENDIFICATOR, "Sendificator");
 		addBlockTooltip(MSBlocks.SENDIFICATOR, "Approximately head sized");
 		addBlock(MSBlocks.GRIST_WIDGET, "GristWidget 12000");
+		addBlock(MSBlocks.AUTOWIDGET, "Autowidget");
+		addBlockTooltip(MSBlocks.AUTOWIDGET, "Turns captchalogued items into grist through the power of uranium.");
 		addBlock(MSBlocks.URANIUM_COOKER, "Cookalyzer");
 		addBlock(MSBlocks.GRIST_COLLECTOR, "Grist Collector");
 		addBlockTooltip(MSBlocks.GRIST_COLLECTOR, "Collects grist in a one block radius and releases it when right clicked.");

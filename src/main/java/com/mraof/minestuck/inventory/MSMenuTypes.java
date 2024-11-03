@@ -21,6 +21,7 @@ public class MSMenuTypes
 	public static final Supplier<MenuType<MiniPunchDesignixMenu>> MINI_PUNCH_DESIGNIX = REGISTER.register("mini_punch_designix", () -> new MenuType<>((IContainerFactory<MiniPunchDesignixMenu>) MiniPunchDesignixMenu::new, FeatureFlags.VANILLA_SET));
 	public static final Supplier<MenuType<SendificatorMenu>> SENDIFICATOR = REGISTER.register("sendificator", () -> new MenuType<>((IContainerFactory<SendificatorMenu>) SendificatorMenu::newFromPacket, FeatureFlags.VANILLA_SET));
 	public static final Supplier<MenuType<GristWidgetMenu>> GRIST_WIDGET = REGISTER.register("grist_widget", () -> new MenuType<>((IContainerFactory<GristWidgetMenu>) GristWidgetMenu::new, FeatureFlags.VANILLA_SET));
+	public static final Supplier<MenuType<AutowidgetMenu>> AUTOWIDGET = REGISTER.register("autowidget", () -> new MenuType<>(AutowidgetMenu::new, FeatureFlags.VANILLA_SET));
 	public static final Supplier<MenuType<UraniumCookerMenu>> URANIUM_COOKER = REGISTER.register("uranium_cooker", () -> new MenuType<>((IContainerFactory<UraniumCookerMenu>) UraniumCookerMenu::new, FeatureFlags.VANILLA_SET));
 	public static final Supplier<MenuType<AnthvilMenu>> ANTHVIL = REGISTER.register("anthvil", () -> new MenuType<>(AnthvilMenu::new, FeatureFlags.VANILLA_SET));
 	public static final Supplier<MenuType<CaptchaDeckMenu>> CAPTCHA_DECK = REGISTER.register("captcha_deck", () -> new MenuType<>(CaptchaDeckMenu::new, FeatureFlags.VANILLA_SET));

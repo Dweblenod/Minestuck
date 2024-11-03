@@ -239,6 +239,7 @@ public final class MinestuckBlockTagsProvider extends BlockTagsProvider
 		needsWoodPickaxe(TRANSPORTALIZER.get(), TRANS_PORTALIZER.get());
 		needsWoodPickaxe(SENDIFICATOR.get());
 		needsWoodPickaxe(GRIST_WIDGET.get());
+		needsWoodPickaxe(AUTOWIDGET.get());
 		needsWoodPickaxe(URANIUM_COOKER.get());
 		needsWoodPickaxe(GRIST_COLLECTOR.get());
 		needsWoodPickaxe(ANTHVIL.get());

@@ -74,6 +74,8 @@
   "block.minestuck.area_effect_block.effect_change_message": "Effect type changed to %s",
   "block.minestuck.area_effect_block.tooltip": "Applies a potion effect to entities within a specified area when powered.",
   "block.minestuck.attached_strawberry_stem": "Strawberry Stem",
+  "block.minestuck.autowidget": "Autowidget",
+  "block.minestuck.autowidget.tooltip": "Turns captchalogued items into grist through the power of uranium.",
   "block.minestuck.black_chess_brick_slab": "Black Chess Brick Slab",
   "block.minestuck.black_chess_brick_smooth": "Smooth Black Chess Brick",
   "block.minestuck.black_chess_brick_smooth_button": "Smooth Black Chess Brick Button",
