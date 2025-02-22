@@ -33,7 +33,7 @@ public class ConsortShopScreen extends AbstractContainerScreen<ConsortMerchantMe
 		
 		if(portrait == null)
 			portrait = ResourceLocation.fromNamespaceAndPath("minestuck",
-					"textures/gui/store/"+menu.getConsortType().name().toLowerCase()+"_"+menu.getMerchantType().name().toLowerCase()+".png");
+					"textures/gui/store/" + menu.getConsortType().name().toLowerCase() + "_" + menu.getMerchantType().name().toLowerCase() + ".png");
 		
 		int x = (width - imageWidth) / 2;
 		int y = (height - imageHeight) / 2;
@@ -41,19 +41,19 @@ public class ConsortShopScreen extends AbstractContainerScreen<ConsortMerchantMe
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		guiGraphics.blit(guiBackground, x, y, 0, 0, imageWidth, imageHeight);
 		
-		guiGraphics.blit(portrait, x+119, y+40, 0, 0, 64, 64, 64, 64);
+		guiGraphics.blit(portrait, x + 119, y + 40, 0, 0, 64, 64, 64, 64);
 		
 		guiGraphics.blit(PlayerStatsScreen.icons, x + 5, y + 7, 238, 16, 18, 18);
 		
 		guiGraphics.drawString(font, String.valueOf(ClientPlayerData.getBoondollars()), x + 25, y + 12, 0x0094FF, false);
 		
-		for (int i = 0; i < 9; i++)
+		for(int i = 0; i < 9; i++)
 		{
 			int price = menu.getPrice(i);
-			if (price == 0 || menu.getSlot(i).getItem().isEmpty())
+			if(price == 0 || menu.getSlot(i).getItem().isEmpty())
 				continue;
 			String cost = price + "\u00A3";
-			guiGraphics.drawString(font, cost, x + 25 - font.width(cost)/2F + 35*(i%3), y + 54 + 33*(i/3), 0x000000, false);
+			guiGraphics.drawString(font, cost, x + 25 - font.width(cost) / 2F + 35 * (i % 3), y + 54 + 33 * (i / 3), 0x000000, false);
 		}
 	}
 	
