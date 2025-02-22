@@ -39,7 +39,7 @@ public class ConsortMerchantInventory implements Container
 		for(int i = 0; i < list.size() && i < 9; i++)
 		{
 			CompoundTag nbt = list.getCompound(i);
-			ItemStack stack = ItemStack.parse(consort.registryAccess(), nbt).orElseThrow();
+			ItemStack stack = ItemStack.parse(consort.registryAccess(), nbt).orElse(ItemStack.EMPTY);
 			inv.set(i, stack);
 			if(!stack.isEmpty())
 				prices[i] = nbt.getInt("price");
@@ -101,8 +101,11 @@ public class ConsortMerchantInventory implements Container
 		for (int i = 0; i < 9; i++)
 		{
 			CompoundTag nbt = new CompoundTag();
-			nbt.putInt("price", prices[i]);
-			list.add(inv.get(i).save(this.consort.registryAccess(), nbt));
+			if(!inv.get(i).isEmpty())
+			{
+				nbt.putInt("price", prices[i]);
+				list.add(inv.get(i).save(this.consort.registryAccess(), nbt));
+			}
 		}
 		return list;
 	}
