@@ -3,7 +3,7 @@
   "criteria": {
     "buy_item": {
       "conditions": {
-        "type": "shady"
+        "type": "shady_merchant"
       },
       "trigger": "minestuck:consort_item"
     }

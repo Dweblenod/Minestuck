@@ -2,8 +2,8 @@ package com.mraof.minestuck.advancements;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.consort.ConsortEntity;
-import com.mraof.minestuck.entity.consort.EnumConsort;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
@@ -28,25 +28,25 @@ public class ConsortItemTrigger extends SimpleCriterionTrigger<ConsortItemTrigge
 	
 	public void trigger(ServerPlayer player, String table, ItemStack item, ConsortEntity consort)
 	{
-		trigger(player, instance -> instance.test(table, item, consort.merchantType));
+		trigger(player, instance -> instance.test(table, item, consort.profession));
 	}
 	
 	public record Instance(Optional<ContextAwarePredicate> player, Optional<String> table,
-						   Optional<ItemPredicate> item, Optional<EnumConsort.MerchantType> type) implements SimpleCriterionTrigger.SimpleInstance
+						   Optional<ItemPredicate> item, Optional<Profession.Type> type) implements SimpleCriterionTrigger.SimpleInstance
 	{
 		private static final Codec<Instance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 				EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(Instance::player),
 				Codec.STRING.optionalFieldOf("table").forGetter(Instance::table),
 				ItemPredicate.CODEC.optionalFieldOf("item").forGetter(Instance::item),
-				EnumConsort.MerchantType.CODEC.optionalFieldOf("type").forGetter(Instance::type)
+				Profession.Type.CODEC.optionalFieldOf("type").forGetter(Instance::type)
 		).apply(instance, Instance::new));
 		
-		public static Criterion<Instance> forType(EnumConsort.MerchantType type)
+		public static Criterion<Instance> forType(Profession.Type type)
 		{
 			return MSCriteriaTriggers.CONSORT_ITEM.get().createCriterion(new Instance(Optional.empty(), Optional.empty(), Optional.empty(), Optional.of(type)));
 		}
 		
-		public boolean test(String table, ItemStack item, EnumConsort.MerchantType type)
+		public boolean test(String table, ItemStack item, Profession.Type type)
 		{
 			return (this.table.isEmpty() || this.table.get().equals(table))
 					&& (this.item.isEmpty() || this.item.get().test(item))

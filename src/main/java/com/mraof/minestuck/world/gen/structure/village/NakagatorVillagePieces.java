@@ -1,5 +1,6 @@
 package com.mraof.minestuck.world.gen.structure.village;
 
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.gen.structure.MSStructures;
 import com.mraof.minestuck.world.gen.structure.blocks.StructureBlockRegistry;
@@ -436,11 +437,11 @@ public class NakagatorVillagePieces
 			placeBlock(level, torch.setValue(WallTorchBlock.FACING, Direction.WEST), 8, 10, 3, structureBoundingBoxIn);
 
 			if(!spawns[0])
-				spawns[0] = spawnConsort(5, 1, 5, structureBoundingBoxIn, level, chunkGeneratorIn, EnumConsort.MerchantType.FOOD, 1);
+				spawns[0] = spawnConsort(5, 1, 5, structureBoundingBoxIn, level, chunkGeneratorIn, Profession.Type.FOOD_MERCHANT, 1);
 			if(!spawns[1])
 				spawns[1] = spawnConsort(6, 5, 5, structureBoundingBoxIn, level, chunkGeneratorIn, EnumConsort.getRandomMerchant(randomIn), 1);
 			if(!spawns[2])
-				spawns[2] = spawnConsort(5, 9, 5, structureBoundingBoxIn, level, chunkGeneratorIn, EnumConsort.MerchantType.GENERAL, 1);
+				spawns[2] = spawnConsort(5, 9, 5, structureBoundingBoxIn, level, chunkGeneratorIn, Profession.Type.GENERAL_MERCHANT, 1);
 		}
 	}
 	
@@ -632,11 +633,11 @@ public class NakagatorVillagePieces
 			placeBlock(level, torch.setValue(WallTorchBlock.FACING, Direction.SOUTH), 8, 17, 4, structureBoundingBoxIn);
 
 			if(!spawns[0])
-				spawns[0] = spawnConsort(5, 3, 5, structureBoundingBoxIn, level, chunkGeneratorIn, EnumConsort.MerchantType.FOOD, 1);
+				spawns[0] = spawnConsort(5, 3, 5, structureBoundingBoxIn, level, chunkGeneratorIn, Profession.Type.FOOD_MERCHANT, 1);
 			if(!spawns[1])
 				spawns[1] = spawnConsort(6, 7, 6, structureBoundingBoxIn, level, chunkGeneratorIn, EnumConsort.getRandomMerchant(randomIn), 1);
 			if(!spawns[2])
-				spawns[2] = spawnConsort(5, 11, 3, structureBoundingBoxIn, level, chunkGeneratorIn, EnumConsort.MerchantType.GENERAL, 1);
+				spawns[2] = spawnConsort(5, 11, 3, structureBoundingBoxIn, level, chunkGeneratorIn, Profession.Type.GENERAL_MERCHANT, 1);
 		}
 	}
 }

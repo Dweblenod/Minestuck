@@ -1,5 +1,6 @@
 package com.mraof.minestuck.inventory;
 
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.consort.ConsortEntity;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.inventory.slot.ConsortMerchantSlot;
@@ -18,12 +19,12 @@ import net.minecraft.world.item.ItemStack;
 public class ConsortMerchantMenu extends AbstractContainerMenu
 {
 	private final EnumConsort consortType;
-	private final EnumConsort.MerchantType merchantType;
+	private final Profession.Type merchantType;
 	private final ContainerData prices;
 	
 	private final Player player;
 	
-	public ConsortMerchantMenu(int windowId, Inventory playerInventory, Container storeInv, EnumConsort consortType, EnumConsort.MerchantType merchantType, ContainerData prices)
+	public ConsortMerchantMenu(int windowId, Inventory playerInventory, Container storeInv, EnumConsort consortType, Profession.Type merchantType, ContainerData prices)
 	{
 		super(MSMenuTypes.CONSORT_MERCHANT.get(), windowId);
 		this.player = playerInventory.player;
@@ -43,7 +44,7 @@ public class ConsortMerchantMenu extends AbstractContainerMenu
 	public static ConsortMerchantMenu load(int windowId, Inventory playerInventory, FriendlyByteBuf buffer)
 	{
 		EnumConsort consortType = EnumConsort.getFromName(buffer.readUtf());
-		EnumConsort.MerchantType merchantType = EnumConsort.MerchantType.getFromName(buffer.readUtf());
+		Profession.Type merchantType = Profession.Type.getFromName(buffer.readUtf());
 		
 		return new ConsortMerchantMenu(windowId, playerInventory, new SimpleContainer(9), consortType, merchantType, new SimpleContainerData(9));
 	}
@@ -51,7 +52,7 @@ public class ConsortMerchantMenu extends AbstractContainerMenu
 	public static void write(FriendlyByteBuf buffer, ConsortEntity consort)
 	{
 		buffer.writeUtf(consort.getConsortType().getName());
-		buffer.writeUtf(consort.merchantType.getSerializedName());
+		buffer.writeUtf(consort.profession.getSerializedName());
 	}
 	
 	@Override
@@ -89,7 +90,7 @@ public class ConsortMerchantMenu extends AbstractContainerMenu
 		return consortType;
 	}
 	
-	public EnumConsort.MerchantType getMerchantType()
+	public Profession.Type getMerchantType()
 	{
 		return merchantType;
 	}

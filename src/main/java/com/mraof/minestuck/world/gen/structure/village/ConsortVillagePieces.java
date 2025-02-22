@@ -1,8 +1,8 @@
 package com.mraof.minestuck.world.gen.structure.village;
 
 import com.google.common.collect.Lists;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.consort.ConsortEntity;
-import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.gen.structure.ImprovedStructurePiece;
 import com.mraof.minestuck.world.gen.structure.MSStructures;
 import com.mraof.minestuck.world.gen.structure.blocks.StructureBlockRegistry;
@@ -306,15 +306,15 @@ public class ConsortVillagePieces
 		
 		protected boolean spawnConsort(int x, int y, int z, BoundingBox boundingBox, WorldGenLevel level, ChunkGenerator chunkGenerator)
 		{
-			return spawnConsort(x, y, z, boundingBox, level, chunkGenerator, EnumConsort.MerchantType.NONE, 48);
+			return spawnConsort(x, y, z, boundingBox, level, chunkGenerator, Profession.Type.NONE, 48);
 		}
 		
 		protected boolean spawnConsort(int x, int y, int z, BoundingBox boundingBox, WorldGenLevel level, ChunkGenerator chunkGenerator, int maxHomeDistance)
 		{
-			return spawnConsort(x, y, z, boundingBox, level, chunkGenerator, EnumConsort.MerchantType.NONE, maxHomeDistance);
+			return spawnConsort(x, y, z, boundingBox, level, chunkGenerator, Profession.Type.NONE, maxHomeDistance);
 		}
 		
-		protected boolean spawnConsort(int x, int y, int z, BoundingBox boundingBox, WorldGenLevel level, ChunkGenerator chunkGenerator, EnumConsort.MerchantType type, int maxHomeDistance)
+		protected boolean spawnConsort(int x, int y, int z, BoundingBox boundingBox, WorldGenLevel level, ChunkGenerator chunkGenerator, Profession.Type type, int maxHomeDistance)
 		{
 			BlockPos pos = new BlockPos(this.getWorldX(x, z), this.getWorldY(y), this.getWorldZ(x, z));
 			
@@ -335,7 +335,7 @@ public class ConsortVillagePieces
 					
 					consort.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 					
-					consort.merchantType = type;
+					consort.profession = type;
 					consort.restrictTo(pos, maxHomeDistance);
 					
 					consort.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.STRUCTURE, null);
