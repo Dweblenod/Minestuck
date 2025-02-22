@@ -4,6 +4,7 @@ import com.mraof.minestuck.Minestuck;
 import com.mraof.minestuck.advancements.*;
 import com.mraof.minestuck.block.MSBlocks;
 import com.mraof.minestuck.entity.MSEntityTypes;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.inventory.captchalogue.ModusType;
 import com.mraof.minestuck.inventory.captchalogue.ModusTypes;
@@ -133,7 +134,7 @@ public class MSAdvancementProvider implements AdvancementProvider.AdvancementGen
 				.requirements(AdvancementRequirements.Strategy.OR)).save(saver, save_loc(BUGS));
 		AdvancementHolder shadyBuyer = Advancement.Builder.advancement().parent(commune)
 				.display(MSItems.ROCK_COOKIE.get(), Component.translatable(title(SHADY_BUYER)), Component.translatable(desc(SHADY_BUYER)), null, AdvancementType.TASK, true, true, false)
-				.addCriterion("buy_item", ConsortItemTrigger.Instance.forType(EnumConsort.MerchantType.SHADY)).save(saver, save_loc(SHADY_BUYER));
+				.addCriterion("buy_item", ConsortItemTrigger.Instance.forType(Profession.Type.SHADY_MERCHANT)).save(saver, save_loc(SHADY_BUYER));
 		AdvancementHolder firstStep = Advancement.Builder.advancement().parent(root)
 				.display(BoondollarsItem.setCount(new ItemStack(MSItems.BOONDOLLARS.get()), 1), Component.translatable(title(FIRST_STEP)), Component.translatable(desc(FIRST_STEP)), null, AdvancementType.TASK, true, true, false)
 				.addCriterion("reach_rung", EcheladderTrigger.Instance.rung(MinMaxBounds.Ints.atLeast(1))).save(saver, save_loc(FIRST_STEP));

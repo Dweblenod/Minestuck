@@ -3,7 +3,7 @@ package com.mraof.minestuck.entity.consort;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mraof.minestuck.entity.MSEntityTypes;
-import com.mraof.minestuck.entity.dialogue.RandomlySelectableDialogue.DialogueCategory;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.util.MSSoundEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.sounds.SoundEvent;
@@ -14,11 +14,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public enum EnumConsort implements StringRepresentable	//TODO Could ideally be changed into a registry.
+public enum EnumConsort implements StringRepresentable    //TODO Could ideally be changed into a registry.
 {
 	SALAMANDER(MSEntityTypes.SALAMANDER, "salamander", ChatFormatting.YELLOW, MSSoundEvents.ENTITY_SALAMANDER_AMBIENT, MSSoundEvents.ENTITY_SALAMANDER_HURT, MSSoundEvents.ENTITY_SALAMANDER_DEATH),
 	TURTLE(MSEntityTypes.TURTLE, "turtle", ChatFormatting.LIGHT_PURPLE, () -> null, MSSoundEvents.ENTITY_TURTLE_HURT, MSSoundEvents.ENTITY_TURTLE_DEATH),
@@ -86,12 +85,12 @@ public enum EnumConsort implements StringRepresentable	//TODO Could ideally be c
 		return new ConsortEntity(this, type, level);
 	}
 	
-	public static MerchantType getRandomMerchant(RandomSource rand)
+	public static Profession.Type getRandomMerchant(RandomSource rand)
 	{
 		float f = rand.nextFloat();
 		if(f < 0.4f)
-			return MerchantType.FOOD;
-		else return MerchantType.GENERAL;
+			return Profession.Type.FOOD_MERCHANT;
+		else return Profession.Type.GENERAL_MERCHANT;
 	}
 	
 	public static EnumConsort getFromName(String str)
@@ -108,40 +107,4 @@ public enum EnumConsort implements StringRepresentable	//TODO Could ideally be c
 		return this.name;
 	}
 	
-	public enum MerchantType implements StringRepresentable
-	{
-		NONE(DialogueCategory.CONSORT),
-		SHADY(DialogueCategory.SHADY_CONSORT),
-		FOOD(DialogueCategory.CONSORT_FOOD_MERCHANT),
-		GENERAL(DialogueCategory.CONSORT_GENERAL_MERCHANT),
-		;
-		
-		public static final Codec<MerchantType> CODEC = StringRepresentable.fromEnum(MerchantType::values);
-		
-		private final DialogueCategory category;
-		
-		MerchantType(DialogueCategory category)
-		{
-			this.category = category;
-		}
-		
-		public DialogueCategory dialogueCategory()
-		{
-			return category;
-		}
-		
-		public static MerchantType getFromName(String str)
-		{
-			for(MerchantType type : MerchantType.values())
-				if(type.name().toLowerCase().equals(str))
-					return type;
-			throw new IllegalArgumentException("Invalid merchant type " + str);
-		}
-		
-		@Override
-		public String getSerializedName()
-		{
-			return name().toLowerCase(Locale.ROOT);
-		}
-	}
 }

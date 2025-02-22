@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.mraof.minestuck.MinestuckConfig;
 import com.mraof.minestuck.advancements.MSCriteriaTriggers;
 import com.mraof.minestuck.entity.AnimatedPathfinderMob;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.ai.AnimatedPanicGoal;
 import com.mraof.minestuck.entity.animation.MobAnimation;
 import com.mraof.minestuck.entity.dialogue.DialogueComponent;
@@ -60,7 +61,7 @@ import java.util.Set;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider, GeoEntity, DialogueEntity
+public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider, GeoEntity, DialogueEntity, Profession
 {
 	private static final Logger LOGGER = LogUtils.getLogger();
 	
@@ -80,7 +81,7 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 	private final EnumConsort consortType;
 	private int ticksUntilDialogueReset = 0;
 	private final Set<PlayerIdentifier> talkRepPlayerList = new HashSet<>();
-	public EnumConsort.MerchantType merchantType = EnumConsort.MerchantType.NONE;
+	public Profession.Type profession = Profession.Type.NONE;
 	ResourceKey<Level> homeDimension;
 	private boolean visitedSkaia;
 	public ConsortMerchantInventory stocks;
@@ -146,7 +147,7 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 		if(!(player instanceof ServerPlayer serverPlayer))
 			return InteractionResult.SUCCESS;
 		
-		if(this.dialogueComponent.hasAnyOngoingDialogue())	//todo do we want this? feel free to remove it if not
+		if(this.dialogueComponent.hasAnyOngoingDialogue())    //todo do we want this? feel free to remove it if not
 			return InteractionResult.FAIL;
 		
 		Optional<PlayerData> playerData = PlayerData.get(serverPlayer);
@@ -160,7 +161,7 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 		if(!this.dialogueComponent.hasActiveDialogue())
 		{
 			this.dialogueComponent.resetDialogue();
-			RandomlySelectableDialogue.instance(this.merchantType.dialogueCategory())
+			RandomlySelectableDialogue.instance(dialogueCategory())
 					.pickRandomForEntity(this).ifPresent(this.dialogueComponent::setDialogue);
 		}
 		
@@ -262,11 +263,13 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 			list.add(id.saveToNBT(new CompoundTag(), "id"));
 		compound.put("talkRepList", list);
 		
-		compound.putInt("Type", merchantType.ordinal());
+		//compound.putInt("Type", profession.ordinal());
+		writeProfession(compound, profession);
+		
 		ResourceLocation.CODEC.encodeStart(NbtOps.INSTANCE, homeDimension.location()).resultOrPartial(LOGGER::error)
 				.ifPresent(tag -> compound.put("HomeDim", tag));
 		
-		if(merchantType != EnumConsort.MerchantType.NONE && stocks != null)
+		if(profession != Profession.Type.NONE && stocks != null)
 			compound.put("Stock", stocks.writeToNBT());
 		
 		if(hasRestriction())
@@ -297,14 +300,17 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 		for(int i = 0; i < list.size(); i++)
 			talkRepPlayerList.add(IdentifierHandler.load(list.getCompound(i), "id").getOrThrow());
 		
-		merchantType = EnumConsort.MerchantType.values()[Mth.clamp(compound.getInt("Type"), 0, EnumConsort.MerchantType.values().length - 1)];
+		if(compound.contains("Type")) //backwards compatibility
+			profession = Profession.Type.values()[Mth.clamp(compound.getInt("Type"), 0, Profession.Type.values().length - 1)];
+		else if(professionSaved(compound))
+			profession = readProfession(compound);
 		
 		if(compound.contains("HomeDim", Tag.TAG_STRING))
 			homeDimension = Level.RESOURCE_KEY_CODEC.parse(NbtOps.INSTANCE, compound.get("HomeDim")).resultOrPartial(LOGGER::error).orElse(null);
 		if(homeDimension == null)
 			homeDimension = this.level().dimension();
 		
-		if(merchantType != EnumConsort.MerchantType.NONE && compound.contains("Stock", Tag.TAG_LIST))
+		if(profession != Profession.Type.NONE && compound.contains("Stock", Tag.TAG_LIST))
 		{
 			stocks = new ConsortMerchantInventory(this, compound.getList("Stock", Tag.TAG_COMPOUND));
 		}
@@ -325,9 +331,9 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn)
 	{
-		if(merchantType == EnumConsort.MerchantType.NONE && this.random.nextInt(30) == 0)
+		if(profession == Profession.Type.NONE && this.random.nextInt(30) == 0)
 		{
-			merchantType = EnumConsort.MerchantType.SHADY;
+			profession = Profession.Type.SHADY_MERCHANT;
 			if(hasRestriction())
 				restrictTo(getRestrictCenter(), (int) (getRestrictRadius() * 0.4F));
 		}
@@ -373,7 +379,7 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 	public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player player)
 	{
 		if(this.stocks != null)
-			return new ConsortMerchantMenu(windowId, playerInventory, stocks, getConsortType(), merchantType, stocks.createPricesFor((ServerPlayer) player));
+			return new ConsortMerchantMenu(windowId, playerInventory, stocks, getConsortType(), profession, stocks.createPricesFor((ServerPlayer) player));
 		else return null;
 	}
 	
@@ -435,6 +441,25 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 	{
 		//TODO consider adding support for vendor sprites here
 		return getConsortType().getName();
+	}
+	
+	@Override
+	public void addProfessionGoals()
+	{
+	
+	}
+	
+	@Override
+	public RandomlySelectableDialogue.DialogueCategory dialogueCategory()
+	{
+		if(profession.equals(Type.SHADY_MERCHANT))
+			return RandomlySelectableDialogue.DialogueCategory.SHADY_CONSORT;
+		else if(profession.equals(Type.FOOD_MERCHANT))
+			return RandomlySelectableDialogue.DialogueCategory.CONSORT_FOOD_MERCHANT;
+		else if(profession.equals(Type.GENERAL_MERCHANT))
+			return RandomlySelectableDialogue.DialogueCategory.CONSORT_GENERAL_MERCHANT;
+		else
+			return RandomlySelectableDialogue.DialogueCategory.CONSORT;
 	}
 	
 	@Override

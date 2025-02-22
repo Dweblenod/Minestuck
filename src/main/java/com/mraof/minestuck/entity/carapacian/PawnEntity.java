@@ -1,6 +1,7 @@
 package com.mraof.minestuck.entity.carapacian;
 
 import com.mraof.minestuck.MinestuckConfig;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.ai.attack.AnimatedAttackWhenInRangeGoal;
 import com.mraof.minestuck.entity.ai.attack.MoveToTargetGoal;
 import com.mraof.minestuck.entity.animation.MobAnimation;
@@ -45,7 +46,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Enemy, GeoEntity, PhasedMobAnimation.Phases.Holder, DialogueEntity
+public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Enemy, GeoEntity, PhasedMobAnimation.Phases.Holder, DialogueEntity, Profession
 {
 	private static final EntityDataAccessor<Integer> CURRENT_ACTION = SynchedEntityData.defineId(PawnEntity.class, EntityDataSerializers.INT);
 	
@@ -63,6 +64,8 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 	private final RangedAttackGoal aiArrowAttack = new RangedAttackGoal(this, 5 / 4F, 20, 10.0F);
 	private final MeleeAttackGoal aiMeleeAttack = new MeleeAttackGoal(this, 2F, false);
+	
+	private Profession.Type profession = Type.SOLDIER;
 	
 	private int ticksUntilDialogueReset = 0;
 	private final DialogueComponent dialogueComponent = new DialogueComponent(this);
@@ -100,9 +103,8 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	protected void registerGoals()
 	{
 		super.registerGoals();
-		this.goalSelector.addGoal(2, new AnimatedAttackWhenInRangeGoal<>(this, MELEE_ANIMATION));
-		this.goalSelector.addGoal(3, new MoveToTargetGoal(this, 1F, false));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, entity -> attackEntitySelector.isEntityApplicable(entity)));
+		
+		addProfessionGoals();
 	}
 	
 	@Override
@@ -144,7 +146,7 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 		if(!this.dialogueComponent.hasActiveDialogue())
 		{
 			this.dialogueComponent.resetDialogue();
-			RandomlySelectableDialogue.instance(RandomlySelectableDialogue.DialogueCategory.CARAPACIAN_SOLDIER)
+			RandomlySelectableDialogue.instance(dialogueCategory())
 					.pickRandomForEntity(this).ifPresent(this.dialogueComponent::setDialogue);
 		}
 		
@@ -209,7 +211,7 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	
 	private void setCombatTask()
 	{
-		if(this.level() != null && !this.level().isClientSide)
+		if(this.level() != null && !this.level().isClientSide && isSoldier())
 		{
 			this.goalSelector.removeGoal(this.aiArrowAttack);
 			this.goalSelector.removeGoal(this.aiMeleeAttack);
@@ -231,6 +233,8 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 		compound.put("dialogue", dialogueComponent.write());
 		
 		compound.putInt("dialogue_reset_ticks", ticksUntilDialogueReset);
+		
+		writeProfession(compound, profession);
 	}
 	
 	@Override
@@ -241,6 +245,9 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 		dialogueComponent.read(compound.getCompound("dialogue"));
 		
 		ticksUntilDialogueReset = compound.getInt("dialogue_reset_ticks");
+		
+		if(professionSaved(compound))
+			profession = readProfession(compound);
 		
 		setCombatTask();
 	}
@@ -263,8 +270,11 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	{
 		spawnDataIn = super.finalizeSpawn(level, difficultyIn, reason, spawnDataIn);
 		
-		populateDefaultEquipmentSlots(level.getRandom(), difficultyIn);
-		this.populateDefaultEquipmentEnchantments(level, level.getRandom(), difficultyIn);
+		if(isSoldier())
+		{
+			populateDefaultEquipmentSlots(level.getRandom(), difficultyIn);
+			this.populateDefaultEquipmentEnchantments(level, level.getRandom(), difficultyIn);
+		}
 		
 		setCombatTask();
 		return spawnDataIn;
@@ -287,6 +297,28 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	{
 		String color = this.getKingdom() == EnumEntityKingdom.PROSPITIAN ? "white" : "black";
 		return color + "_pawn";
+	}
+	
+	public boolean isSoldier()
+	{
+		return profession.equals(Type.SOLDIER);
+	}
+	
+	@Override
+	public void addProfessionGoals()
+	{
+		if(isSoldier())
+		{
+			this.goalSelector.addGoal(2, new AnimatedAttackWhenInRangeGoal<>(this, MELEE_ANIMATION));
+			this.goalSelector.addGoal(3, new MoveToTargetGoal(this, 1F, false));
+			this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, entity -> attackEntitySelector.isEntityApplicable(entity)));
+		}
+	}
+	
+	@Override
+	public RandomlySelectableDialogue.DialogueCategory dialogueCategory()
+	{
+		return RandomlySelectableDialogue.DialogueCategory.CARAPACIAN_SOLDIER;
 	}
 	
 	@Override

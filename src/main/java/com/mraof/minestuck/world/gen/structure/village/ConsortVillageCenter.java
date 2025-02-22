@@ -1,6 +1,7 @@
 package com.mraof.minestuck.world.gen.structure.village;
 
 import com.google.common.collect.Lists;
+import com.mraof.minestuck.entity.Profession;
 import com.mraof.minestuck.entity.consort.EnumConsort;
 import com.mraof.minestuck.world.gen.structure.MSStructures;
 import com.mraof.minestuck.world.gen.structure.blocks.StructureBlockRegistry;
@@ -221,13 +222,13 @@ public class ConsortVillageCenter
 			placeBlock(level, torch, 6, 2, 4, box);
 
 			if(!spawns[0])
-				spawns[0] = spawnConsort(0, 2, 3, box, level, chunkGeneratorIn, EnumConsort.MerchantType.FOOD, 1);
+				spawns[0] = spawnConsort(0, 2, 3, box, level, chunkGeneratorIn, Profession.Type.FOOD_MERCHANT, 1);
 			if(!spawns[1])
-				spawns[1] = spawnConsort(0, 2, 5, box, level, chunkGeneratorIn, EnumConsort.MerchantType.FOOD, 1);
+				spawns[1] = spawnConsort(0, 2, 5, box, level, chunkGeneratorIn, Profession.Type.FOOD_MERCHANT, 1);
 			if(!spawns[2])
-				spawns[2] = spawnConsort(7, 2, 3, box, level, chunkGeneratorIn, EnumConsort.MerchantType.GENERAL, 1);
+				spawns[2] = spawnConsort(7, 2, 3, box, level, chunkGeneratorIn, Profession.Type.GENERAL_MERCHANT, 1);
 			if(!spawns[3])
-				spawns[3] = spawnConsort(7, 2, 5, box, level, chunkGeneratorIn, EnumConsort.MerchantType.GENERAL, 1);
+				spawns[3] = spawnConsort(7, 2, 5, box, level, chunkGeneratorIn, Profession.Type.GENERAL_MERCHANT, 1);
 			if(!spawns[4])
 				spawns[4] = spawnConsort(3, 2, 9, box, level, chunkGeneratorIn, EnumConsort.getRandomMerchant(randomIn), 1);
 		}
