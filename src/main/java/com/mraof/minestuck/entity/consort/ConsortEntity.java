@@ -92,6 +92,7 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 		super(type, level);
 		this.consortType = consortType;
 		this.xpReward = 1;
+		addProfessionGoals();
 	}
 	
 	
@@ -325,6 +326,7 @@ public class ConsortEntity extends AnimatedPathfinderMob implements MenuProvider
 		visitedSkaia = compound.getBoolean("Skaia");
 		
 		applyAdditionalAITasks();
+		addProfessionGoals();
 	}
 	
 	@Nullable

@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class BishopEntity extends CarapacianEntity implements RangedAttackMob, Enemy
+public class BishopEntity extends CarapacianEntity implements RangedAttackMob
 {
 	int burnTime;
 	
@@ -53,7 +53,6 @@ public class BishopEntity extends CarapacianEntity implements RangedAttackMob, E
 	{
 		super.registerGoals();
 		this.goalSelector.addGoal(4, new AttackByDistanceGoal(this, 5 / 4F, 30, 64.0F));
-		this.targetSelector.addGoal(2, new NearestAttackableExtendedGoal(this, LivingEntity.class, 0, true, false, entity -> attackEntitySelector.isEntityApplicable(entity)));
 	}
 	
 	@Override
