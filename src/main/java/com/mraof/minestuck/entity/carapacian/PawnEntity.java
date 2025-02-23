@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Enemy, GeoEntity, PhasedMobAnimation.Phases.Holder, DialogueEntity, Profession
+public class PawnEntity extends CarapacianEntity implements RangedAttackMob, GeoEntity, PhasedMobAnimation.Phases.Holder, DialogueEntity, Profession
 {
 	private static final EntityDataAccessor<Integer> CURRENT_ACTION = SynchedEntityData.defineId(PawnEntity.class, EntityDataSerializers.INT);
 	
@@ -75,6 +75,7 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 		super(type, kingdom, level);
 		this.xpReward = 1;
 		setCombatTask();
+		addProfessionGoals();
 	}
 	
 	public static PawnEntity createProspitian(EntityType<? extends PawnEntity> type, Level level)
@@ -100,14 +101,6 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	}
 	
 	@Override
-	protected void registerGoals()
-	{
-		super.registerGoals();
-		
-		addProfessionGoals();
-	}
-	
-	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder)
 	{
 		super.defineSynchedData(builder);
@@ -129,10 +122,7 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand)
 	{
-		boolean isInCombat = this.goalSelector.getAvailableGoals().stream().filter(WrappedGoal::isRunning)
-				.anyMatch(goal -> goal.getGoal() instanceof MoveToTargetGoal || goal.getGoal() instanceof AnimatedAttackWhenInRangeGoal<?>);
-		
-		if(!this.isAlive() || player.isShiftKeyDown() || isInCombat)
+		if(!this.isAlive() || player.isShiftKeyDown() || this.isAngry())
 			return InteractionResult.PASS;
 		
 		if(!(player instanceof ServerPlayer serverPlayer))
@@ -187,7 +177,8 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty)
 	{
 		super.populateDefaultEquipmentSlots(random, difficulty);
-		this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(random.nextDouble() < .25 ? Items.BOW : random.nextDouble() < .2 ? MSItems.REGISWORD.get() : random.nextDouble() < .02 ? MSItems.SORD.get() : Items.STONE_SWORD));
+		if(isSoldier())
+			this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(random.nextDouble() < .25 ? Items.BOW : random.nextDouble() < .2 ? MSItems.REGISWORD.get() : random.nextDouble() < .02 ? MSItems.SORD.get() : Items.STONE_SWORD));
 	}
 	
 	@Override
@@ -211,17 +202,21 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 	
 	private void setCombatTask()
 	{
-		if(this.level() != null && !this.level().isClientSide && isSoldier())
+		if(this.level() != null && !this.level().isClientSide)
 		{
 			this.goalSelector.removeGoal(this.aiArrowAttack);
 			this.goalSelector.removeGoal(this.aiMeleeAttack);
-			ItemStack weapon = this.getMainHandItem();
 			
-			if(!weapon.isEmpty() && weapon.getItem() == Items.BOW)
+			if(isSoldier())
 			{
-				this.goalSelector.addGoal(4, this.aiArrowAttack);
-			} else
-				this.goalSelector.addGoal(4, this.aiMeleeAttack);
+				ItemStack weapon = this.getMainHandItem();
+				
+				if(!weapon.isEmpty() && weapon.getItem() == Items.BOW)
+				{
+					this.goalSelector.addGoal(4, this.aiArrowAttack);
+				} else
+					this.goalSelector.addGoal(4, this.aiMeleeAttack);
+			}
 		}
 	}
 	
@@ -250,6 +245,7 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 			profession = readProfession(compound);
 		
 		setCombatTask();
+		addProfessionGoals();
 	}
 	
 	@Override
@@ -299,6 +295,7 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 		return color + "_pawn";
 	}
 	
+	@Override
 	public boolean isSoldier()
 	{
 		return profession.equals(Type.SOLDIER);
@@ -311,7 +308,6 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Ene
 		{
 			this.goalSelector.addGoal(2, new AnimatedAttackWhenInRangeGoal<>(this, MELEE_ANIMATION));
 			this.goalSelector.addGoal(3, new MoveToTargetGoal(this, 1F, false));
-			this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, entity -> attackEntitySelector.isEntityApplicable(entity)));
 		}
 	}
 	

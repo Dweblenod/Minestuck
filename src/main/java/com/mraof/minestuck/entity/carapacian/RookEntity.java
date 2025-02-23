@@ -2,15 +2,12 @@ package com.mraof.minestuck.entity.carapacian;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
-public class RookEntity extends CarapacianEntity implements Enemy
+public class RookEntity extends CarapacianEntity
 {
 	protected RookEntity(EntityType<? extends RookEntity> type, EnumEntityKingdom kingdom, Level level)
 	{
@@ -39,7 +36,6 @@ public class RookEntity extends CarapacianEntity implements Enemy
 	{
 		super.registerGoals();
 		this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 4 / 3F, false));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, entity -> attackEntitySelector.isEntityApplicable(entity)));
 	}
 	
 	public float getAttackStrength(Entity entity)

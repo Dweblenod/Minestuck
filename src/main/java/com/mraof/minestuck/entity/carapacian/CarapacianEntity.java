@@ -1,42 +1,42 @@
 package com.mraof.minestuck.entity.carapacian;
 
 import com.mraof.minestuck.entity.AnimatedPathfinderMob;
-import com.mraof.minestuck.entity.EntityListFilter;
-import com.mraof.minestuck.entity.ai.HurtByTargetAlliedGoal;
 import com.mraof.minestuck.util.MSTags;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.UUID;
 
-public abstract class CarapacianEntity extends AnimatedPathfinderMob
+public abstract class CarapacianEntity extends AnimatedPathfinderMob implements NeutralMob
 {
 	private final EnumEntityKingdom kingdom;
 	
-	protected List<EntityType<?>> enemyTypes = new ArrayList<>();    //TODO Save this!
 	protected final TagKey<EntityType<?>> allyTag;
-	protected EntityListFilter attackEntitySelector = new EntityListFilter(enemyTypes);
+	
+	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private int remainingPersistentAngerTime;
+	@Nullable
+	private UUID persistentAngerTarget;
 	
 	public CarapacianEntity(EntityType<? extends CarapacianEntity> type, EnumEntityKingdom kingdom, Level level)
 	{
 		super(type, level);
 		this.kingdom = kingdom;
-		setEnemies();
 		allyTag = kingdom == EnumEntityKingdom.PROSPITIAN ? MSTags.EntityTypes.PROSPITIAN_CARAPACIANS : MSTags.EntityTypes.DERSITE_CARAPACIANS;
 	}
 	
@@ -45,8 +45,7 @@ public abstract class CarapacianEntity extends AnimatedPathfinderMob
 	{
 		super.registerGoals();
 		this.goalSelector.addGoal(1, new FloatGoal(this));
-		//this.goalSelector.addGoal(4, new EntityAIMoveToBattle(this));
-		this.targetSelector.addGoal(1, new HurtByTargetAlliedGoal(this, this::isAlly));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, this::isAngryAt));
 		this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0F));
 		this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -57,40 +56,23 @@ public abstract class CarapacianEntity extends AnimatedPathfinderMob
 		return Mob.createMobAttributes().add(Attributes.FOLLOW_RANGE, 32);
 	}
 	
-	private void setEnemies()
-	{
-		switch(this.getKingdom())
-		{
-			case PROSPITIAN:
-				BuiltInRegistries.ENTITY_TYPE.getTag(MSTags.EntityTypes.DERSITE_CARAPACIANS).ifPresent(set -> enemyTypes.addAll(set.stream().map(Holder::value).toList()));    //TODO Should refer to tags directly. Entities will otherwise need to be reconstructed for resource reload changes to take place, is this now resolved?
-				break;
-			case DERSITE:
-				BuiltInRegistries.ENTITY_TYPE.getTag(MSTags.EntityTypes.PROSPITIAN_CARAPACIANS).ifPresent(set -> enemyTypes.addAll(set.stream().map(Holder::value).toList()));
-		}
-	}
-	
-	public void addEnemy(EntityType<?> enemyType)
-	{
-		if(canAttackType(enemyType) && !enemyTypes.contains(enemyType))
-		{
-			enemyTypes.add(enemyType);
-		}
-	}
-	
 	@Override
-	public void setTarget(LivingEntity entity)
+	public boolean isAngryAt(LivingEntity target)
 	{
-		super.setTarget(entity);
-		if(entity != null)
+		if(target instanceof CarapacianEntity carapacianTarget)
 		{
-			this.addEnemy(entity.getType());
+			if(!carapacianTarget.isSoldier() || !this.isSoldier())
+				return false; //civilians should not be involved in aggression with other carapacians
+			
+			return !isAlly(carapacianTarget); //soldiers will only attack the enemy kingdom
 		}
+		
+		return NeutralMob.super.isAngryAt(target);
 	}
 	
-	@Override
-	public boolean canAttackType(EntityType<?> typeIn)
+	public boolean isSoldier()
 	{
-		return !typeIn.is(allyTag);
+		return true; //may be overridden via Profession
 	}
 	
 	public EnumEntityKingdom getKingdom()
@@ -101,5 +83,61 @@ public abstract class CarapacianEntity extends AnimatedPathfinderMob
 	public boolean isAlly(Entity entity)
 	{
 		return entity.getType().is(allyTag);
+	}
+	
+	@Override
+	public void aiStep()
+	{
+		super.aiStep();
+		
+		if(this.level() instanceof ServerLevel serverLevel)
+		{
+			this.updatePersistentAnger(serverLevel, true);
+		}
+	}
+	
+	@Override
+	public void addAdditionalSaveData(CompoundTag compound)
+	{
+		super.addAdditionalSaveData(compound);
+		this.addPersistentAngerSaveData(compound);
+	}
+	
+	@Override
+	public void readAdditionalSaveData(CompoundTag compound)
+	{
+		super.readAdditionalSaveData(compound);
+		this.readPersistentAngerSaveData(this.level(), compound);
+	}
+	
+	@Override
+	public void startPersistentAngerTimer()
+	{
+		this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
+	}
+	
+	@Override
+	public void setRemainingPersistentAngerTime(int time)
+	{
+		this.remainingPersistentAngerTime = time;
+	}
+	
+	@Override
+	public int getRemainingPersistentAngerTime()
+	{
+		return this.remainingPersistentAngerTime;
+	}
+	
+	@Nullable
+	@Override
+	public UUID getPersistentAngerTarget()
+	{
+		return this.persistentAngerTarget;
+	}
+	
+	@Override
+	public void setPersistentAngerTarget(@Nullable UUID persistentAngerTarget)
+	{
+		this.persistentAngerTarget = persistentAngerTarget;
 	}
 }
