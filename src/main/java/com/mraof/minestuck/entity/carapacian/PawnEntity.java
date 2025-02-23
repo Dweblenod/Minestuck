@@ -26,9 +26,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
-import net.minecraft.world.entity.ai.goal.WrappedGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Arrow;
@@ -192,11 +189,6 @@ public class PawnEntity extends CarapacianEntity implements RangedAttackMob, Geo
 		arrow.shoot(d0, d1 + d3 * 0.2D, d2, 1.6F, 12.0F);
 		
 		playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-		//		EntityPawn pawn = this.getClass() == EntityWhitePawn.class ? new EntityWhitePawn(this.worldObj, 0) : new EntityBlackPawn(this.worldObj, 0);
-		//		pawn.setLocationAndAngles(this.posX, this.posY, this.posZ, 0, 0);
-		//		pawn.initCreature();
-		//		this.worldObj.spawnEntityInWorld(pawn);	
-		//I was just messing around to see if I could make an EntityLiving spawn more EntityLiving, it can
 		this.level().addFreshEntity(arrow);
 	}
 	
