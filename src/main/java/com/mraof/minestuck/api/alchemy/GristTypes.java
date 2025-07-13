@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public final class GristTypes
 {
 	public static final ResourceKey<Registry<GristType>> REGISTRY_KEY = ResourceKey.createRegistryKey(Minestuck.id("grist"));
-	private static final DeferredRegister<GristType> GRIST_TYPES = DeferredRegister.create(REGISTRY_KEY, Minestuck.MOD_ID);
+	public static final DeferredRegister<GristType> GRIST_TYPES = DeferredRegister.create(REGISTRY_KEY, Minestuck.MOD_ID);
 	
 	public static final Registry<GristType> REGISTRY = GRIST_TYPES.makeRegistry(builder -> builder.sync(true));
 	
