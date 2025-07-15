@@ -12,11 +12,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static com.mraof.minestuck.util.MSTags.Blocks.FARMINE_BREAK_BLACKLIST;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+
+import static com.mraof.minestuck.util.MSTags.Blocks.FARMINE_BREAK_BLACKLIST;
 
 /**
  * A "Farmine" harvestTool is a harvestTool that mines more blocks that just the one originally broken.
@@ -257,5 +257,11 @@ public class FarmineEffect implements DestroyBlockEffect
 			farMineEquivalencies.put(a, equalToA);
 		}
 		equalToA.add(b);
+	}
+	
+	@Override
+	public float getValue()
+	{
+		return 0;
 	}
 }

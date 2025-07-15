@@ -31,26 +31,49 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.function.Supplier;
 
-public interface ItemRightClickEffect
+public interface ItemRightClickEffect extends WeaponEffect
 {
+	@Override
+	float getValue();
 	
-	ItemRightClickEffect ACTIVE_HAND = (world, player, hand) -> {
+	InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand);
+	
+	record Eightball() implements ItemRightClickEffect
+	{
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
+		{
+			if(level.isClientSide)
+			{
+				int key = player.getRandom().nextInt(20);
+				player.sendSystemMessage(Component.translatable("message.eightball." + key).withStyle(ChatFormatting.BLUE));
+			}
+			return InteractionResultHolder.success(player.getItemInHand(hand));
+		}
+	}
+	
+	/*ItemRightClickEffect ACTIVE_HAND = (world, player, hand) -> {
 		player.startUsingItem(hand);
 		return InteractionResultHolder.consume(player.getItemInHand(hand));
-	};
+	};*/
 	
-	ItemRightClickEffect EIGHTBALL = (world, player, hand) -> {
-		if(world.isClientSide)
-		{
-			int key = player.getRandom().nextInt(20);
-			player.sendSystemMessage(Component.translatable("message.eightball." + key).withStyle(ChatFormatting.BLUE));
-		}
-		return InteractionResultHolder.success(player.getItemInHand(hand));
-	};
-	
-	static ItemRightClickEffect switchTo(Holder<Item> otherItem)
+	record SwitchTo(Holder<Item> otherItem) implements ItemRightClickEffect
 	{
-		return (world, player, hand) -> {
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
+		{
 			ItemStack itemStackIn = player.getItemInHand(hand);
 			if(player.isShiftKeyDown())
 			{
@@ -59,56 +82,74 @@ public interface ItemRightClickEffect
 				return InteractionResultHolder.success(newItem);
 			}
 			return InteractionResultHolder.pass(itemStackIn);
-		};
+		}
 	}
 	
-	static ItemRightClickEffect summonFireball()
+	record SummonFireball() implements ItemRightClickEffect
 	{
-		return (world, player, hand) -> {
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
+		{
 			ItemStack itemStackIn = player.getItemInHand(hand);
-			world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLAZE_SHOOT, SoundSource.PLAYERS, 1.0F, 0.8F);
+			level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLAZE_SHOOT, SoundSource.PLAYERS, 1.0F, 0.8F);
 			
 			AABB axisalignedbb = player.getBoundingBox().inflate(32.0D, 32.0D, 32.0D);
 			List<LivingEntity> list = player.level().getEntitiesOfClass(LivingEntity.class, axisalignedbb);
 			list.remove(player);
-			if(!list.isEmpty() && !world.isClientSide)
+			if(!list.isEmpty() && !level.isClientSide)
 			{
 				for(LivingEntity livingentity : list)
 				{
-					LargeFireball fireball = new LargeFireball(world, player, new Vec3(0, -8.0, 0), 1);
+					LargeFireball fireball = new LargeFireball(level, player, new Vec3(0, -8.0, 0), 1);
 					fireball.setPos(livingentity.getX() + (player.getRandom().nextInt(6) - 3), livingentity.getY() + 40, livingentity.getZ() + (player.getRandom().nextInt(6) - 3));
 					player.getCooldowns().addCooldown(itemStackIn.getItem(), 20);
 					itemStackIn.hurtAndBreak(2, player, EquipmentSlot.MAINHAND);
-					world.addFreshEntity(fireball);
+					level.addFreshEntity(fireball);
 				}
-			} else if(!world.isClientSide)
+			} else if(!level.isClientSide)
 			{
-				LargeFireball fireball = new LargeFireball(world, player, new Vec3(0, -8.0, 0), 1);
+				LargeFireball fireball = new LargeFireball(level, player, new Vec3(0, -8.0, 0), 1);
 				fireball.setPos(player.getX() + (player.getRandom().nextInt(20) - 10), player.getY() + 40, player.getZ() + (player.getRandom().nextInt(20) - 10));
 				player.getCooldowns().addCooldown(itemStackIn.getItem(), 20);
 				itemStackIn.hurtAndBreak(2, player, EquipmentSlot.MAINHAND);
-				world.addFreshEntity(fireball);
+				level.addFreshEntity(fireball);
 			}
 			return InteractionResultHolder.pass(itemStackIn);
-		};
+		}
 	}
 	
-	static ItemRightClickEffect extinguishFire(int mod)
+	record ExtinguishFire(int mod) implements ItemRightClickEffect
 	{
-		return withoutCreativeShock((world, player, hand) -> {
-			ItemStack itemStackIn = player.getItemInHand(hand);
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
+		{
+			ItemStack itemStack = player.getItemInHand(hand);
+			if(creativeShockImpacted(player))
+				return InteractionResultHolder.pass(itemStack);
 			
-			if(!world.isClientSide)
+			if(!level.isClientSide)
 			{
-				world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_FLAP, SoundSource.PLAYERS, 1.0F, 1.4F);
+				level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_DRAGON_FLAP, SoundSource.PLAYERS, 1.0F, 1.4F);
 				
 				for(BlockPos blockPos : BlockPos.betweenClosed(player.blockPosition().offset(2 * mod, mod, 2 * mod), player.blockPosition().offset(-2 * mod, -1 * mod, -2 * mod)))
 				{
-					BlockState blockState = world.getBlockState(blockPos);
+					BlockState blockState = level.getBlockState(blockPos);
 					if(blockState.getBlock() == Blocks.FIRE)
 					{
-						world.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
-						world.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 1.0F);
+						level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
+						level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 1.0F);
 					}
 				}
 				
@@ -119,45 +160,64 @@ public interface ItemRightClickEffect
 					if(livingentity.getRemainingFireTicks() > 0)
 					{
 						livingentity.clearFire();
-						world.playSound(null, livingentity.getX(), livingentity.getY(), livingentity.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.NEUTRAL, 0.5F, 1.0F);
+						level.playSound(null, livingentity.getX(), livingentity.getY(), livingentity.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.NEUTRAL, 0.5F, 1.0F);
 					}
 				}
 				
 				player.swing(hand, true);
-				player.getCooldowns().addCooldown(itemStackIn.getItem(), 15);
-				itemStackIn.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+				player.getCooldowns().addCooldown(itemStack.getItem(), 15);
+				itemStack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 			}
-			return InteractionResultHolder.pass(itemStackIn);
-		});
+			return InteractionResultHolder.pass(itemStack);
+		}
 	}
 	
-	static ItemRightClickEffect absorbFluid(Supplier<Block> fluidBlock, Holder<Item> otherItem)
+	record AbsorbFluid(Supplier<Block> fluidBlock, Holder<Item> otherItem) implements ItemRightClickEffect
 	{
-		return withoutCreativeShock((world, player, hand) -> {
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
+		{
 			ItemStack itemStack = player.getItemInHand(hand);
+			if(creativeShockImpacted(player))
+				return InteractionResultHolder.pass(itemStack);
 			
-			BlockHitResult blockraytraceresult = getPlayerPOVHitResult(world, player);
+			BlockHitResult blockraytraceresult = getPlayerPOVHitResult(level, player);
 			BlockPos rayTracedPos = blockraytraceresult.getBlockPos();
 			
-			if(blockraytraceresult.getType() == HitResult.Type.BLOCK && world.getBlockState(rayTracedPos).getBlock() == fluidBlock.get())
+			if(blockraytraceresult.getType() == HitResult.Type.BLOCK && level.getBlockState(rayTracedPos).getBlock() == fluidBlock.get())
 			{
-				world.setBlockAndUpdate(rayTracedPos, Blocks.AIR.defaultBlockState());
+				level.setBlockAndUpdate(rayTracedPos, Blocks.AIR.defaultBlockState());
 				ItemStack newItem = new ItemStack(otherItem, itemStack.getCount(), itemStack.getComponentsPatch());
-				world.playSound(null, rayTracedPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1F, 2F);
+				level.playSound(null, rayTracedPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1F, 2F);
 				player.getCooldowns().addCooldown(otherItem.value(), 5);
 				return InteractionResultHolder.success(newItem);
 			}
 			
 			return InteractionResultHolder.fail(itemStack);
-		});
+		}
 	}
 	
 	/**
 	 * Do not use levitation, as it may break the rules of creative shock as a check for it is not in place
 	 */
-	static ItemRightClickEffect playerPotionEffect(Supplier<MobEffectInstance> effect, int durabilityCost, int cooldownTickDuration)
+	record PlayerPotionEffect(Supplier<MobEffectInstance> effect, int durabilityCost,
+							  int cooldownTickDuration) implements ItemRightClickEffect
 	{
-		return (world, player, hand) -> {
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
+		{
 			player.addEffect(effect.get());
 			
 			ItemStack itemStack = player.getItemInHand(hand);
@@ -167,7 +227,7 @@ public interface ItemRightClickEffect
 			itemStack.hurtAndBreak(durabilityCost, player, EquipmentSlot.MAINHAND);
 			
 			return InteractionResultHolder.pass(itemStack);
-		};
+		}
 	}
 	
 	//based on the Item class function of the same name
@@ -190,7 +250,7 @@ public interface ItemRightClickEffect
 	/**
 	 * Prevents effect from working if the entity is subject to the effects of creative shock
 	 */
-	static ItemRightClickEffect withoutCreativeShock(ItemRightClickEffect effect) //TODO action result for client side may not work
+	/*static ItemRightClickEffect withoutCreativeShock(ItemRightClickEffect effect) //TODO action result for client side may not work
 	{
 		return (world, player, hand) -> {
 			ItemStack itemStackIn = player.getItemInHand(hand);
@@ -202,7 +262,13 @@ public interface ItemRightClickEffect
 			
 			return InteractionResultHolder.pass(itemStackIn);
 		};
-	}
+	}*/
 	
-	InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand);
+	/**
+	 * Prevents effect from working if the entity is subject to the effects of creative shock
+	 */
+	default boolean creativeShockImpacted(Player player)
+	{
+		return player == null || CreativeShockEffect.doesCreativeShockLimit(player, CreativeShockEffect.LIMIT_BLOCK_PLACEMENT_AND_BREAKING);
+	}
 }

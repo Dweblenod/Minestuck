@@ -30,6 +30,12 @@ public class PropelEffect implements ItemRightClickEffect
 	}
 	
 	@Override
+	public float getValue()
+	{
+		return 0;
+	}
+	
+	@Override
 	public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
 	{
 		ItemStack itemStack = player.getItemInHand(hand);

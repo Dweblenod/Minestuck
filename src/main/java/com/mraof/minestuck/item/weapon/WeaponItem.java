@@ -155,6 +155,16 @@ public class WeaponItem extends TieredItem
 		return itemRightClickEffect;
 	}
 	
+	public DestroyBlockEffect getDestroyBlockEffect()
+	{
+		return destroyBlockEffect;
+	}
+	
+	public List<OnHitEffect> getOnHitEffects()
+	{
+		return onHitEffects;
+	}
+	
 	public static class Builder
 	{
 		private final Tier tier;
@@ -261,7 +271,7 @@ public class WeaponItem extends TieredItem
 			useDuration = duration;
 			useAction = action;
 			itemUsageEffects.addAll(Arrays.asList(effects));
-			set(ItemRightClickEffect.ACTIVE_HAND);
+			//set(ItemRightClickEffect.ACTIVE_HAND); //TODO determine purpose and reenable
 			return this;
 		}
 		

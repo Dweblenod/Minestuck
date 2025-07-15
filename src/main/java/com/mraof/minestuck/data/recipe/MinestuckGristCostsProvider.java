@@ -427,7 +427,7 @@ public final class MinestuckGristCostsProvider
 		GristCostRecipeBuilder.of(MSItems.TYPHONIC_TRIVIALIZER.get()).grist(BUILD, 7860).grist(RUBY, 983).grist(DIAMOND, 524).grist(SHALE, 1310).grist(URANIUM, 5).build(recipeSaver);
 		
 		//GristCostRecipeBuilder.of(MSItems.MAILBOX.get()).grist(BUILD, 19).grist(MERCURY, 3).build(recipeSaver);
-		WeaponGristCostBuilder.of(MSItems.MAILBOX.get()).grist(BUILD, 19).grist(MERCURY, 3).build(recipeSaver);
+		WeaponGristCostBuilder.of(MSItems.MAILBOX.get()).gristWeight(BUILD, 19).gristWeight(MERCURY, 3).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.BLACKSMITH_HAMMER.get()).grist(RUST, 11).grist(SULFUR, 15).grist(CAULK, 13).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.POGO_HAMMER.get()).grist(BUILD, 152).grist(SHALE, 19).build(recipeSaver);
 		GristCostRecipeBuilder.of(MSItems.WRINKLEFUCKER.get()).grist(BUILD, 238).grist(SHALE, 25).grist(TAR, 31).build(recipeSaver);

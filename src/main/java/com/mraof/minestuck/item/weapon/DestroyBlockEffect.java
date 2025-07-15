@@ -3,6 +3,7 @@ package com.mraof.minestuck.item.weapon;
 import com.mraof.minestuck.advancements.MSCriteriaTriggers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,26 +19,42 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Supplier;
 
-public interface DestroyBlockEffect
+public interface DestroyBlockEffect extends WeaponEffect
 {
+	@Override
+	float getValue();
+	
 	void onDestroyBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity);
 	
-	DestroyBlockEffect DOUBLE_FARM = (stack, levelIn, state, pos, entity) -> {
-		if((state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)))
-			CropBlock.dropResources(state, levelIn, pos);
-	};
-	
-	static DestroyBlockEffect extraHarvests(boolean melonOverload, float percentage, int maxBonusItems, Supplier<Item> itemDropped, Supplier<Block> harvestedBlock)
+	record DoubleFarm() implements DestroyBlockEffect
 	{
-		return (stack, levelIn, state, pos, entity) -> {
-			if(state == harvestedBlock.get().defaultBlockState() && !levelIn.isClientSide)
+		@Override
+		public void onDestroyBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity)
+		{
+			if((state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)))
+				CropBlock.dropResources(state, level, pos);
+		}
+		
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+	}
+	
+	record ExtraHarvests(boolean melonOverload, float percentage, int maxBonusItems, Supplier<Item> itemDropped, Supplier<Block> harvestedBlock) implements DestroyBlockEffect
+	{
+		@Override
+		public void onDestroyBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity entity)
+		{
+			if(state == harvestedBlock.get().defaultBlockState() && !level.isClientSide)
 			{
 				int harvestCounter = 0;
 				for(float i = entity.getRandom().nextFloat(); i <= percentage && harvestCounter < maxBonusItems; i = entity.getRandom().nextFloat())
 				{
 					ItemStack harvestItemStack = new ItemStack(itemDropped.get(), 1);
-					ItemEntity item = new ItemEntity(levelIn, pos.getX(), pos.getY(), pos.getZ(), harvestItemStack);
-					levelIn.addFreshEntity(item);
+					ItemEntity item = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), harvestItemStack);
+					level.addFreshEntity(item);
 					
 					harvestCounter++;
 				}
@@ -54,6 +71,12 @@ public interface DestroyBlockEffect
 						MSCriteriaTriggers.MELON_OVERLOAD.get().trigger(player);
 				}
 			}
-		};
+		}
+		
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
 	}
 }

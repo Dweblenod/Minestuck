@@ -64,6 +64,12 @@ public class MagicAOERightClickEffect implements ItemRightClickEffect
 	}
 	
 	@Override
+	public float getValue()
+	{
+		return 0;
+	}
+	
+	@Override
 	public InteractionResultHolder<ItemStack> onRightClick(Level level, Player player, InteractionHand hand)
 	{
 		ItemStack itemStackIn = player.getItemInHand(hand);

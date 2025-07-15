@@ -135,4 +135,10 @@ public class PogoEffect implements ItemRightClickEffect, OnHitEffect
 		}
 		return InteractionResult.PASS;
 	}
+	
+	@Override
+	public float getValue()
+	{
+		return 0;
+	}
 }

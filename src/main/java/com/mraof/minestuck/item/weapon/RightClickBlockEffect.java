@@ -20,15 +20,29 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.function.Supplier;
 
-public interface RightClickBlockEffect
+public interface RightClickBlockEffect extends WeaponEffect
 {
+	@Override
+	float getValue();
+	
 	InteractionResult onClick(UseOnContext context);
 	
-	static RightClickBlockEffect placeFluid(Supplier<Block> fluidBlock, Holder<Item> otherItem)
+	record PlaceFluid(Supplier<Block> fluidBlock, Holder<Item> otherItem) implements RightClickBlockEffect
 	{
-		return withoutCreativeShock((context) -> {
-			Level level = context.getLevel();
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResult onClick(UseOnContext context)
+		{
 			Player player = context.getPlayer();
+			if(creativeShockImpacted(player))
+				return InteractionResult.PASS;
+			
+			Level level = context.getLevel();
 			ItemStack itemStack = context.getItemInHand();
 			Direction facing = context.getClickedFace();
 			BlockPos pos = context.getClickedPos().relative(facing);
@@ -47,15 +61,26 @@ public interface RightClickBlockEffect
 				return InteractionResult.SUCCESS;
 			}
 			return InteractionResult.PASS;
-		});
+		}
 	}
 	
-	static RightClickBlockEffect scoopBlock(Supplier<Block> validBlock)
+	record ScoopBlock(Supplier<Block> validBlock) implements RightClickBlockEffect
 	{
-		return withoutCreativeShock((context) -> {
+		@Override
+		public float getValue()
+		{
+			return 0;
+		}
+		
+		@Override
+		public InteractionResult onClick(UseOnContext context)
+		{
+			Player player = context.getPlayer();
+			if(creativeShockImpacted(player))
+				return InteractionResult.PASS;
+			
 			Level level = context.getLevel();
 			BlockPos pos = context.getClickedPos();
-			Player player = context.getPlayer();
 			Direction facing = context.getClickedFace();
 			boolean inside = context.isInside();
 			
@@ -63,7 +88,7 @@ public interface RightClickBlockEffect
 			BlockHitResult blockRayTrace = new BlockHitResult(context.getClickLocation(), facing, pos, inside);
 			Item lookedAtBlockItem = state.getCloneItemStack(blockRayTrace, level, pos, player).getItem();
 			
-			if(player != null && state.getBlock() == validBlock.get())
+			if(state.getBlock() == validBlock.get())
 			{
 				if(!level.isClientSide)
 				{
@@ -80,25 +105,14 @@ public interface RightClickBlockEffect
 			}
 			
 			return InteractionResult.PASS;
-		});
+		}
 	}
 	
 	/**
 	 * Prevents effect from working if the entity is subject to the effects of creative shock
 	 */
-	static RightClickBlockEffect withoutCreativeShock(RightClickBlockEffect effect)
+	default boolean creativeShockImpacted(Player player)
 	{
-		return (context) -> {
-			Player player = context.getPlayer();
-			if(player != null)
-			{
-				if(!CreativeShockEffect.doesCreativeShockLimit(player, CreativeShockEffect.LIMIT_BLOCK_PLACEMENT_AND_BREAKING))
-				{
-					return effect.onClick(context);
-				}
-			}
-			
-			return InteractionResult.PASS;
-		};
+		return player == null || CreativeShockEffect.doesCreativeShockLimit(player, CreativeShockEffect.LIMIT_BLOCK_PLACEMENT_AND_BREAKING);
 	}
 }

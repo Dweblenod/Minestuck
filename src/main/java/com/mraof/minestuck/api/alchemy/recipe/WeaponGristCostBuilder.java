@@ -7,10 +7,7 @@ import com.mraof.minestuck.api.alchemy.DefaultImmutableGristSet;
 import com.mraof.minestuck.api.alchemy.GristType;
 import com.mraof.minestuck.api.alchemy.GristTypes;
 import com.mraof.minestuck.item.MSItemTypes;
-import com.mraof.minestuck.item.weapon.DestroyBlockEffect;
-import com.mraof.minestuck.item.weapon.MSToolType;
-import com.mraof.minestuck.item.weapon.OnHitEffect;
-import com.mraof.minestuck.item.weapon.WeaponItem;
+import com.mraof.minestuck.item.weapon.*;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentMap;
@@ -187,12 +184,12 @@ public final class WeaponGristCostBuilder
 			DataComponentMap components = item.components();
 			ItemAttributeModifiers attributes = item.getDefaultAttributeModifiers(defaultStack);
 			//Multimap<Attribute, AttributeModifier> attributes = item.getAttributeModifiers(EquipmentSlot.MAINHAND, defaultStack);
-			List<OnHitEffect> onHitEffects = item.getOnHitEffects();
 			DestroyBlockEffect destroyBlockEffect = item.getDestroyBlockEffect();
+			ItemRightClickEffect itemRightClickEffect = item.getItemRightClickEffect();
+			List<OnHitEffect> onHitEffects = item.getOnHitEffects();
 			List<MSToolType> toolTypes = item.getToolTypes();
 			//Set<ToolAction> toolActions = item.getToolActions();
 			Tier itemTier = item.getTier();
-			attributes.modifiers().forEach(entry -> entry.attribute().value().is(Attributes.ATTACK_DAMAGE));
 			double exponent = 0;
 			
 			exponent += dps(attributes);
@@ -202,9 +199,12 @@ public final class WeaponGristCostBuilder
 			//exponent += toolTypes.contains(ToolActions.SWORD_SWEEP) ? (float) 1 / 6 : 0F;
 			exponent += components.has(DataComponents.FIRE_RESISTANT) ? 1 : 0;
 			
+			exponent += destroyBlockEffect.getValue();
+			exponent += itemRightClickEffect.getValue();
+			
 			for(OnHitEffect effect : onHitEffects)
 			{
-				exponent += effect.value();
+				//exponent += effect.value();
 			}
 			
 			//TODO result of durability does not match how the result you would get with other applications
@@ -247,18 +247,17 @@ public final class WeaponGristCostBuilder
 			Map.entry(MSItemTypes.WELSH_TIER, 1.0)
 	);
 	
-	private static float dps(Multimap<Attribute, AttributeModifier> attributes)
+	private static float dps(ItemAttributeModifiers attributes)
 	{
 		double damage = 1; //the final damage is 1 + damage assigned in code + damage from material (damage in code and damage from material are combined in the attribute)
-		for(AttributeModifier modifier : attributes.get(Attributes.ATTACK_DAMAGE))
-		{
-			damage += modifier.getAmount();
-		}
-		
 		double speed = 4; //speed modifier works as a subtraction
-		for(AttributeModifier modifier : attributes.get(Attributes.ATTACK_SPEED))
+		
+		for(ItemAttributeModifiers.Entry entry : attributes.modifiers())
 		{
-			speed += modifier.getAmount();
+			if(entry.attribute().is(Attributes.ATTACK_DAMAGE))
+				damage += entry.modifier().amount();
+			if(entry.attribute().is(Attributes.ATTACK_SPEED))
+				speed += entry.modifier().amount();
 		}
 		
 		double directDPS = damage * speed;
