@@ -29,6 +29,8 @@ public enum EcheladderBonusType
 	ALCHEMY_3(3000); //cost value : 500
 	private final int bonus;
 	
+	//TODO convert entity bonuses into data and alchemy bonuses into advancement
+	
 	EcheladderBonusType(int bonus)
 	{
 		this.bonus = bonus;

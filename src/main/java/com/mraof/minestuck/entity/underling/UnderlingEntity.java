@@ -74,7 +74,7 @@ public abstract class UnderlingEntity extends AttackingAnimatedEntity implements
 	public boolean dropCandy;
 	private int consortRep;
 	
-	private static final float MAX_SHARED_PROGRESS = 2;    //The multiplier for the maximum amount progress that can be gathered from each enemy with the group fight bonus
+	protected static final float MAX_SHARED_PROGRESS = 2;    //The multiplier for the maximum amount progress that can be gathered from each enemy with the group fight bonus
 	
 	protected Map<PlayerIdentifier, Double> damageMap = new HashMap<>();    //Map that stores how much damage each player did to this to this underling. Null is used for environmental or other non-player damage
 	
