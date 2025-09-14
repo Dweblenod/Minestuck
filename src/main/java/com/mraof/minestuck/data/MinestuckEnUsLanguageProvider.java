@@ -74,6 +74,9 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		
 		add("message.shift_for_more_info", "Press §eSHIFT§r for more info");
 		
+		add("block.minecraft.banner.minestuck.dream_moon", "Dream Moon");
+		add("block.minecraft.banner.minestuck.carapacian_crest", "Carapacian Crest");
+		
 		addBlock(MSBlocks.STONE_CRUXITE_ORE, "Cruxite Ore");
 		addBlock(MSBlocks.COBBLESTONE_CRUXITE_ORE, "Cruxite Ore");
 		addBlock(MSBlocks.SANDSTONE_CRUXITE_ORE, "Cruxite Ore");
@@ -1782,6 +1785,8 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		addItem(MSItems.ICE_SHARD, "Ice Shard");
 		addItem(MSItems.HORN, "Horn");
 		addItemTooltip(MSItems.HORN, ":o)");
+		addItem(MSItems.CAKE_MIX, "Cake Mix");
+		addItem(MSItems.CAKE_MIX, "Cake Mix");
 		addItem(MSItems.CAKE_MIX, "Cake Mix");
 		addItem(MSItems.BARBASOL, "Barbasol");
 		addItem(MSItems.BARBASOL_BOMB, "Betty Crocker Barbasol Bomb");

@@ -590,6 +590,8 @@ public class MinestuckItemModelProvider extends ItemModelProvider
 		simpleItem(MSItems.ICE_SHARD);
 		simpleItem(MSItems.HORN);
 		simpleItem(MSItems.CAKE_MIX);
+		simpleItem(MSItems.DREAM_MOON_BANNER_PATTERN);
+		simpleItem(MSItems.CARAPACIAN_CREST_BANNER_PATTERN);
 		
 		//Scalemates
 		simpleItem(MSItems.SCALEMATE_APPLESCAB);

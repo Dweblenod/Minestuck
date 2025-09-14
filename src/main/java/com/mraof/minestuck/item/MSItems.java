@@ -30,6 +30,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BannerPatternTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -632,6 +633,8 @@ public class MSItems
 	public static final DeferredItem<Item> ICE_SHARD = REGISTER.register("ice_shard", () -> new Item(new Item.Properties()));
 	public static final DeferredItem<Item> HORN = REGISTER.register("horn", () -> new SoundItem(MSSoundEvents.ITEM_HORN_USE, new Item.Properties()));
 	public static final DeferredItem<Item> CAKE_MIX = REGISTER.register("cake_mix", () -> new Item(new Item.Properties()));
+	public static final DeferredItem<Item> DREAM_MOON_BANNER_PATTERN = REGISTER.register("banner_pattern_dream_moon", () -> new BannerPatternItem(MSTags.BannerPatterns.DREAM_MOON, new Item.Properties().stacksTo(1)));
+	public static final DeferredItem<Item> CARAPACIAN_CREST_BANNER_PATTERN = REGISTER.register("banner_pattern_carapacian_crest", () -> new BannerPatternItem(MSTags.BannerPatterns.CARAPACIAN_CREST, new Item.Properties().stacksTo(1)));
 	
 	
 	//Structure Scanners

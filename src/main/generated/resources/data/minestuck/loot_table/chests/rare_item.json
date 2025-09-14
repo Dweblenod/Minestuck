@@ -113,6 +113,16 @@
         },
         {
           "type": "minecraft:item",
+          "name": "minestuck:banner_pattern_dream_moon",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minestuck:banner_pattern_carapacian_crest",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "minestuck:cigarette_lance",
           "weight": 2
         },

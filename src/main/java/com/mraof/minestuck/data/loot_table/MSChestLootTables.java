@@ -825,6 +825,8 @@ public final class MSChestLootTables implements LootTableSubProvider
 						.add(LootItem.lootTableItem(MSBlocks.COMPUTER).setWeight(1).setQuality(0))
 						.add(LootItem.lootTableItem(MSBlocks.LAPTOP).setWeight(1).setQuality(0))
 						.add(LootItem.lootTableItem(MSBlocks.CHESSBOARD).setWeight(2).setQuality(0))
+						.add(LootItem.lootTableItem(MSItems.DREAM_MOON_BANNER_PATTERN).setWeight(2).setQuality(0))
+						.add(LootItem.lootTableItem(MSItems.CARAPACIAN_CREST_BANNER_PATTERN).setWeight(2).setQuality(0))
 						.add(LootItem.lootTableItem(MSItems.CIGARETTE_LANCE).setWeight(2).setQuality(0))
 						.add(LootItem.lootTableItem(MSItems.ACE_OF_CLUBS).setWeight(2).setQuality(0))
 						.add(LootItem.lootTableItem(MSItems.ACE_OF_DIAMONDS).setWeight(2).setQuality(0))

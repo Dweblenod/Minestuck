@@ -61,6 +61,8 @@
   "argument.title.invalid_aspect": "Invalid aspect %s",
   "argument.title.invalid_class": "Invalid class %s",
   "argument.title_land_type.invalid": "Invalid title land type %s",
+  "block.minecraft.banner.minestuck.carapacian_crest": "Carapacian Crest",
+  "block.minecraft.banner.minestuck.dream_moon": "Dream Moon",
   "block.minestuck.alchemiter_center": "Alchemiter",
   "block.minestuck.alchemiter_corner": "Alchemiter",
   "block.minestuck.alchemiter_left_side": "Alchemiter",

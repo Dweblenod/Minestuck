@@ -19,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
@@ -163,6 +164,17 @@ public class MSTags
 		private static TagKey<Item> tag(String name)
 		{
 			return ItemTags.create(Minestuck.id(name));
+		}
+	}
+	
+	public static class BannerPatterns
+	{
+		public static final TagKey<BannerPattern> DREAM_MOON = tag("dream_moon");
+		public static final TagKey<BannerPattern> CARAPACIAN_CREST = tag("carapacian_crest");
+		
+		private static TagKey<BannerPattern> tag(String name)
+		{
+			return TagKey.create(Registries.BANNER_PATTERN, Minestuck.id(name));
 		}
 	}
 	
