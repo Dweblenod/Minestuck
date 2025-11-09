@@ -115,6 +115,9 @@ public final class MSPayloads
 		registerPlayToServer(registrar, AtheneumPackets.Scroll.ID, AtheneumPackets.Scroll.STREAM_CODEC);
 		registerPlayToClient(registrar, AtheneumPackets.Update.ID, AtheneumPackets.Update.STREAM_CODEC);
 		
+		//Edit Mode Toggle Packets
+		registerPlayToServer(registrar, EditmodeTogglePackets.ToggleNoClip.ID, EditmodeTogglePackets.ToggleNoClip.STREAM_CODEC);
+		
 		//Alchemy Machines Packets
 		registerPlayToServer(registrar, MachinePackets.SetRunning.ID, MachinePackets.SetRunning.STREAM_CODEC);
 		registerPlayToServer(registrar, MachinePackets.SetLooping.ID, MachinePackets.SetLooping.STREAM_CODEC);

@@ -5,6 +5,7 @@ import com.mraof.minestuck.client.gui.playerStats.PlayerStatsScreen;
 import com.mraof.minestuck.computer.editmode.ClientEditmodeData;
 import com.mraof.minestuck.computer.editmode.EditmodeLocations;
 import com.mraof.minestuck.network.editmode.EditmodeTeleportPacket;
+import com.mraof.minestuck.network.editmode.EditmodeTogglePackets;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -34,7 +35,7 @@ public final class EditmodeSettingsScreen extends MinestuckScreen
 	public static final String EDITMODE_LOCATIONS = "minestuck.editmode_locations";
 	public static final String RETURN = "minestuck.editmode_settings.return";
 	public static final String INTERACTION_MODE_UNAVAILABLE = "minestuck.editmode_settings.interaction_mode_unavailable";
-	public static final String NOCLIP_UNAVAILABLE = "minestuck.editmode_settings.noclip_unavailable";
+	public static final String NOCLIP = "minestuck.editmode_settings.noclip";
 	
 	private static final ResourceLocation GUI_BACKGROUND = ResourceLocation.fromNamespaceAndPath("minestuck", "textures/gui/generic_extra_large.png");
 	@SuppressWarnings("unused")
@@ -140,7 +141,7 @@ public final class EditmodeSettingsScreen extends MinestuckScreen
 			graphics.renderTooltip(font, Component.translatable(INTERACTION_MODE_UNAVAILABLE), mouseX, mouseY);
 		graphics.blit(NOCLIP_INACTIVE_ICON, xOffset + NOCLIP_ICON_X, yOffset + NOCLIP_ICON_Y, TOGGLE_ICON_SIZE, TOGGLE_ICON_SIZE, 0, 0, TOGGLE_ICON_SIZE, TOGGLE_ICON_SIZE, TOGGLE_ICON_SIZE, TOGGLE_ICON_SIZE);
 		if(overtopToggleableIconBounds(mouseX, mouseY, xOffset, yOffset, NOCLIP_ICON_X, NOCLIP_ICON_Y))
-			graphics.renderTooltip(font, Component.translatable(NOCLIP_UNAVAILABLE), mouseX, mouseY);
+			graphics.renderTooltip(font, Component.translatable(NOCLIP), mouseX, mouseY);
 		
 	}
 	
@@ -153,9 +154,21 @@ public final class EditmodeSettingsScreen extends MinestuckScreen
 			this.minecraft.setScreen(null);
 			PlayerStatsScreen.editmodeTab = PlayerStatsScreen.EditmodeGuiType.DEPLOY_LIST;
 			PlayerStatsScreen.openGui(true);
+		} else if(overtopToggleableIconBounds(pMouseX, pMouseY, xOffset, yOffset, NOCLIP_ICON_X, NOCLIP_ICON_Y))
+		{
+			minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+			EditmodeTogglePackets.ToggleNoClip packet = new EditmodeTogglePackets.ToggleNoClip();
+			PacketDistributor.sendToServer(packet);
+			ClientEditmodeData.toggleNoclip();
 		}
 		
 		return super.mouseClicked(pMouseX, pMouseY, pButton);
+	}
+	
+	@Override
+	public boolean isPauseScreen()
+	{
+		return false;
 	}
 	
 	private void teleport(BlockPos pos)

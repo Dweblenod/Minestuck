@@ -326,6 +326,15 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 		if(data == null)
 			return;
 		
+		if(data.noclip())
+		{
+			player.noPhysics = true;
+			player.horizontalCollision = false;
+			player.verticalCollision = false;
+			player.verticalCollisionBelow = false;
+			player.setOnGround(false);
+		}
+		
 		SburbPlayerData targetData = data.sburbData();
 		EditmodeLocations editmodeLocations = data.locations();
 		
@@ -338,6 +347,27 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 		updateInventory(player, targetData);
 		
 		player.setPortalCooldown();
+	}
+	
+	@SubscribeEvent
+	public static void tickEnd(PlayerTickEvent.Post event)
+	{
+		if(!(event.getEntity() instanceof ServerPlayer player))
+			return;
+		
+		EditData data = getData(player);
+		
+		if(data == null)
+			return;
+		
+		if(data.noclip())
+		{
+			player.noPhysics = true;
+			player.horizontalCollision = false;
+			player.verticalCollision = false;
+			player.verticalCollisionBelow = false;
+			player.setOnGround(false);
+		}
 	}
 	
 	@SubscribeEvent
@@ -400,7 +430,7 @@ public final class ServerEditHandler    //TODO Consider splitting this class int
 		if(event.getEntity() instanceof ServerPlayer player)
 		{
 			EditData data = getData(event.getEntity());
-			if (data == null)
+			if(data == null)
 				return;
 			
 			EditTools cap = player.getData(MSAttachments.EDIT_TOOLS);

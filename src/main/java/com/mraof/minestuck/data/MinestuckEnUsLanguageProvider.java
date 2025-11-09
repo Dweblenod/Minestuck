@@ -45,6 +45,7 @@ import com.mraof.minestuck.item.loot.MSLootEvents;
 import com.mraof.minestuck.item.weapon.MusicPlayerWeapon;
 import com.mraof.minestuck.item.weapon.OnHitEffect;
 import com.mraof.minestuck.network.ToggleAspectEffectsPacket;
+import com.mraof.minestuck.network.editmode.EditmodeTogglePackets;
 import com.mraof.minestuck.player.*;
 import com.mraof.minestuck.skaianet.*;
 import com.mraof.minestuck.world.GateHandler;
@@ -2244,7 +2245,7 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		add(EditmodeSettingsScreen.EDITMODE_LOCATIONS, "Teleport Locus");
 		add(EditmodeSettingsScreen.RETURN, "Return");
 		add(EditmodeSettingsScreen.INTERACTION_MODE_UNAVAILABLE, "Interaction mode toggle not available yet");
-		add(EditmodeSettingsScreen.NOCLIP_UNAVAILABLE, "Noclip toggle not available yet");
+		add(EditmodeSettingsScreen.NOCLIP, "Toggle noclip");
 		add(AtheneumScreen.TITLE, "Atheneum");
 		add(SylladexScreen.TITLE, "Sylladex");
 		add(SylladexScreen.EMPTY_SYLLADEX_1, "Are you sure you want to continue?");
@@ -2411,6 +2412,7 @@ public class MinestuckEnUsLanguageProvider extends MinestuckLanguageProvider
 		add(EntryCommand.OTHER_PLAYER_ENTERING, "%s is now entering The Medium");
 		add(ClientEditmodeData.ENTERED, "[Minestuck] Press [%s] to exit edit mode");
 		add(EditmodeLocations.REMOVED_LOCATION_MESSAGE, "The location you were in is no longer in range, and you have now been teleported to a valid location.");
+		add(EditmodeTogglePackets.ToggleNoClip.EDITMODE_NOCLIP_TOGGLE_MESSAGE, "noclip set to %s");
 		
 		addThemeName(MSComputerThemes.DEFAULT, "Default");
 		addThemeName(MSComputerThemes.PESTERCHUM, "Pesterchum");

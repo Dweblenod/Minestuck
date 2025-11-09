@@ -100,6 +100,16 @@ public final class ClientEditHandler
 		{
 			Player player = event.getEntity();
 			
+			if(ClientEditmodeData.noclip())
+			{
+				player.noPhysics = true;
+				player.horizontalCollision = false;
+				player.verticalCollision = false;
+				player.verticalCollisionBelow = false;
+				player.setOnGround(false);
+				//player.setDiscardFriction(true);
+			}
+			
 			EditmodeLocations locations = ClientEditmodeData.getLocations();
 			if(locations != null)
 				locations.limitMovement(player, ClientEditmodeData.getClientLand());

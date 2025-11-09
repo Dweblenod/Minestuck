@@ -23,6 +23,7 @@ public final class ClientEditmodeData
 	public static final String ENTERED = "minestuck.editmode.entered";
 	
 	private static boolean activated;
+	private static boolean noclip;
 	@Nullable
 	private static EditmodeLocations locations;
 	@Nullable
@@ -31,6 +32,16 @@ public final class ClientEditmodeData
 	public static boolean isInEditmode()
 	{
 		return activated;
+	}
+	
+	public static boolean noclip()
+	{
+		return noclip;
+	}
+	
+	public static void toggleNoclip()
+	{
+		noclip = !noclip;
 	}
 	
 	@Nullable

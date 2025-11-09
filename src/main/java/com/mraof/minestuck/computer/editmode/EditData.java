@@ -53,6 +53,8 @@ public class EditData
 	
 	private boolean isRecovering;
 	
+	private boolean noclip;
+	
 	public PlayerIdentifier getTarget()
 	{
 		return this.activeConnection.client();
@@ -66,6 +68,16 @@ public class EditData
 	public EditmodeLocations locations()
 	{
 		return PlayerData.get(this.getTarget(), player.server).getData(MSAttachments.EDITMODE_LOCATIONS);
+	}
+	
+	public boolean noclip()
+	{
+		return noclip;
+	}
+	
+	public void toggleNoclip()
+	{
+		noclip = !noclip;
 	}
 	
 	public GristCache getGristCache()
@@ -156,6 +168,7 @@ public class EditData
 		private final float rotationYaw, rotationPitch;
 		private final GameType gameType;
 		private final CompoundTag capabilities;
+		//private final boolean noClip;
 		private final float health;
 		private final CompoundTag foodStats;
 		private final ListTag inventory;
@@ -170,6 +183,7 @@ public class EditData
 			rotationPitch = decoy.getXRot();
 			gameType = decoy.gameType;
 			capabilities = decoy.capabilities.copy();
+			//noClip = decoy.noClip();
 			health = decoy.getHealth();
 			foodStats = decoy.getFoodStatsNBT();
 			inventory = decoy.inventory.save(new ListTag());
@@ -186,6 +200,7 @@ public class EditData
 			
 			gameType = GameType.byId(nbt.getInt("game_type"));
 			capabilities = nbt.getCompound("capabilities");
+			//noClip = nbt.getBoolean("no_clip");
 			health = nbt.getFloat("health");
 			foodStats = nbt.getCompound("food");
 			inventory = nbt.getList("inv", Tag.TAG_COMPOUND);
@@ -204,6 +219,7 @@ public class EditData
 			
 			nbt.putInt("game_type", gameType.getId());
 			nbt.put("capabilities", capabilities);
+			//nbt.putBoolean("no_clip", noClip);
 			nbt.putFloat("health", health);
 			nbt.put("food", foodStats);
 			nbt.put("inv", inventory);
@@ -230,6 +246,7 @@ public class EditData
 			player.connection.teleport(posX, posY, posZ, rotationYaw, rotationPitch);
 			player.setGameMode(gameType);
 			player.getAbilities().loadSaveData(capabilities);
+			//player.noPhysics = noClip;
 			player.onUpdateAbilities();
 			player.fallDistance = 0;
 			
